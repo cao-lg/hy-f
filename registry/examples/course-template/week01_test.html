@@ -418,15 +418,9 @@
               <span class="exercise-title">${ex.title}</span>
             </div>
             <p class="exercise-desc">${ex.description}</p>
-            <textarea id="code-${ex.id}" class="code-editor" style="min-height:120px;">${ex.codeTemplate || ''}</textarea>
-            <div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;">
-              <button class="btn-run" onclick="runCode('${ex.id}')">运行代码</button>
-              <span id="pyodide-status-${ex.id}" class="pyodide-status">Python 加载中...</span>
+            <div id="exercise-area-${ex.id}">
+              <button class="btn-run" onclick="toggleExercise('${ex.id}')" style="font-size:14px;padding:10px 24px;">开始答题</button>
             </div>
-            <div id="output-${ex.id}" class="output-area hidden">
-              <div id="output-${ex.id}-text" class="output-text"></div>
-            </div>
-            ${ex.hints && ex.hints.length ? `<div class="exercise-hint"><strong>提示：</strong>${ex.hints.join('；')}</div>` : ''}
           </div>
         `;
       }
@@ -441,15 +435,9 @@
             <p class="exercise-desc">${hw.description}</p>
             ${hw.requirements ? `<ul style="font-size:14px;color:rgba(255,255,255,0.6);margin:12px 0 12px 20px;">${hw.requirements.map(r => `<li style="margin:4px 0;">${r}</li>`).join('')}</ul>` : ''}
             ${hw.features ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">${hw.features.map(f => `<span style="padding:6px 12px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:6px;font-size:12px;color:#a78bfa;">${f}</span>`).join('')}</div>` : ''}
-            <textarea id="code-${hw.id}" class="code-editor" style="min-height:120px;">${hw.codeTemplate || ''}</textarea>
-            <div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;">
-              <button class="btn-run" onclick="runCode('${hw.id}')">运行代码</button>
-              <span id="pyodide-status-${hw.id}" class="pyodide-status">Python 加载中...</span>
+            <div id="exercise-area-${hw.id}">
+              <button class="btn-run" onclick="toggleExercise('${hw.id}')" style="font-size:14px;padding:10px 24px;">${hw.required ? '开始作答' : '开始挑战'}</button>
             </div>
-            <div id="output-${hw.id}" class="output-area hidden">
-              <div id="output-${hw.id}-text" class="output-text"></div>
-            </div>
-            ${hw.hints && hw.hints.length ? `<div class="exercise-hint"><strong>提示：</strong>${hw.hints.join('；')}</div>` : ''}
           </div>
         `;
       }
