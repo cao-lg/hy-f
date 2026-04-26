@@ -19,7 +19,7 @@
       .week-badge { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: var(--accent, #3b82f6); border-radius: 8px; font-size: 18px; font-weight: 600; color: white; }
       .course-title { margin-left: 32px; font-size: 22px; font-weight: 500; color: rgba(255,255,255,0.7); }
       .slide-number { margin-left: auto; font-size: 18px; color: rgba(255,255,255,0.4); font-family: "IBM Plex Mono", monospace; }
-      .slide-content { position: absolute; top: 130px; left: 80px; right: 80px; bottom: 90px; }
+      .slide-content { position: absolute; top: 130px; left: 80px; right: 80px; bottom: 90px; overflow-y: auto; padding-right: 10px; }
       .slide-footer { position: absolute; bottom: 0; left: 0; right: 0; height: 70px; display: flex; align-items: center; padding: 0 80px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(20, 20, 20, 0.8); }
       .progress-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
       .progress-fill { height: 100%; background: var(--accent, #3b82f6); transition: width 0.5s ease; }
@@ -451,14 +451,7 @@ print("我" + str(age) + "岁")</textarea>
                 </div>
                 <button class="exercise-btn" onclick="showExercise('hw1')" style="padding:14px 32px;font-size:18px;">开始作答</button>
                 <div id="hw1" class="hidden" style="margin-top:20px;">
-                  <textarea id="code-hw1" class="code-editor" style="min-height:200px;" placeholder="# 在这里编写个人信息卡片代码
-print("=" * 30)
-print(" 个人信息卡片")
-print("=" * 30)
-name = input("姓名: ")
-
-# 继续编写..."># 在这里编写个人信息卡片代码
-print("=" * 30)
+                  <textarea id="code-hw1" class="code-editor" style="min-height:200px;" placeholder="# 在这里编写个人信息卡片代码">print("=" * 30)
 print(" 个人信息卡片")
 print("=" * 30)
 name = input("姓名: ")
@@ -658,6 +651,11 @@ print("=" * 30)</textarea>
       }
 
       function showSlide(idx) {
+        // 关闭所有打开的练习
+        document.querySelectorAll('.exercise-box, .hidden[id^="ex"], .hidden[id^="hw"]').forEach(el => {
+          el.classList.add('hidden');
+        });
+
         slides.forEach((id,i)=>{
           document.getElementById(id).style.opacity = i===idx?'1':'0';
           document.getElementById(id).style.transition = 'opacity 0.5s ease';
