@@ -76,10 +76,72 @@
   </div>
 
   <script>
-    const courseData = {
-      exercises: [],
-      homework: []
-    };
+    const courseData = {{
+      exercises: [
+          {
+            id: "ex1",
+            title: "练习1",
+            difficulty: "基础",
+            description: "请为「待办清单」项目编写一份简单的需求文档，至少包含以下内容，目标用户、核心功能列表（不少于5项）、数据存储方式、界面形式。用纯文本格式书写即可。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex2",
+            title: "练习2",
+            difficulty: "基础",
+            description: "下面这段代码把所有功能都写在了一个文件里，请将它拆分成至少两个模块，并写出每个模块的职责说明。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex3",
+            title: "练习3",
+            difficulty: "基础",
+            description: "假设你正在开发一个项目，请按顺序写出完成以下操作所需的git命令。创建一个新仓库，编写hello.py并提交，修改hello.py添加一个新函数后再次提交，查看提交历史。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex4",
+            title: "练习4",
+            difficulty: "基础",
+            description: "阅读以下代码，找出至少3处不符合Python代码规范的地方，并说明应该如何修改。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex5",
+            title: "练习5",
+            difficulty: "基础",
+            description: "你有三个项目可选，数据分析类、自动化类和工具类。请根据你目前掌握的Python知识，选择一个最适合你的项目方向，写出至少3条选择理由。",
+            codeTemplate: "",
+            hints: []
+          }
+      ],
+      homework: [
+          {
+            id: "hw1",
+            title: "完成项目需求文档和技术方案**",
+            required: false,
+            description: "从以下三个项目方向中选择一个，撰写一份完整的项目规划文档，包含需求分析、技术选型、模块设计三个部分。文档篇幅不少于500字。 可选项目方向如下： - 数据分析类，销售数据分析 或 问卷调查分析 - 自动化类，文件批量处理 或 网页数据抓取 - 工具类，记账本 或 待办清单 或 密码生成器",
+            requirements: ['数据分析类，销售数据分析 或 问卷调查分析', '自动化类，文件批量处理 或 网页数据抓取', '工具类，记账本 或 待办清单 或 密码生成器'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          },
+          {
+            id: "hw2",
+            title: "搭建项目骨架**",
+            required: false,
+            description: "根据作业1的模块设计方案，创建完整的项目目录结构，编写所有模块文件的框架代码（函数定义和文档字符串，函数体可以用pass占位）。确保项目可以直接运行（不会报ImportError）。",
+            requirements: [],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          }
+      ]
+    }};;;;;;
 
     const week_num = 15;
     const title = "：综合项目开发";

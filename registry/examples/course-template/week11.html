@@ -76,10 +76,72 @@
   </div>
 
   <script>
-    const courseData = {
-      exercises: [],
-      homework: []
-    };
+    const courseData = {{
+      exercises: [
+          {
+            id: "ex1",
+            title: "练习1",
+            difficulty: "基础",
+            description: "写一个程序，让用户输入3句话，每句话保存到文件`my_thoughts.txt`中（每句一行）。写完之后再读取这个文件，把内容打印出来。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex2",
+            title: "练习2",
+            difficulty: "基础",
+            description: "创建一个CSV文件`fruits.csv`，内容如下： ``` 水果,价格,库存 苹果,5.5,100 香蕉,3.0,150 橘子,4.5,80 葡萄,8.0,60 ``` 写代码读取这个文件，计算所有水果的总库存量。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex3",
+            title: "练习3",
+            difficulty: "基础",
+            description: "创建一个JSON文件`book.json`，保存一本图书的信息（书名、作者、价格、标签列表）。然后写代码读取这个文件，把书名和作者打印出来。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex4",
+            title: "练习4",
+            difficulty: "基础",
+            description: "写一个函数`get_element(lst, index)`，接收一个列表和一个索引，返回对应位置的元素。要求处理IndexError异常，当索引越界时返回None并打印提示信息。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex5",
+            title: "练习5",
+            difficulty: "基础",
+            description: "写一个函数`count_words_in_file(filepath)`，读取指定文本文件，统计文件中每个单词出现的次数，返回一个字典。要求处理文件不存在的情况。",
+            codeTemplate: "",
+            hints: []
+          }
+      ],
+      homework: [
+          {
+            id: "hw1",
+            title: "学生通讯录**",
+            required: false,
+            description: "使用JSON文件实现一个简单的学生通讯录系统，包含以下功能： - add_student(name, phone, email)：添加学生信息 - search_student(name)：按姓名搜索学生 - delete_student(name)：删除学生信息 - show_all()：显示所有学生信息 所有数据保存在contacts.json文件中，程序启动时从文件加载数据，每次修改后自动保存到文件。要求对文件操作和JSON解析都加上异常处理。",
+            requirements: ['add_student(name, phone, email)：添加学生信息', 'search_student(name)：按姓名搜索学生', 'delete_student(name)：删除学生信息', 'show_all()：显示所有学生信息'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          },
+          {
+            id: "hw2",
+            title: "单词本程序**",
+            required: false,
+            description: "使用CSV文件实现一个英语单词本，包含以下功能： - add_word(word, meaning, example)：添加单词 - quiz()：随机出5道题，显示英文让学生输入中文意思 - review()：显示所有单词 数据保存在vocabulary.csv文件中，格式为「单词,释义,例句」。要求对文件操作加上异常处理。",
+            requirements: ['add_word(word, meaning, example)：添加单词', 'quiz()：随机出5道题，显示英文让学生输入中文意思', 'review()：显示所有单词'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          }
+      ]
+    }};;;;;
 
     const week_num = 11;
     const title = "：文件操作与异常处理";

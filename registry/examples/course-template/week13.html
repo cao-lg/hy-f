@@ -76,72 +76,72 @@
   </div>
 
   <script>
-    const courseData = {
+    const courseData = {{
       exercises: [
           {
             id: "ex1",
-            title: "练习1：创建手机类",
+            title: "练习1",
             difficulty: "基础",
-            description: "",
-            codeTemplate: ``,
+            description: "定义一个 `Phone` 类，包含以下属性和方法： - 属性：品牌、型号、价格、电量 - 方法：充电（增加电量）、使用APP（减少电量）、查看信息（打印手机状态）",
+            codeTemplate: "",
             hints: []
           },
           {
             id: "ex2",
-            title: "练习2：继承练习",
+            title: "练习2",
             difficulty: "基础",
-            description: "",
-            codeTemplate: ``,
+            description: "基于上面的 `Phone` 类，创建一个 `SmartPhone` 子类： - 新增属性：摄像头像素 - 新增方法：拍照（打印拍照信息） - 重写使用APP方法，智能手机使用APP消耗更多电量",
+            codeTemplate: "",
             hints: []
           },
           {
             id: "ex3",
-            title: "练习3：self的理解",
-            difficulty: "进阶",
-            description: "",
-            codeTemplate: `class Counter:\ndef __init__(self):\nself.count = 0\n\ndef increment(self):\nself.count += 1\n\ndef get_count(self):\nreturn self.count\n\nc1 = Counter()\nc2 = Counter()\nc1.increment()\nc1.increment()\nc2.increment()\nprint(c1.get_count())\nprint(c2.get_count())`,
+            title: "练习3",
+            difficulty: "基础",
+            description: "阅读以下代码，写出运行结果：",
+            codeTemplate: "",
             hints: []
           },
           {
             id: "ex4",
-            title: "练习4：封装练习",
+            title: "练习4",
             difficulty: "基础",
-            description: "",
-            codeTemplate: ``,
+            description: "定义一个 `BankAccount` 类： - 属性：账户持有人、余额（私有） - 方法：存款（金额必须为正数）、取款（余额不足时拒绝）、查询余额 - 所有对余额的修改都要通过方法进行，不允许直接访问余额",
+            codeTemplate: "",
             hints: []
           },
           {
             id: "ex5",
-            title: "练习5：综合设计",
+            title: "练习5",
             difficulty: "基础",
-            description: "",
-            codeTemplate: ``,
+            description: "设计一个 `Course` 类来管理课程信息： - 属性：课程名、授课老师、学生名单、最大容量 - 方法：添加学生（不能超过最大容量）、移除学生、查看学生列表、判断某学生是否在课程中",
+            codeTemplate: "",
             hints: []
           }
-        ],
+      ],
       homework: [
           {
             id: "hw1",
-            title: "作业1：图书管理系统完善",
-            required: true,
-            description: "",
-            requirements: [],
-            codeTemplate: ``,
+            title: "图书管理系统完善",
+            required: false,
+            description: "基于课堂上的Book、User、Library三个类，完成以下扩展： - 给User类添加一个借阅历史记录功能，记录借出和归还的时间 - 给Library类添加搜索功能，能按书名或作者搜索图书 - 给Library类添加统计功能，统计最受欢迎的图书（被借次数最多） - 编写一个简单的命令行交互界面，让用户能通过菜单操作图书管理系统",
+            requirements: ['给User类添加一个借阅历史记录功能，记录借出和归还的时间', '给Library类添加搜索功能，能按书名或作者搜索图书', '给Library类添加统计功能，统计最受欢迎的图书（被借次数最多）', '编写一个简单的命令行交互界面，让用户能通过菜单操作图书管理系统'],
+            codeTemplate: "",
             testInputs: [],
             hints: []
           },
           {
             id: "hw2",
-            title: "作业2：面向对象思维练习",
+            title: "面向对象思维练习",
             required: false,
-            description: "",
-            requirements: [],
-            codeTemplate: ``,
+            description: "从你的日常生活中选择一个场景（比如超市购物、点外卖、坐地铁），用面向对象的方式设计类结构： - 识别出至少3个类 - 为每个类设计合理的属性和方法 - 体现类之间的关系（继承或组合） - 写出完整的Python代码并创建对象进行测试",
+            requirements: ['识别出至少3个类', '为每个类设计合理的属性和方法', '体现类之间的关系（继承或组合）', '写出完整的Python代码并创建对象进行测试'],
+            codeTemplate: "",
             testInputs: [],
             hints: []
           }
-        ]
-    };
+      ]
+    }};;;;;;;
 
     const week_num = 13;
     const title = "：面向对象编程基础";

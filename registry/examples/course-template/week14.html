@@ -76,72 +76,72 @@
   </div>
 
   <script>
-    const courseData = {
+    const courseData = {{
       exercises: [
           {
             id: "ex1",
-            title: "练习1：pip操作练习",
+            title: "练习1",
             difficulty: "基础",
-            description: "",
-            codeTemplate: ``,
+            description: "在命令行中完成以下操作： - 查看当前已安装的库列表 - 安装 `colorama` 库 - 查看 `colorama` 库的详细信息 - 卸载 `colorama` 库",
+            codeTemplate: "",
             hints: []
           },
           {
             id: "ex2",
-            title: "练习2：requests数据获取",
+            title: "练习2",
             difficulty: "基础",
-            description: "",
-            codeTemplate: ``,
+            description: "使用requests库访问以下免费API，获取并打印数据： - `https://api.github.com/zen` （GitHub每日格言） - `https://httpbin.org/get` （测试GET请求） - `https://httpbin.org/post` （用POST方法提交一组数据）",
+            codeTemplate: "",
             hints: []
           },
           {
             id: "ex3",
-            title: "练习3：matplotlib绑图练习",
-            difficulty: "进阶",
-            description: "",
-            codeTemplate: ``,
+            title: "练习3",
+            difficulty: "基础",
+            description: "用以下数据绘制图表： - 某班7次数学测验的平均分：`[72, 75, 78, 74, 80, 83, 85]` - 绘制折线图展示成绩变化趋势 - 添加标题「数学成绩变化趋势」、坐标轴标签 - 标出最高分和最低分的位置",
+            codeTemplate: "",
             hints: []
           },
           {
             id: "ex4",
-            title: "练习4：pandas数据处理",
+            title: "练习4",
             difficulty: "基础",
-            description: "",
-            codeTemplate: ``,
+            description: "创建一个DataFrame，包含以下数据： | 姓名 | 部门 | 薪资 | 工龄 | |------|------|------|------| | 张三 | 技术部 | 15000 | 3 | | 李四 | 市场部 | 12000 | 2 | | 王五 | 技术部 | 18000 | 5 | | 赵六 | 人事部 | 11000 | 1 | | 钱七 | 市场部 | 13000 | 4 | 完成以下操作： - 筛选出技术部的员工 - 计算各部门的平均薪资 - 找出薪资最高的员工 - 按工龄降序排列",
+            codeTemplate: "",
             hints: []
           },
           {
             id: "ex5",
-            title: "练习5：综合练习",
+            title: "练习5",
             difficulty: "基础",
-            description: "",
-            codeTemplate: ``,
+            description: "用pandas创建一个包含30天温度数据的DataFrame（随机生成20到35之间的温度），然后： - 计算平均温度、最高温度、最低温度 - 筛选出温度超过30度的天数 - 用matplotlib绘制温度变化折线图 - 在图上添加一条平均温度的参考线",
+            codeTemplate: "",
             hints: []
           }
-        ],
+      ],
       homework: [
           {
             id: "hw1",
-            title: "作业1：真实数据集分析与可视化",
-            required: true,
-            description: "",
-            requirements: [],
-            codeTemplate: ``,
+            title: "真实数据集分析与可视化",
+            required: false,
+            description: "从网上找一个CSV格式的数据集（推荐来源：Kaggle、和鲸社区、GitHub上的公开数据集），完成以下任务： - 用pandas读取数据集，了解数据的基本信息（行列数、列名、数据类型） - 清洗数据（处理缺失值、重复值） - 进行至少3种数据分析操作（筛选、分组统计、排序等） - 用matplotlib绘制至少3种不同的图表（折线图、柱状图、饼图） - 为每张图表添加合适的标题和标签 - 写一段文字描述你的分析发现",
+            requirements: ['用pandas读取数据集，了解数据的基本信息（行列数、列名、数据类型）', '清洗数据（处理缺失值、重复值）', '进行至少3种数据分析操作（筛选、分组统计、排序等）', '用matplotlib绘制至少3种不同的图表（折线图、柱状图、饼图）', '为每张图表添加合适的标题和标签', '写一段文字描述你的分析发现'],
+            codeTemplate: "",
             testInputs: [],
             hints: []
           },
           {
             id: "hw2",
-            title: "作业2：网络数据获取与展示",
+            title: "网络数据获取与展示",
             required: false,
-            description: "",
-            requirements: [],
-            codeTemplate: ``,
+            description: "使用requests库从一个公开API获取数据，然后用pandas处理并用matplotlib展示： - 选择一个你感兴趣的公开API（天气、新闻、电影、股票等） - 获取数据并解析JSON响应 - 将数据转换为pandas DataFrame - 绘制至少一张有意义的图表 - 将数据和图表保存到文件",
+            requirements: ['选择一个你感兴趣的公开API（天气、新闻、电影、股票等）', '获取数据并解析JSON响应', '将数据转换为pandas DataFrame', '绘制至少一张有意义的图表', '将数据和图表保存到文件'],
+            codeTemplate: "",
             testInputs: [],
             hints: []
           }
-        ]
-    };
+      ]
+    }};;;;;;;
 
     const week_num = 14;
     const title = "：第三方库应用";

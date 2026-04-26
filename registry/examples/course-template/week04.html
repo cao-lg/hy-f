@@ -76,10 +76,72 @@
   </div>
 
   <script>
-    const courseData = {
-      exercises: [],
-      homework: []
-    };
+    const courseData = {{
+      exercises: [
+          {
+            id: "ex1",
+            title: "练习1",
+            difficulty: "基础",
+            description: "从键盘输入一个整数，判断它是奇数还是偶数，输出对应的结果。 提示：使用取余运算符 `%`，如果能被 2 整除就是偶数。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex2",
+            title: "练习2",
+            difficulty: "基础",
+            description: "从键盘输入一个数字，判断它是正数、负数还是零，输出判断结果。 提示：需要考虑等于 0 的情况，用 `if-elif-else` 结构。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex3",
+            title: "练习3",
+            difficulty: "基础",
+            description: "输入一个 0 到 100 之间的分数，按以下规则输出等级。90 分及以上为 A，80 到 89 为 B，70 到 79 为 C，60 到 69 为 D，60 以下为 F。如果输入的分数不在 0 到 100 范围内，提示「输入无效」。 提示：先检查范围是否合法，再做等级判断。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex4",
+            title: "练习4",
+            difficulty: "基础",
+            description: "输入一个年份，判断它是不是闰年。闰年的规则是，能被 4 整除但不能被 100 整除，或者能被 400 整除。 提示：可以用逻辑运算符把两个条件组合起来，`year % 4 == 0 and year % 100 != 0 or year % 400 == 0`。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex5",
+            title: "练习5",
+            difficulty: "基础",
+            description: "输入两个数字和一个运算符（+、-、*、/），根据运算符执行对应的计算并输出结果。如果运算符不合法，提示「不支持的运算符」。做除法时还要考虑除数不能为零的情况。 提示：需要嵌套条件判断，先判断运算符，在除法分支里再判断除数。",
+            codeTemplate: "",
+            hints: []
+          }
+      ],
+      homework: [
+          {
+            id: "hw1",
+            title: "BMI 健康评估器",
+            required: false,
+            description: "编写一个 BMI（身体质量指数）计算器。程序要求用户输入身高（米）和体重（公斤），计算 BMI 值（公式为体重除以身高的平方），然后根据以下标准输出健康评估。 | BMI 范围 | 评估结果 | |----------|----------| | BMI < 18.5 | 偏瘦 | | 18.5 <= BMI < 24 | 正常 | | 24 <= BMI < 28 | 偏胖 | | BMI >= 28 | 肥胖 | 要求使用 if-elif-else 结构，输出格式为「你的 BMI 值为 xx.x，属于偏瘦/正常/偏胖/肥胖」。注意输入数据的合法性检查，身高和体重必须为正数。",
+            requirements: [],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          },
+          {
+            id: "hw2",
+            title: "出租车计价模拟器",
+            required: false,
+            description: "模拟某城市出租车的计价规则。程序要求输入行驶里程（公里），根据以下规则计算费用并输出。 起步价为 13 元（包含 3 公里）。超过 3 公里的部分，每公里 2.3 元。超过 15 公里的部分，每公里加收 50% 的空驶费（即 3.45 元/公里）。如果输入里程为负数，提示「里程不能为负数」。 输出格式为「行驶 xx.x 公里，费用为 xx.x 元」。结果保留一位小数。",
+            requirements: [],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          }
+      ]
+    }};;;;;
 
     const week_num = 4;
     const title = "流程控制：条件判断";

@@ -76,10 +76,72 @@
   </div>
 
   <script>
-    const courseData = {
-      exercises: [],
-      homework: []
-    };
+    const courseData = {{
+      exercises: [
+          {
+            id: "ex1",
+            title: "练习1",
+            difficulty: "基础",
+            description: "为你上周完成的综合项目编写一份答辩PPT的大纲。要求包含封面、项目背景、技术方案、功能演示、困难与解决、总结展望、致谢共7个部分，每个部分用2-3句话描述要展示的内容。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex2",
+            title: "练习2",
+            difficulty: "基础",
+            description: "请按照从基础到进阶的顺序，列出本学期学过的所有知识点，并用箭头或连线表示它们之间的前置关系。比如「变量」是「函数」的前置知识，「函数」是「面向对象」的前置知识。至少列出15个知识点。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex3",
+            title: "练习3",
+            difficulty: "基础",
+            description: "为你完成的综合项目编写一份README文档，至少包含项目简介、功能列表、技术栈、项目结构、安装与运行五个部分。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex4",
+            title: "练习4",
+            difficulty: "基础",
+            description: "回答以下三个问题，每个问题不少于100字。这学期你最大的收获是什么？你觉得自己的不足在哪里？接下来的学习计划是什么？",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex5",
+            title: "练习5",
+            difficulty: "基础",
+            description: "两人一组，每人用5分钟时间向对方介绍自己的项目。介绍完毕后，对方提出至少2个问题。记录对方的反馈意见，思考如何改进自己的展示。",
+            codeTemplate: "",
+            hints: []
+          }
+      ],
+      homework: [
+          {
+            id: "hw1",
+            title: "学习反思报告**",
+            required: false,
+            description: "撰写一份完整的学习反思报告，回顾本学期整个学习过程。报告应包含以下内容，课程知识掌握情况自我评估、综合项目开发过程回顾、AI辅助学习的使用总结与心得、个人成长与能力提升分析、未来学习路径规划。报告篇幅不少于800字。",
+            requirements: [],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          },
+          {
+            id: "hw2",
+            title: "项目答辩准备**",
+            required: false,
+            description: "完善综合项目的所有代码和文档，准备答辩PPT。要求PPT页数在8-12页之间，能够清晰地展示项目成果。答辩时间控制在5-8分钟。",
+            requirements: [],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          }
+      ]
+    }};;;;;;
 
     const week_num = 16;
     const title = "：项目答辩与课程总结";

@@ -76,10 +76,72 @@
   </div>
 
   <script>
-    const courseData = {
-      exercises: [],
-      homework: []
-    };
+    const courseData = {{
+      exercises: [
+          {
+            id: "ex1",
+            title: "练习1",
+            difficulty: "基础",
+            description: "计算以下表达式的值，先在脑海中想出答案，再用Python验证。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex2",
+            title: "练习2",
+            difficulty: "基础",
+            description: "写出判断变量`x`是否为偶数的表达式，并测试`x = 42`和`x = 37`两种情况。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex3",
+            title: "练习3(进阶)",
+            difficulty: "进阶",
+            description: "已知一个年份存放在变量`year`中，请写一个表达式判断该年份是否为闰年。闰年的规则是能被4整除但不能被100整除，或者能被400整除。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex4",
+            title: "练习4(进阶)",
+            difficulty: "进阶",
+            description: "使用字符串拼接和重复，打印如下图案。 ``` * * * * * * * * * * ``` 提示：可以考虑用循环配合字符串乘法来实现。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex5",
+            title: "练习5(进阶)",
+            difficulty: "进阶",
+            description: "编写一个简单的成绩等级判断程序。输入一个百分制成绩，输出对应的等级。规则如下：90分及以上为A，80到89分为B，70到79分为C，60到69分为D，60分以下为F。要求使用比较运算符和逻辑运算符组合完成判断。",
+            codeTemplate: "",
+            hints: []
+          }
+      ],
+      homework: [
+          {
+            id: "hw1",
+            title: "温度转换器**",
+            required: false,
+            description: "编写一个程序，实现摄氏度和华氏度之间的互相转换。 转换公式如下： - 摄氏转华氏：F = C * 9 / 5 + 32 - 华氏转摄氏：C = (F - 32) * 5 / 9 要求： 1. 程序先询问用户要转换的方向（输入1表示摄氏转华氏，输入2表示华氏转摄氏） 2. 再让用户输入温度值 3. 输出转换结果，保留两位小数 4. 注意运算符优先级，确保公式计算正确",
+            requirements: ['摄氏转华氏：F = C * 9 / 5 + 32', '华氏转摄氏：C = (F - 32) * 5 / 9'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          },
+          {
+            id: "hw2",
+            title: "购物折扣计算器**",
+            required: false,
+            description: "编写一个购物结算程序，根据购买金额和会员等级计算最终应付金额。 规则如下： - 普通会员：满100元打9折 - 银卡会员：满100元打8折 - 金卡会员：满100元打7折 - 所有会员：满500元额外减50元 要求： 1. 使用input()获取购买金额和会员等级 2. 使用比较运算符和逻辑运算符判断折扣规则 3. 使用算术运算符计算最终价格 4. 输出原始金额、折扣信息和最终应付金额",
+            requirements: ['普通会员：满100元打9折', '银卡会员：满100元打8折', '金卡会员：满100元打7折', '所有会员：满500元额外减50元'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          }
+      ]
+    }};;;;;;
 
     const week_num = 3;
     const title = "运算符与表达式";

@@ -76,15 +76,74 @@
   </div>
 
   <script>
-    const courseData = {
+    const courseData = {{
       exercises: [
           {
             id: "ex1",
-            title: "练习1：容器转换",
+            title: "练习1",
             difficulty: "基础",
-            description: "",
-            codeTemplate: ``,
+            description: "给定一个字符串 `\"hello world hello python world\"`，请完成以下操作： - 将字符串转为单词列表 - 用集合去重并统计不重复单词数量 - 用字典统计每个单词出现的次数",
+            codeTemplate: "",
             hints: []
+          },
+          {
+            id: "ex2",
+            title: "练习2",
+            difficulty: "基础",
+            description: "编写一个函数 `analyze_numbers(numbers)`，接收一个数字列表，返回一个字典，包含以下信息： - `\"average\"`: 平均值 - `\"max\"`: 最大值 - `\"min\"`: 最小值 - `\"count\"`: 元素个数",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex3",
+            title: "练习3",
+            difficulty: "基础",
+            description: "编写一个程序，读取一个文本文件，统计其中每个字符出现的次数，将结果按出现次数从高到低排序后保存到另一个文件中。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex4",
+            title: "练习4",
+            difficulty: "基础",
+            description: "下面这段代码没有异常处理，请加上合适的try-except，让程序在遇到错误时能给出友好的提示而不是崩溃：",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex5",
+            title: "练习5",
+            difficulty: "基础",
+            description: "编写一个简单的通讯录程序，功能包括： - 添加联系人（姓名和电话） - 查询联系人 - 删除联系人 - 数据保存到文件，下次启动时自动加载",
+            codeTemplate: "",
+            hints: []
+          }
+      ],
+      homework: [
+          {
+            id: "hw1",
+            title: "成绩分析小工具",
+            required: false,
+            description: "编写一个完整的学生成绩分析工具，要求： - 从CSV文件读取学生成绩数据（格式：姓名,语文,数学,英语） - 提供以下功能菜单：查看所有学生成绩、按平均分排序、查找某学生成绩、添加新学生、统计各科平均分 - 所有修改实时保存到文件 - 使用函数模块化设计，至少拆分5个函数 - 加入完善的异常处理",
+            requirements: ['从CSV文件读取学生成绩数据（格式：姓名,语文,数学,英语）', '提供以下功能菜单：查看所有学生成绩、按平均分排序、查找某学生成绩、添加新学生、统计各科平均分', '所有修改实时保存到文件', '使用函数模块化设计，至少拆分5个函数', '加入完善的异常处理'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          },
+          {
+            id: "hw2",
+            title: "个人代码库整理",
+            required: false,
+            description: "回顾第7至11周你写过的所有代码，完成以下任务： - 选出你认为写得最好的3段代码，说明好在哪里 - 选出1段你觉得可以改进的代码，进行优化并对比优化前后的差异 - 写下5条你自己的AI协作经验或有效提示词 - 将整理结果保存为一个Markdown文件",
+            requirements: ['选出你认为写得最好的3段代码，说明好在哪里', '选出1段你觉得可以改进的代码，进行优化并对比优化前后的差异', '写下5条你自己的AI协作经验或有效提示词', '将整理结果保存为一个Markdown文件'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          }
+      ]
+    }};;;;;;const courseData = {
+      exercises: [
+        ]
           },
           {
             id: "ex2",
@@ -120,20 +179,8 @@
           }
         ],
       homework: [
-          {
-            id: "hw1",
-            title: "作业1：成绩分析小工具",
-            required: true,
-            description: "",
-            requirements: [],
-            codeTemplate: ``,
-            testInputs: [],
-            hints: []
-          },
-          {
-            id: "hw2",
-            title: "作业2：个人代码库整理",
-            required: false,
+        ],homework: [
+        ]         required: false,
             description: "",
             requirements: [],
             codeTemplate: ``,

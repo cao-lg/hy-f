@@ -76,10 +76,72 @@
   </div>
 
   <script>
-    const courseData = {
-      exercises: [],
-      homework: []
-    };
+    const courseData = {{
+      exercises: [
+          {
+            id: "ex1",
+            title: "练习1",
+            difficulty: "基础",
+            description: "写一个叫`send_message`的函数，参数有`content`和`sender`（默认值为「系统通知」），打印发送消息的内容和发送者。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex2",
+            title: "练习2",
+            difficulty: "基础",
+            description: "写一个叫`find_max`的函数，使用*args接收任意数量的数字，返回其中的最大值。不要使用内置的max函数。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex3",
+            title: "练习3",
+            difficulty: "基础",
+            description: "用lambda表达式定义一个函数，接收一个字符串，返回它的长度。然后用这个lambda函数对一个字符串列表按长度排序。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex4",
+            title: "练习4",
+            difficulty: "基础",
+            description: "使用random模块完成以下任务：生成一个包含5个1到50之间随机整数的列表，然后从中随机选择一个元素。",
+            codeTemplate: "",
+            hints: []
+          },
+          {
+            id: "ex5",
+            title: "练习5",
+            difficulty: "基础",
+            description: "创建一个叫`string_tools.py`的模块，里面包含以下函数： - `reverse_string(s)`：反转字符串 - `is_palindrome(s)`：判断字符串是否是回文 - `count_words(s)`：统计字符串中的单词数量",
+            codeTemplate: "",
+            hints: []
+          }
+      ],
+      homework: [
+          {
+            id: "hw1",
+            title: "多功能计算模块**",
+            required: false,
+            description: "创建一个叫calculator.py的模块，包含以下函数： - add(*args)：求任意多个数的和 - multiply(*args)：求任意多个数的积 - power(base, exp=2)：求幂，默认平方 - factorial(n)：求阶乘（用循环实现） 每个函数都要有docstring，文件底部用if __name__ == \"__main__\":写测试代码。",
+            requirements: ['add(*args)：求任意多个数的和', 'multiply(*args)：求任意多个数的积', 'power(base, exp=2)：求幂，默认平方', 'factorial(n)：求阶乘（用循环实现）'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          },
+          {
+            id: "hw2",
+            title: "随机工具模块**",
+            required: false,
+            description: "创建一个叫random_tools.py的模块，包含以下函数： - random_password(length=8)：生成指定长度的随机密码（包含大小写字母和数字） - random_color()：随机返回一个RGB颜色元组 - dice_roll(n=1)：模拟掷骰子，n表示骰子个数，返回结果列表 然后在另一个文件中导入并测试这个模块。",
+            requirements: ['random_password(length=8)：生成指定长度的随机密码（包含大小写字母和数字）', 'random_color()：随机返回一个RGB颜色元组', 'dice_roll(n=1)：模拟掷骰子，n表示骰子个数，返回结果列表'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          }
+      ]
+    }};;;;;
 
     const week_num = 10;
     const title = "：函数进阶与模块化";

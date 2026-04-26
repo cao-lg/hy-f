@@ -81,56 +81,72 @@
 
     <script>
       // 课程配置数据
-      const courseData = {
-        exercises: [
+      const courseData = {{
+      exercises: [
           {
             id: "ex1",
-            title: "print() 函数练习",
+            title: "练习1",
             difficulty: "基础",
-            description: "在下方代码框输入代码，输出 Hello Python",
+            description: "修改示例1的代码，把里面的名字、专业、日期换成你自己的真实信息，运行看看效果。",
             codeTemplate: "",
-            hints: ["print() 函数的括号里放要输出的内容", "文字要用引号包裹"]
+            hints: ['只需要修改引号里的文字内容就行。']
           },
           {
             id: "ex2",
-            title: "多行输出",
+            title: "练习2",
             difficulty: "基础",
-            description: "输出3行内容：你的名字、年龄、爱好",
+            description: "在示例1的基础上，再添加3行print，分别输出你最喜欢的食物、最喜欢的电影、最喜欢的季节。",
             codeTemplate: "",
-            hints: ["每行内容用单独的 print()", "可以用变量存储后再输出"]
+            hints: ['每添加一行信息就写一个`print()`。']
           },
           {
             id: "ex3",
-            title: "变量使用",
-            difficulty: "进阶",
-            description: "定义变量 name 和 age，然后输出自我介绍",
+            title: "练习3",
+            difficulty: "基础",
+            description: "在示例3的基础上，增加两个input，分别询问「你的家乡是哪里」和「你的座右铭是什么」，然后在自我介绍中输出这些信息。",
             codeTemplate: "",
-            hints: ["变量用 = 赋值", "字符串和数字拼接要用 str() 转类型"]
+            hints: ['新增两个变量，然后在print里用`+`号拼接进去。']
+          },
+          {
+            id: "ex4",
+            title: "练习4",
+            difficulty: "基础",
+            description: "用print()输出一个你喜欢的餐厅的菜单，格式如下： ``` ================================ 欢迎来到美味食堂 ================================ 1. 红烧肉    18元 2. 宫保鸡丁  15元 3. 麻婆豆腐  12元 4. 蛋炒饭    10元 ================================ ```",
+            codeTemplate: "",
+            hints: ['用`print("=" * 32)`画线，用空格对齐文字。']
+          },
+          {
+            id: "ex5",
+            title: "练习5",
+            difficulty: "基础",
+            description: "用你学到的print和input，做一个「心情记录器」。让用户输入今天的心情（开心/一般/难过）和一件事，然后输出一段有针对性的回复。",
+            codeTemplate: "",
+            hints: ['可以用多个if判断来根据不同心情输出不同回复，if语句我们第4周会详细学，现在可以提前尝试一下。']
           }
-        ],
-        homework: [
+      ],
+      homework: [
           {
             id: "hw1",
-            title: "个人信息卡片",
+            title: "个人信息卡片（必做）",
             required: true,
-            description: "在下方编写代码，输出格式整齐的个人信息卡片",
-            requirements: ["包含姓名、年龄、学校", "使用分隔线装饰", "格式整齐美观"],
+            description: "编写一个Python程序，运行后输出一张格式整齐的「个人信息卡片」。卡片需要包含你的姓名、年龄、学校、专业、爱好、自我评价（一句话）。要求格式整齐美观，有分隔线装饰。 评分标准： - 信息完整（6项内容都有）：40分 - 格式整齐（有分隔线、对齐）：30分 - 代码规范（有注释、变量命名合理）：30分",
+            requirements: ['信息完整（6项内容都有）：40分', '格式整齐（有分隔线、对齐）：30分', '代码规范（有注释、变量命名合理）：30分'],
             codeTemplate: "",
-            testInputs: ["张三", "18", "清华大学", "计算机系"],
-            hints: ["用 print('=' * 30) 画分隔线", "用 input() 获取用户输入", "用 f-string 格式化输出"]
+            testInputs: [],
+            hints: []
           },
           {
             id: "hw2",
-            title: "对话机器人",
+            title: "对话机器人（选做）",
             required: false,
-            description: "编写程序依次询问3个问题，根据回答输出一段有趣的总结",
-            features: ["input()", "字符串拼接", "f-string"],
+            description: "编写一个简单的对话机器人程序，程序会依次问你3个问题，然后根据你的回答输出一段总结。问题可以自己设计，比如「今天天气怎么样」「你吃了什么」「你在做什么」。",
+            requirements: [],
             codeTemplate: "",
-            testInputs: ["小明", "冰淇淋", "成为程序员"],
-            hints: ["用 input() 获取用户输入", "用 f-string 拼接字符串"]
+            testInputs: [],
+            hints: []
           }
-        ]
-      };
+      ]
+    }};;;;;;;
 
       // 幻灯片定义
       const slides = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11'];
