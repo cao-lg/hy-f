@@ -55,6 +55,12 @@
   <body>
     <div class="preview-container">
       <div class="slide-frame" id="slideFrame">
+        <div id="navControls" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:16px;background:rgba(0,0,0,0.8);padding:12px 24px;border-radius:50px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);">
+          <button id="prevBtn" onclick="prevSlide()" style="width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all 0.2s;">‹</button>
+          <button id="pauseBtn" onclick="togglePause()" style="width:44px;height:44px;border-radius:50%;border:none;background:#3b82f6;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;transition:all 0.2s;">❚❚</button>
+          <button id="nextBtn" onclick="nextSlide()" style="width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all 0.2s;">›</button>
+          <span id="slideCounter" style="color:rgba(255,255,255,0.7);font-size:14px;font-family:'IBM Plex Mono',monospace;min-width:60px;text-align:center;">1/11</span>
+        </div>
 
         <!-- SLIDE 1: 标题页 -->
         <div class="slide" id="s1" style="opacity:1;">
@@ -475,6 +481,8 @@
       const totalDuration = durations.reduce((a,b)=>a+b,0);
       let elapsed = 0;
       let slideStartTime = 0;
+      let isPaused = false;
+      let interval = null;
 
       function getCurrentSlideIndex() {
         let acc = 0;
@@ -492,6 +500,7 @@
         });
         current = idx;
         slideStartTime = elapsed;
+        document.getElementById('slideCounter').textContent = (idx+1) + '/' + total;
       }
 
       function updateProgress() {
@@ -499,24 +508,68 @@
         document.querySelectorAll('.progress-fill').forEach(el=>el.style.width=progress+'%');
       }
 
-      const interval = setInterval(()=>{
+      function tick() {
+        if(isPaused) return;
         elapsed++;
         const newIdx = getCurrentSlideIndex();
         if(newIdx !== current) showSlide(newIdx);
         updateProgress();
         if(elapsed >= totalDuration) elapsed = 0;
-      },1000);
+      }
+
+      function startInterval() {
+        if(interval) clearInterval(interval);
+        interval = setInterval(tick, 1000);
+      }
+
+      function prevSlide() {
+        if(current > 0) {
+          elapsed = durations.slice(0, current-1).reduce((a,b)=>a+b, 0);
+          showSlide(current-1);
+          updateProgress();
+        }
+      }
+
+      function nextSlide() {
+        if(current < total-1) {
+          elapsed = durations.slice(0, current+1).reduce((a,b)=>a+b, 0);
+          showSlide(current+1);
+          updateProgress();
+        }
+      }
+
+      function togglePause() {
+        isPaused = !isPaused;
+        const btn = document.getElementById('pauseBtn');
+        if(isPaused) {
+          btn.textContent = '▶';
+          btn.style.background = '#f97316';
+        } else {
+          btn.textContent = '❚❚';
+          btn.style.background = '#3b82f6';
+        }
+      }
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+        if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); togglePause(); }
+      });
 
       function resizeFrame() {
         const container = document.querySelector('.preview-container');
         const frame = document.getElementById('slideFrame');
+        const nav = document.getElementById('navControls');
         const scaleX = container.clientWidth / 1920;
         const scaleY = container.clientHeight / 1080;
         const scale = Math.min(scaleX, scaleY);
         frame.style.transform = `scale(${scale})`;
+        if(nav) {
+          nav.style.transform = `translateX(-50%) translateY(${1080*scale + 20}px) scale(${1/scale})`;
+        }
       }
 
       window.addEventListener('resize', resizeFrame);
+      startInterval();
       resizeFrame();
       showSlide(0);
     </script>
