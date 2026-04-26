@@ -321,14 +321,14 @@ def generate_course_data_js(exercises, homework):
 
     exercises_section = ',\n'.join(ex_items)
     homework_section = ',\n'.join(hw_items)
-    return '''const courseData = {{
+    return '''const courseData = {
       exercises: [
 %s
       ],
       homework: [
 %s
       ]
-    }};''' % (exercises_section, homework_section)
+    };''' % (exercises_section, homework_section)
 
 
 def update_html_file(html_path, exercises, homework):
