@@ -53,8 +53,10 @@
       .exercise-title { font-size: 22px; font-weight: 600; color: #fff; }
       .exercise-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.5; margin-bottom: 16px; }
       .exercise-hint { font-size: 13px; color: rgba(255,255,255,0.5); background: rgba(59,130,246,0.1); padding: 12px 16px; border-radius: 8px; margin-top: 12px; }
-      .code-editor { width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #c9d1d9; min-height: 120px; resize: vertical; line-height: 1.6; }
-      .code-editor:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.2); }
+      .code-editor { width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; min-height: 120px; }
+      .CodeMirror { height: auto; min-height: 120px; background: #0d1117; color: #c9d1d9; border-radius: 12px; }
+      .CodeMirror-gutters { background: #161b22; border-right: 1px solid rgba(255,255,255,0.1); }
+      .CodeMirror-linenumber { color: #6e7681; }
       .btn-run { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 10px; padding: 12px 28px; font-size: 15px; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; }
       .btn-run:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34,197,94,0.3); }
       .btn-run:disabled { background: #666; cursor: not-allowed; transform: none; }
@@ -90,8 +92,8 @@
             id: "ex1",
             title: "print() 函数练习",
             difficulty: "基础",
-            description: "在下方代码框输入 print('Hello Python') 并运行",
-            codeTemplate: "print('Hello Python')",
+            description: "在下方代码框输入代码，输出 Hello Python",
+            codeTemplate: "",
             hints: ["print() 函数的括号里放要输出的内容", "文字要用引号包裹"]
           },
           {
@@ -99,15 +101,15 @@
             title: "多行输出",
             difficulty: "基础",
             description: "输出3行内容：你的名字、年龄、爱好",
-            codeTemplate: "print('名字：张三')\nprint('年龄：18')\nprint('爱好：编程')",
+            codeTemplate: "",
             hints: ["每行内容用单独的 print()", "可以用变量存储后再输出"]
           },
           {
             id: "ex3",
             title: "变量使用",
             difficulty: "进阶",
-            description: "定义变量 name 和 age，然后输出",
-            codeTemplate: "name = '张三'\nage = 18\nprint('我叫' + name)\nprint('我' + str(age) + '岁')",
+            description: "定义变量 name 和 age，然后输出自我介绍",
+            codeTemplate: "",
             hints: ["变量用 = 赋值", "字符串和数字拼接要用 str() 转类型"]
           }
         ],
@@ -117,10 +119,10 @@
             title: "个人信息卡片",
             required: true,
             description: "在下方编写代码，输出格式整齐的个人信息卡片",
-            requirements: ["包含姓名、年龄、学校，专业", "使用分隔线装饰", "格式整齐美观"],
-            codeTemplate: "print('=' * 30)\nprint(' 个人信息卡片')\nprint('=' * 30)\nname = input('姓名: ')\nage = input('年龄: ')\nschool = input('学校: ')\nmajor = input('专业: ')\nprint('=' * 30)\nprint(f'姓名: {name}')\nprint(f'年龄: {age}')\nprint(f'学校: {school}')\nprint(f'专业: {major}')\nprint('=' * 30)",
+            requirements: ["包含姓名、年龄、学校", "使用分隔线装饰", "格式整齐美观"],
+            codeTemplate: "",
             testInputs: ["张三", "18", "清华大学", "计算机系"],
-            hints: ["用 print('=' * 30) 画分隔线", "用 f-string 格式化输出"]
+            hints: ["用 print('=' * 20) 画分隔线", "用 input() 获取用户输入", "用 f-string 格式化输出"]
           },
           {
             id: "hw2",
@@ -128,7 +130,7 @@
             required: false,
             description: "编写程序依次询问3个问题，根据回答输出一段有趣的总结",
             features: ["input()", "字符串拼接", "f-string"],
-            codeTemplate: "# 依次询问3个问题\nname = input('你叫什么名字？')\nfood = input('你最喜欢吃什么？')\ndream = input('你的梦想是什么？')\n\n# 输出总结\nprint('=' * 30)\nprint(f'大家好，我叫{name}！')\nprint(f'我最喜欢吃{food}，想想就流口水~')\nprint(f'我的梦想是{dream}，加油！')\nprint('=' * 30)",
+            codeTemplate: "",
             testInputs: ["小明", "冰淇淋", "成为程序员"],
             hints: ["用 input() 获取用户输入", "用 f-string 拼接字符串"]
           }
@@ -153,6 +155,7 @@
         setupKeyboardControls();
         setupResize();
         if(isSubtitleVisible) document.getElementById('subtitleArea').style.display = 'block';
+        initCodeEditors();
         showSlide(0);
       }
 
@@ -421,9 +424,15 @@
               <span class="exercise-title">${ex.title}</span>
             </div>
             <p class="exercise-desc">${ex.description}</p>
-            <div id="exercise-area-${ex.id}">
-              <button class="btn-run" onclick="toggleExercise('${ex.id}')" style="font-size:14px;padding:10px 24px;">开始答题</button>
+            <textarea id="code-${ex.id}" class="code-editor">${ex.codeTemplate || ''}</textarea>
+            <div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;">
+              <button class="btn-run" onclick="runCode('${ex.id}')">运行代码</button>
+              <span id="pyodide-status-${ex.id}" class="pyodide-status">Python 加载中...</span>
             </div>
+            <div id="output-${ex.id}" class="output-area hidden">
+              <div id="output-${ex.id}-text" class="output-text"></div>
+            </div>
+            ${ex.hints && ex.hints.length ? `<div class="exercise-hint"><strong>提示：</strong>${ex.hints.join('；')}</div>` : ''}
           </div>
         `;
       }
@@ -438,9 +447,15 @@
             <p class="exercise-desc">${hw.description}</p>
             ${hw.requirements ? `<ul style="font-size:14px;color:rgba(255,255,255,0.6);margin:12px 0 12px 20px;">${hw.requirements.map(r => `<li style="margin:4px 0;">${r}</li>`).join('')}</ul>` : ''}
             ${hw.features ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">${hw.features.map(f => `<span style="padding:6px 12px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:6px;font-size:12px;color:#a78bfa;">${f}</span>`).join('')}</div>` : ''}
-            <div id="exercise-area-${hw.id}">
-              <button class="btn-run" onclick="toggleExercise('${hw.id}')" style="font-size:14px;padding:10px 24px;">${hw.required ? '开始作答' : '开始挑战'}</button>
+            <textarea id="code-${hw.id}" class="code-editor">${hw.codeTemplate || ''}</textarea>
+            <div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;">
+              <button class="btn-run" onclick="runCode('${hw.id}')">运行代码</button>
+              <span id="pyodide-status-${hw.id}" class="pyodide-status">Python 加载中...</span>
             </div>
+            <div id="output-${hw.id}" class="output-area hidden">
+              <div id="output-${hw.id}-text" class="output-text"></div>
+            </div>
+            ${hw.hints && hw.hints.length ? `<div class="exercise-hint"><strong>提示：</strong>${hw.hints.join('；')}</div>` : ''}
           </div>
         `;
       }
@@ -609,19 +624,43 @@ ${code}
 
       // 初始化 Pyodide
       async function initPyodide() {
-        try {
-          pyodide = await loadPyodide();
-          pyodideReady = true;
-          document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
-            el.textContent = 'Python 就绪';
-            el.classList.add('pyodide-ready');
-          });
-        } catch (e) {
-          document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
-            el.textContent = '加载失败';
-            el.style.color = '#f97316';
-          });
+        let retries = 3;
+        while (retries > 0) {
+          try {
+            pyodide = await loadPyodide({
+              indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
+            });
+            pyodideReady = true;
+            document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
+              el.textContent = 'Python 就绪';
+              el.classList.add('pyodide-ready');
+            });
+            return;
+          } catch (e) {
+            retries--;
+            if (retries === 0) {
+              document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
+                el.textContent = '加载失败';
+                el.style.color = '#f97316';
+              });
+            } else {
+              await new Promise(r => setTimeout(r, 2000));
+            }
+          }
         }
+      }
+
+      // 初始化 CodeMirror 编辑器
+      function initCodeEditors() {
+        document.querySelectorAll('.code-editor').forEach(el => {
+          CodeMirror.fromTextArea(el, {
+            mode: 'python',
+            theme: 'default',
+            lineNumbers: true,
+            indentUnit: 4,
+            autofocus: false
+          });
+        });
       }
 
       // 幻灯片导航
