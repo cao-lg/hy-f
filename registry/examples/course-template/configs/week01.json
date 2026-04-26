@@ -1,0 +1,78 @@
+{
+  "course": {
+    "week": 1,
+    "title": "：编程初识与环境搭建",
+    "stage": "基础筑基",
+    "hours": 4
+  },
+  "objectives": {
+    "knowledge": [
+      "理解编程的本质，建立「编程是翻译」的核心认知",
+      "了解Python语言的特点、应用领域和发展历史",
+      "掌握Python开发环境的搭建流程（Python安装、VS Code配置）",
+      "理解程序的基本运行过程（编写、保存、运行、调试）"
+    ],
+    "ability": [
+      "能独立完成Python开发环境的安装和配置",
+      "能编写并运行第一个Python程序",
+      "能使用print()函数在屏幕上输出信息",
+      "能识别并解决常见的环境配置问题"
+    ]
+  },
+  "exercises": [
+    {
+      "title": "练习1：修改输出内容（基础）",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习2：添加新的输出行（基础）",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习3：修改自我介绍生成器（进阶）",
+      "difficulty": "进阶",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习4：制作一个简单的菜单（进阶）",
+      "difficulty": "进阶",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习5：创意输出（挑战）",
+      "difficulty": "挑战",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "homework": [
+    {
+      "title": "作业1：个人信息卡片（必做）",
+      "required": true,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "作业2：对话机器人（选做）",
+      "required": false,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "project": null
+}

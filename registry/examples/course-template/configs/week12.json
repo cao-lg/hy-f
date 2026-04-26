@@ -1,0 +1,68 @@
+{
+  "course": {
+    "week": 12,
+    "title": "：阶段复习与项目实战（进阶）",
+    "stage": "阶段实战",
+    "hours": 4
+  },
+  "objectives": {
+    "knowledge": [],
+    "ability": []
+  },
+  "exercises": [
+    {
+      "title": "练习1：容器转换",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习2：函数设计",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习3：文件处理",
+      "difficulty": "进阶",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习4：异常处理改造",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "filename = input(\"请输入文件名: \")\nwith open(filename) as f:\ncontent = f.read()\nnumber = int(content)\nprint(f\"文件中的数字是: {number}\")",
+      "hints": []
+    },
+    {
+      "title": "练习5：综合运用",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "homework": [
+    {
+      "title": "作业1：成绩分析小工具",
+      "required": true,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "作业2：个人代码库整理",
+      "required": false,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "project": null
+}

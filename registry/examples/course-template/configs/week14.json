@@ -1,0 +1,68 @@
+{
+  "course": {
+    "week": 14,
+    "title": "：第三方库应用",
+    "stage": "进阶拓展",
+    "hours": 4
+  },
+  "objectives": {
+    "knowledge": [],
+    "ability": []
+  },
+  "exercises": [
+    {
+      "title": "练习1：pip操作练习",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习2：requests数据获取",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习3：matplotlib绑图练习",
+      "difficulty": "进阶",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习4：pandas数据处理",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习5：综合练习",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "homework": [
+    {
+      "title": "作业1：真实数据集分析与可视化",
+      "required": true,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "作业2：网络数据获取与展示",
+      "required": false,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "project": null
+}

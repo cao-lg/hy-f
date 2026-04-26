@@ -1,0 +1,68 @@
+{
+  "course": {
+    "week": 13,
+    "title": "：面向对象编程基础",
+    "stage": "进阶拓展",
+    "hours": 4
+  },
+  "objectives": {
+    "knowledge": [],
+    "ability": []
+  },
+  "exercises": [
+    {
+      "title": "练习1：创建手机类",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习2：继承练习",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习3：self的理解",
+      "difficulty": "进阶",
+      "description": "",
+      "codeTemplate": "class Counter:\ndef __init__(self):\nself.count = 0\n\ndef increment(self):\nself.count += 1\n\ndef get_count(self):\nreturn self.count\n\nc1 = Counter()\nc2 = Counter()\nc1.increment()\nc1.increment()\nc2.increment()\nprint(c1.get_count())\nprint(c2.get_count())",
+      "hints": []
+    },
+    {
+      "title": "练习4：封装练习",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习5：综合设计",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "homework": [
+    {
+      "title": "作业1：图书管理系统完善",
+      "required": true,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "作业2：面向对象思维练习",
+      "required": false,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "project": null
+}

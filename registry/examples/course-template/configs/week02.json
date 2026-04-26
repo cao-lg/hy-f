@@ -1,0 +1,79 @@
+{
+  "course": {
+    "week": 2,
+    "title": "变量与数据类型",
+    "stage": "基础筑基",
+    "hours": 4
+  },
+  "objectives": {
+    "knowledge": [
+      "理解变量的概念，知道变量是用来存储数据的「容器」",
+      "掌握四种基本数据类型的特点和用法",
+      "了解变量命名的基本规范",
+      "理解赋值操作的含义",
+      "知道类型转换的常用方法"
+    ],
+    "ability": [
+      "能够正确创建和使用变量",
+      "能够使用 `type()` 查看变量类型",
+      "能够使用 `input()` 获取用户输入并做简单处理",
+      "能够进行基本的数据类型转换"
+    ]
+  },
+  "exercises": [
+    {
+      "title": "练习1（基础）",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习2（基础）",
+      "difficulty": "基础",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习3（进阶）",
+      "difficulty": "进阶",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习4（进阶）",
+      "difficulty": "进阶",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "练习5（挑战）",
+      "difficulty": "挑战",
+      "description": "",
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "homework": [
+    {
+      "title": "作业1 个人信息卡片升级版",
+      "required": true,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    },
+    {
+      "title": "作业2 简易计算器",
+      "required": false,
+      "description": "",
+      "requirements": [],
+      "codeTemplate": "",
+      "hints": []
+    }
+  ],
+  "project": null
+}
