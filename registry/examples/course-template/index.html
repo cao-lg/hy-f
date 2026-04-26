@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python 编程基础 - 课程模板预览</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #141414;
+      --border: #2a2a2a;
+      --text: #e5e5e5;
+      --text-secondary: #a0a0a0;
+      --accent-blue: #3b82f6;
+      --accent-purple: #a78bfa;
+      --accent-green: #22c55e;
+      --accent-orange: #f97316;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      padding: 40px 60px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(20, 20, 20, 0.8);
+    }
+
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    .content {
+      flex: 1;
+      padding: 60px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 32px;
+      color: var(--text-secondary);
+    }
+
+    .weeks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1200px;
+    }
+
+    .week-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .week-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-4px);
+    }
+
+    .week-card.week1:hover { border-color: var(--accent-blue); }
+    .week-card.week2:hover { border-color: var(--accent-purple); }
+    .week-card.week3:hover { border-color: var(--accent-green); }
+
+    .week-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .week1 .week-badge {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent-blue);
+    }
+
+    .week2 .week-badge {
+      background: rgba(167, 139, 250, 0.15);
+      color: var(--accent-purple);
+    }
+
+    .week3 .week-badge {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent-green);
+    }
+
+    .week-card h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .week-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .week-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .week-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preview-info {
+      margin-top: 48px;
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      max-width: 1200px;
+    }
+
+    .preview-info h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .preview-info p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .preview-info code {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-blue);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .file-list {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+    }
+
+    .file-list h5 {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .file-list ul {
+      list-style: none;
+      font-size: 13px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .file-list li {
+      padding: 6px 0;
+      color: var(--text-secondary);
+    }
+
+    .file-list li::before {
+      content: "├── ";
+      color: var(--border);
+    }
+
+    .file-list li:last-child::before {
+      content: "└── ";
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Python 编程基础 - 课程模板</h1>
+    <p>基于 Hyperframes 构建的课程学习视频模板</p>
+  </div>
+
+  <div class="content">
+    <h2 class="section-title">选择要预览的周次</h2>
+
+    <div class="weeks-grid">
+      <a href="week1.html" class="week-card week1">
+        <span class="week-badge">第 1 周</span>
+        <h3>编程初识与环境搭建</h3>
+        <p>理解编程的本质，建立「编程是翻译」的核心认知。掌握 Python 开发环境的搭建流程。</p>
+        <div class="week-meta">
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 6v6l4 2"></path>
+            </svg>
+            4 课时
+          </span>
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            </svg>
+            基础筑基
+          </span>
+        </div>
+      </a>
+
+      <a href="week2.html" class="week-card week2">
+        <span class="week-badge">第 2 周</span>
+        <h3>变量与数据类型</h3>
+        <p>理解变量的概念，掌握四种基本数据类型的特点和用法。学会使用 type() 查看变量类型。</p>
+        <div class="week-meta">
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 6v6l4 2"></path>
+            </svg>
+            4 课时
+          </span>
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            </svg>
+            基础筑基
+          </span>
+        </div>
+      </a>
+
+      <a href="week3.html" class="week-card week3">
+        <span class="week-badge">第 3 周</span>
+        <h3>运算符与表达式</h3>
+        <p>掌握 Python 算术运算符、比较运算符和逻辑运算符的用法。理解运算符优先级规则。</p>
+        <div class="week-meta">
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 6v6l4 2"></path>
+            </svg>
+            4 课时
+          </span>
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            </svg>
+            基础筑基
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="preview-info">
+      <h4>模板说明</h4>
+      <p>
+        本模板基于 Hyperframes 视频渲染框架构建，每个课程页面包含 7 个幻灯片：
+        <code>标题页</code> → <code>教学目标</code> → <code>知识点讲解</code> → <code>代码示例</code> → <code>课堂练习</code> → <code>课后作业</code> → <code>项目任务</code>
+      </p>
+      <div class="file-list">
+        <h5>模板文件结构</h5>
+        <ul>
+          <li>index.html (入口页)</li>
+          <li>week1.html (第1周完整模板)</li>
+          <li>week2.html (第2周完整模板)</li>
+          <li>week3.html (第3周完整模板)</li>
+          <li>compositions/ (幻灯片组件)</li>
+          <li>configs/ (课程配置文件)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

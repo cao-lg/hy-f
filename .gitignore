@@ -98,3 +98,6 @@ ab-test/
 compositions/
 video-6-2-patched/
 claude-design-hyperframes-video/
+
+# Course templates (例外)
+!registry/examples/

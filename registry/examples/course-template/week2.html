@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>第2周：变量与数据类型</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { margin: 0; width: 100vw; height: 100vh; overflow: hidden; background: #000; font-family: "Inter", sans-serif; }
+      .preview-container { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: #111; }
+      .slide-frame { width: 1920px; height: 1080px; position: relative; transform-origin: center center; }
+      .slide { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; opacity: 0; }
+      .bg-gradient { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+      .slide-header { position: absolute; top: 0; left: 0; right: 0; height: 100px; display: flex; align-items: center; padding: 0 80px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(20px); }
+      .week-badge { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: var(--accent, #a78bfa); border-radius: 8px; font-size: 18px; font-weight: 600; color: white; }
+      .course-title { margin-left: 32px; font-size: 22px; font-weight: 500; color: rgba(255,255,255,0.7); }
+      .slide-number { margin-left: auto; font-size: 18px; color: rgba(255,255,255,0.4); font-family: "IBM Plex Mono", monospace; }
+      .slide-content { position: absolute; top: 130px; left: 80px; right: 80px; bottom: 90px; }
+      .slide-footer { position: absolute; bottom: 0; left: 0; right: 0; height: 70px; display: flex; align-items: center; padding: 0 80px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(20, 20, 20, 0.8); }
+      .progress-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+      .progress-fill { height: 100%; background: var(--accent, #a78bfa); transition: width 0.5s ease; }
+      .footer-text { margin-left: 32px; font-size: 16px; color: rgba(255,255,255,0.5); }
+      h1 { font-size: 120px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; background: linear-gradient(135deg,#fff 0%,#888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      h2 { font-size: 64px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 48px; color: #fff; }
+      .card { background: rgba(30, 30, 30, 0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px; backdrop-filter: blur(10px); }
+      .badge { display: inline-flex; padding: 8px 16px; border-radius: 8px; font-size: 16px; font-weight: 600; }
+      .badge-blue { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.4); }
+      .badge-green { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.4); }
+      .badge-purple { background: rgba(167, 139, 250, 0.2); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.4); }
+      .badge-orange { background: rgba(249, 115, 22, 0.2); color: #f97316; border: 1px solid rgba(249, 115, 22, 0.4); }
+      ul { list-style: none; }
+      ul li { position: relative; padding-left: 36px; margin-bottom: 20px; font-size: 26px; line-height: 1.5; color: rgba(255,255,255,0.8); }
+      ul li::before { content: ""; position: absolute; left: 0; top: 10px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent, #a78bfa); }
+      .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+      .type-card { background: rgba(30, 30, 30, 0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px; text-align: center; }
+      .type-icon { width: 80px; height: 80px; border-radius: 20px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; }
+      .type-card h4 { font-size: 26px; font-weight: 600; margin-bottom: 10px; color: #fff; }
+      .type-card p { font-size: 18px; color: rgba(255,255,255,0.6); }
+      .highlight { font-size: 32px; font-weight: 600; color: #fff; line-height: 1.5; }
+      .highlight span { color: #a78bfa; }
+      .code-block { background: #0d1117; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; }
+      .code-header { display: flex; align-items: center; gap: 12px; padding: 16px 24px; background: rgba(30,30,30,0.9); border-bottom: 1px solid rgba(255,255,255,0.1); }
+      .code-dot { width: 14px; height: 14px; border-radius: 50%; }
+      .code-body { padding: 32px; font-family: 'IBM Plex Mono', monospace; font-size: 22px; line-height: 2; color: #c9d1d9; }
+      .comment { color: #8b949e; }
+      .keyword { color: #ff7b72; }
+      .function { color: #d2a8ff; }
+      .string { color: #a5d6ff; }
+      .number { color: #79c0ff; }
+      .step { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 24px; }
+      .step-num { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #a78bfa, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: white; flex-shrink: 0; }
+      .step-content h4 { font-size: 24px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+      .step-content p { font-size: 20px; color: rgba(255,255,255,0.7); }
+      .warning-box { background: rgba(249, 115, 22, 0.1); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 16px; padding: 24px 32px; display: flex; align-items: flex-start; gap: 20px; }
+      .warning-icon { font-size: 32px; flex-shrink: 0; }
+      .warning-box p { font-size: 22px; color: rgba(255,255,255,0.9); line-height: 1.5; }
+    </style>
+  </head>
+  <body>
+    <div class="preview-container">
+      <div class="slide-frame" id="slideFrame">
+
+        <!-- SLIDE 1: 标题页 -->
+        <div class="slide" id="s1" style="opacity:1;">
+          <div class="bg-gradient" style="background:radial-gradient(ellipse at 30% 20%, rgba(167,139,250,0.3) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59,130,246,0.2) 0%, transparent 50%);"></div>
+          <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);background-size:80px 80px;"></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:100%;max-width:1400px;padding:0 60px;">
+            <div style="margin-bottom:40px;"><span class="badge badge-purple" style="padding:16px 32px;font-size:22px;">第 2 周</span></div>
+            <h1>变量与<br>数据类型</h1>
+            <p style="font-size:32px;color:rgba(255,255,255,0.6);margin-top:32px;">Python 编程基础系列课程</p>
+            <div style="display:flex;align-items:center;justify-content:center;gap:48px;margin-top:56px;">
+              <span style="display:flex;align-items:center;gap:12px;font-size:20px;color:rgba(255,255,255,0.5);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>4 课时</span>
+              <span style="display:flex;align-items:center;gap:12px;font-size:20px;color:rgba(255,255,255,0.5);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path></svg>基础筑基</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2: 教学目标 -->
+        <div class="slide" id="s2">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">02 / 12</span></div>
+          <div class="slide-content">
+            <h2>教学目标</h2>
+            <div class="grid-2">
+              <div class="card">
+                <div style="width:72px;height:72px;border-radius:16px;background:rgba(167,139,250,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:24px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
+                <h3 style="font-size:28px;font-weight:600;margin-bottom:24px;color:#fff;">知识目标</h3>
+                <ul style="--accent:#a78bfa;">
+                  <li>理解变量的概念，知道变量是存储数据的「容器」</li>
+                  <li>掌握四种基本数据类型的特点和用法</li>
+                  <li>了解变量命名的基本规范</li>
+                  <li>理解赋值操作的含义</li>
+                </ul>
+              </div>
+              <div class="card">
+                <div style="width:72px;height:72px;border-radius:16px;background:rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:24px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+                <h3 style="font-size:28px;font-weight:600;margin-bottom:24px;color:#fff;">能力目标</h3>
+                <ul style="--accent:#3b82f6;">
+                  <li>能够正确创建和使用变量</li>
+                  <li>能够使用 type() 查看变量类型</li>
+                  <li>能够使用 input() 获取用户输入</li>
+                  <li>能够进行基本的数据类型转换</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#a78bfa;"><div class="progress-bar"><div class="progress-fill" style="width:17%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 3: 什么是变量 -->
+        <div class="slide" id="s3">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">03 / 12</span></div>
+          <div class="slide-content">
+            <h2>什么是变量？</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+              <div>
+                <p class="highlight" style="margin-bottom:32px;">变量是<span>贴了标签的盒子</span></p>
+                <div class="card" style="margin-bottom:24px;">
+                  <p style="font-size:22px;color:rgba(255,255,255,0.9);line-height:1.7;font-family:'IBM Plex Mono',monospace;">
+                    age = 18
+                  </p>
+                  <p style="font-size:18px;color:rgba(255,255,255,0.6);margin-top:12px;">拿了一个盒子，贴上「age」标签，往里面放了数字18</p>
+                </div>
+                <div style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.3);border-radius:12px;padding:20px;">
+                  <p style="font-size:18px;color:rgba(255,255,255,0.8);line-height:1.6;">为什么需要变量？因为世界是会变的。今年18，明年就19了。有了变量，只需要说「把age加1」就行。</p>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:16px;">
+                <div class="card" style="display:flex;align-items:center;gap:20px;">
+                  <div style="width:64px;height:64px;border-radius:12px;background:rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;font-size:28px;font-family:'IBM Plex Mono',monospace;color:#3b82f6;">age</div>
+                  <div style="font-size:22px;color:rgba(255,255,255,0.9);">= 18</div>
+                </div>
+                <div class="card" style="display:flex;align-items:center;gap:20px;">
+                  <div style="width:64px;height:64px;border-radius:12px;background:rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;font-size:28px;font-family:'IBM Plex Mono',monospace;color:#22c55e;">name</div>
+                  <div style="font-size:22px;color:rgba(255,255,255,0.9);">= "卡兹克"</div>
+                </div>
+                <div class="card" style="display:flex;align-items:center;gap:20px;">
+                  <div style="width:64px;height:64px;border-radius:12px;background:rgba(249,115,22,0.2);display:flex;align-items:center;justify-content:center;font-size:28px;font-family:'IBM Plex Mono',monospace;color:#f97316;">height</div>
+                  <div style="font-size:22px;color:rgba(255,255,255,0.9);">= 1.75</div>
+                </div>
+                <div class="card" style="display:flex;align-items:center;gap:20px;">
+                  <div style="width:64px;height:64px;border-radius:12px;background:rgba(167,139,250,0.2);display:flex;align-items:center;justify-content:center;font-size:28px;font-family:'IBM Plex Mono',monospace;color:#a78bfa;">is_student</div>
+                  <div style="font-size:22px;color:rgba(255,255,255,0.9);">= True</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#a78bfa;"><div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 4: 四种数据类型 -->
+        <div class="slide" id="s4">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">04 / 12</span></div>
+          <div class="slide-content">
+            <h2>四种基本数据类型</h2>
+            <div class="grid-4">
+              <div class="type-card">
+                <div class="type-icon" style="background:rgba(59,130,246,0.2);color:#3b82f6;">int</div>
+                <h4>整数</h4>
+                <p style="color:#3b82f6;font-weight:600;margin-bottom:8px;">1, 42, -7, 0</p>
+                <p>没有小数点的数<br>可以做数学运算</p>
+              </div>
+              <div class="type-card">
+                <div class="type-icon" style="background:rgba(34,197,94,0.2);color:#22c55e;">float</div>
+                <h4>浮点数</h4>
+                <p style="color:#22c55e;font-weight:600;margin-bottom:8px;">3.14, 0.5, -1.618</p>
+                <p>带小数点的数<br>用于精确计算</p>
+              </div>
+              <div class="type-card">
+                <div class="type-icon" style="background:rgba(249,115,22,0.2);color:#f97316;">str</div>
+                <h4>字符串</h4>
+                <p style="color:#f97316;font-weight:600;margin-bottom:8px;">"你好", '北京'</p>
+                <p>被引号包起来的<br>文字内容</p>
+              </div>
+              <div class="type-card">
+                <div class="type-icon" style="background:rgba(167,139,250,0.2);color:#a78bfa;">bool</div>
+                <h4>布尔类型</h4>
+                <p style="color:#a78bfa;font-weight:600;margin-bottom:8px;">True, False</p>
+                <p>真和假<br>用于条件判断</p>
+              </div>
+            </div>
+            <div style="margin-top:40px;padding:28px;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.3);border-radius:16px;text-align:center;">
+              <p style="font-size:24px;color:rgba(255,255,255,0.9);">数据类型就是<span style="color:#a78bfa;font-weight:600;">人类世界在计算机世界里的投影</span></p>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#a78bfa;"><div class="progress-bar"><div class="progress-fill" style="width:33%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 5: 变量命名规范 -->
+        <div class="slide" id="s5">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">05 / 12</span></div>
+          <div class="slide-content">
+            <h2>变量命名规范</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+              <div>
+                <div class="card" style="margin-bottom:24px;">
+                  <h3 style="font-size:24px;font-weight:600;color:#22c55e;margin-bottom:20px;">✓ 可以这样命名</h3>
+                  <ul style="--accent:#22c55e;font-size:20px;">
+                    <li>name, age, score</li>
+                    <li>student_age, max_score</li>
+                    <li>name2, count3</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h3 style="font-size:24px;font-weight:600;color:#f97316;margin-bottom:20px;">✗ 不能这样命名</h3>
+                  <ul style="--accent:#f97316;font-size:20px;">
+                    <li>2name (不能以数字开头)</li>
+                    <li>my name (不能有空格)</li>
+                    <li>my-name (不能有特殊符号)</li>
+                  </ul>
+                </div>
+              </div>
+              <div>
+                <div class="card" style="margin-bottom:24px;">
+                  <h3 style="font-size:24px;font-weight:600;color:#a78bfa;margin-bottom:20px;">大小写敏感</h3>
+                  <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div style="display:flex;align-items:center;gap:16px;padding:16px;background:rgba(59,130,246,0.1);border-radius:8px;">
+                      <code style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:#3b82f6;">age</code>
+                      <span style="color:rgba(255,255,255,0.5);">和</span>
+                      <code style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:#f97316;">Age</code>
+                      <span style="color:rgba(255,255,255,0.5);">是不同的变量！</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:16px;">💡 建议</h3>
+                  <p style="font-size:20px;color:rgba(255,255,255,0.8);line-height:1.6;">给变量起有意义的名字，<code style="background:rgba(167,139,250,0.2);padding:4px 8px;border-radius:4px;color:#a78bfa;">student_age</code> 比 <code style="background:rgba(167,139,250,0.2);padding:4px 8px;border-radius:4px;color:#a78bfa;">a</code> 好理解一万倍</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#a78bfa;"><div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 6: 赋值操作 -->
+        <div class="slide" id="s6">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">06 / 12</span></div>
+          <div class="slide-content">
+            <h2>赋值操作</h2>
+            <div class="grid-2">
+              <div>
+                <p style="font-size:28px;color:rgba(255,255,255,0.8);margin-bottom:32px;line-height:1.6;"><strong style="color:#f97316;">注意：</strong>Python 里的 <code style="background:rgba(249,115,22,0.2);padding:4px 12px;border-radius:6px;color:#f97316;font-family:'IBM Plex Mono',monospace;">=</code> 不是数学里的等于，而是<span style="color:#a78bfa;font-weight:600;">赋值</span></p>
+                <div class="card">
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:24px;line-height:2;color:#c9d1d9;margin-bottom:20px;">
+                    <span style="color:#d2a8ff;">age</span> = <span style="color:#79c0ff;">18</span>
+                  </div>
+                  <p style="font-size:20px;color:rgba(255,255,255,0.8);line-height:1.6;">意思是：把 <span style="color:#79c0ff;">18</span> 这个数字<span style="color:#a78bfa;font-weight:600;">放进</span>叫 age 的盒子里</p>
+                </div>
+                <div class="warning-box" style="margin-top:24px;">
+                  <div class="warning-icon">⚠️</div>
+                  <div>
+                    <p><strong>x = x + 1</strong> 不是矛盾方程</p>
+                    <p>它的意思是：把 x 里的值拿出来加1，再放回 x</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:24px;">常见赋值方式</h3>
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                  <div class="card" style="padding:20px 24px;">
+                    <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:#c9d1d9;margin-bottom:8px;">score = <span style="color:#79c0ff;">85</span></div>
+                    <p style="font-size:16px;color:rgba(255,255,255,0.5);">直接赋值</p>
+                  </div>
+                  <div class="card" style="padding:20px 24px;">
+                    <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:#c9d1d9;margin-bottom:8px;">score = score + <span style="color:#79c0ff;">5</span></div>
+                    <p style="font-size:16px;color:rgba(255,255,255,0.5);">用自身值更新</p>
+                  </div>
+                  <div class="card" style="padding:20px 24px;">
+                    <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:#c9d1d9;margin-bottom:8px;">score += <span style="color:#79c0ff;">10</span></div>
+                    <p style="font-size:16px;color:rgba(255,255,255,0.5);">简写形式，等价于上面</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#a78bfa;"><div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 7: input与类型转换 -->
+        <div class="slide" id="s7">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">07 / 12</span></div>
+          <div class="slide-content">
+            <h2>input() 与类型转换</h2>
+            <div class="grid-2">
+              <div>
+                <div class="warning-box" style="margin-bottom:32px;">
+                  <div class="warning-icon">⚠️</div>
+                  <p><strong>input() 获取的永远是字符串！</strong><br>不管你输入 18 还是 3.14，返回的都是字符串</p>
+                </div>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div style="display:flex;gap:8px;"><span class="code-dot" style="background:#ff5f56;"></span><span class="code-dot" style="background:#ffbd2e;"></span><span class="code-dot" style="background:#27c93f;"></span></div>
+                    <span style="font-size:14px;color:rgba(255,255,255,0.5);">input_demo.py</span>
+                  </div>
+                  <div class="code-body">
+                    <span class="comment"># 获取用户输入</span><br>
+                    age = <span class="function">input</span>(<span class="string">"年龄: "</span>)<br>
+                    <span class="function">print</span>(<span class="function">type</span>(age)) <span class="comment"># str!</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:24px;">类型转换函数</h3>
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                  <div class="card" style="display:flex;align-items:center;gap:20px;padding:20px 24px;">
+                    <code style="font-family:'IBM Plex Mono',monospace;font-size:22px;color:#3b82f6;background:rgba(59,130,246,0.1);padding:8px 16px;border-radius:8px;">int()</code>
+                    <span style="font-size:18px;color:rgba(255,255,255,0.7);">转换为整数</span>
+                  </div>
+                  <div class="card" style="display:flex;align-items:center;gap:20px;padding:20px 24px;">
+                    <code style="font-family:'IBM Plex Mono',monospace;font-size:22px;color:#22c55e;background:rgba(34,197,94,0.1);padding:8px 16px;border-radius:8px;">float()</code>
+                    <span style="font-size:18px;color:rgba(255,255,255,0.7);">转换为浮点数</span>
+                  </div>
+                  <div class="card" style="display:flex;align-items:center;gap:20px;padding:20px 24px;">
+                    <code style="font-family:'IBM Plex Mono',monospace;font-size:22px;color:#f97316;background:rgba(249,115,22,0.1);padding:8px 16px;border-radius:8px;">str()</code>
+                    <span style="font-size:18px;color:rgba(255,255,255,0.7);">转换为字符串</span>
+                  </div>
+                </div>
+                <div style="margin-top:20px;padding:16px;background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.3);border-radius:12px;">
+                  <p style="font-size:16px;color:rgba(255,255,255,0.8);"><code style="color:#a78bfa;">int("18")</code> → 18 &nbsp;&nbsp;|&nbsp;&nbsp; <code style="color:#a78bfa;">str(100)</code> → "100"</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#a78bfa;"><div class="progress-bar"><div class="progress-fill" style="width:58%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 8: 代码示例 -->
+        <div class="slide" id="s8">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">08 / 12</span></div>
+          <div class="slide-content">
+            <h2>核心代码示例</h2>
+            <div style="display:grid;grid-template-columns:1.2fr 0.8fr;gap:32px;">
+              <div class="code-block">
+                <div class="code-header">
+                  <div style="display:flex;gap:8px;"><span class="code-dot" style="background:#ff5f56;"></span><span class="code-dot" style="background:#ffbd2e;"></span><span class="code-dot" style="background:#27c93f;"></span></div>
+                  <span style="font-size:14px;color:rgba(255,255,255,0.5);">variables.py</span>
+                  <span class="badge badge-purple" style="margin-left:auto;font-size:12px;">基础</span>
+                </div>
+                <div class="code-body">
+                  <span class="comment"># 创建不同类型的变量</span><br>
+                  name = <span class="string">"卡兹克"</span><br>
+                  age = <span class="number">18</span><br>
+                  height = <span class="number">1.75</span><br>
+                  is_student = <span class="keyword">True</span><br><br>
+                  <span class="comment"># 打印变量的值</span><br>
+                  <span class="function">print</span>(name)<br>
+                  <span class="function">print</span>(age)<br><br>
+                  <span class="comment"># 用 type() 查看类型</span><br>
+                  <span class="function">print</span>(<span class="function">type</span>(name))
+                </div>
+              </div>
+              <div>
+                <div class="card" style="margin-bottom:20px;">
+                  <h4 style="font-size:18px;font-weight:600;color:rgba(255,255,255,0.6);margin-bottom:16px;">type() 输出结果</h4>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:18px;line-height:2;">
+                    <div><span style="color:#a78bfa;">name</span> → <code style="background:rgba(249,115,22,0.1);padding:2px 8px;border-radius:4px;color:#f97316;">&lt;class 'str'&gt;</code></div>
+                    <div><span style="color:#a78bfa;">age</span> → <code style="background:rgba(59,130,246,0.1);padding:2px 8px;border-radius:4px;color:#3b82f6;">&lt;class 'int'&gt;</code></div>
+                    <div><span style="color:#a78bfa;">height</span> → <code style="background:rgba(34,197,94,0.1);padding:2px 8px;border-radius:4px;color:#22c55e;">&lt;class 'float'&gt;</code></div>
+                    <div><span style="color:#a78bfa;">is_student</span> → <code style="background:rgba(167,139,250,0.1);padding:2px 8px;border-radius:4px;color:#a78bfa;">&lt;class 'bool'&gt;</code></div>
+                  </div>
+                </div>
+                <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:12px;padding:20px;">
+                  <p style="font-size:16px;color:rgba(255,255,255,0.9);line-height:1.6;"><code style="background:rgba(59,130,246,0.2);padding:4px 8px;border-radius:4px;color:#3b82f6;">type()</code> 在调试时特别有用，可以帮你确认变量的类型</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#a78bfa;"><div class="progress-bar"><div class="progress-fill" style="width:67%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 9: 课堂练习 -->
+        <div class="slide" id="s9">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">09 / 12</span></div>
+          <div class="slide-content">
+            <h2>课堂练习</h2>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+              <div class="card">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><span class="badge badge-blue">基础</span><span style="font-size:14px;color:rgba(255,255,255,0.4);">练习 1</span></div>
+                <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:12px;">创建不同类型变量</h3>
+                <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:16px;">创建三个变量：名字(字符串)、年龄(整数)、颜色(字符串)，用print打印</p>
+                <div style="padding:12px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:8px;font-size:14px;color:rgba(255,255,255,0.7);">💡 字符串用引号，整数直接写数字</div>
+              </div>
+              <div class="card">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><span class="badge badge-blue">基础</span><span style="font-size:14px;color:rgba(255,255,255,0.4);">练习 2</span></div>
+                <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:12px;">两数相加</h3>
+                <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:16px;">input()获取两个数字，转整数后相加</p>
+                <div style="padding:12px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:8px;font-size:14px;color:rgba(255,255,255,0.7);">💡 别忘了 int() 转换！</div>
+              </div>
+              <div class="card">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><span class="badge badge-purple">进阶</span><span style="font-size:14px;color:rgba(255,255,255,0.4);">练习 4</span></div>
+                <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:12px;">提取数字位</h3>
+                <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:16px;">输入三位整数，提取百位、十位、个位</p>
+                <div style="padding:12px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:8px;font-size:14px;color:rgba(255,255,255,0.7);">💡 用 // 和 % 运算</div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#a78bfa;"><div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 10: 课后作业 -->
+        <div class="slide" id="s10">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">10 / 12</span></div>
+          <div class="slide-content">
+            <h2>课后作业</h2>
+            <div style="display:grid;grid-template-columns:1.3fr 0.7fr;gap:32px;">
+              <div class="card" style="border-color:rgba(34,197,94,0.4);">
+                <div style="margin-bottom:20px;"><span class="badge badge-green">必做</span></div>
+                <h3 style="font-size:32px;font-weight:600;color:#fff;margin-bottom:16px;">个人信息卡片升级版</h3>
+                <p style="font-size:18px;color:rgba(255,255,255,0.7);margin-bottom:24px;line-height:1.6;">用 input() 获取输入，计算BMI值，格式化输出信息卡片</p>
+                <div style="margin-bottom:24px;">
+                  <h4 style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;">要求</h4>
+                  <ul style="font-size:17px;">
+                    <li>获取姓名、年龄、身高、体重、爱好</li>
+                    <li>计算BMI值（体重/身高的平方）</li>
+                    <li>使用 type() 验证每个变量的类型</li>
+                  </ul>
+                </div>
+                <div style="display:flex;gap:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);">
+                  <div><span style="font-size:14px;color:rgba(255,255,255,0.5);">信息完整</span><div style="font-size:24px;font-weight:700;color:#22c55e;">40分</div></div>
+                  <div><span style="font-size:14px;color:rgba(255,255,255,0.5);">BMI计算</span><div style="font-size:24px;font-weight:700;color:#22c55e;">30分</div></div>
+                  <div><span style="font-size:14px;color:rgba(255,255,255,0.5);">代码规范</span><div style="font-size:24px;font-weight:700;color:#22c55e;">30分</div></div>
+                </div>
+              </div>
+              <div class="card">
+                <div style="margin-bottom:20px;"><span class="badge badge-purple">选做</span></div>
+                <h3 style="font-size:28px;font-weight:600;color:#fff;margin-bottom:16px;">简易计算器</h3>
+                <p style="font-size:16px;color:rgba(255,255,255,0.7);margin-bottom:24px;line-height:1.5;">获取两个数字，计算加、减、乘、除，保留两位小数</p>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;">
+                  <span style="padding:8px 14px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;font-size:14px;color:#a78bfa;">类型转换</span>
+                  <span style="padding:8px 14px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;font-size:14px;color:#a78bfa;">浮点运算</span>
+                  <span style="padding:8px 14px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;font-size:14px;color:#a78bfa;">格式化</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#a78bfa;"><div class="progress-bar"><div class="progress-fill" style="width:83%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 11: 项目任务 -->
+        <div class="slide" id="s11">
+          <div class="slide-header" style="--accent:#a78bfa;"><span class="week-badge">第 2 周</span><span class="course-title">变量与数据类型</span><span class="slide-number">11 / 12</span></div>
+          <div class="slide-content">
+            <h2>项目任务</h2>
+            <div style="display:grid;grid-template-columns:1fr 450px;gap:40px;">
+              <div>
+                <div style="display:flex;align-items:center;gap:24px;margin-bottom:32px;">
+                  <div style="width:88px;height:88px;border-radius:20px;background:linear-gradient(135deg,rgba(167,139,250,0.3),rgba(59,130,246,0.3));border:1px solid rgba(167,139,250,0.4);display:flex;align-items:center;justify-content:center;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                  </div>
+                  <div><span style="font-size:14px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;">项目名称</span><h3 style="font-size:36px;font-weight:700;margin:0;color:#fff;">个人信息卡片程序</h3></div>
+                </div>
+                <p style="font-size:20px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:32px;">综合运用变量和数据类型的知识，编写一个完整的个人信息卡片程序</p>
+                <div style="margin-bottom:28px;">
+                  <h4 style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">功能需求</h4>
+                  <ul>
+                    <li style="display:flex;align-items:center;gap:16px;font-size:20px;margin-bottom:16px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>依次询问姓名、年龄、性别、身高、体重</li>
+                    <li style="display:flex;align-items:center;gap:16px;font-size:20px;margin-bottom:16px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>对输入进行类型转换</li>
+                    <li style="display:flex;align-items:center;gap:16px;font-size:20px;margin-bottom:16px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>计算BMI值并给出健康建议</li>
+                    <li style="display:flex;align-items:center;gap:16px;font-size:20px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>格式化输出信息卡片</li>
+                  </ul>
+                </div>
+              </div>
+              <div>
+                <div class="card" style="margin-bottom:20px;">
+                  <h4 style="font-size:16px;font-weight:600;color:rgba(255,255,255,0.6);margin-bottom:16px;">BMI 参考标准</h4>
+                  <div style="display:flex;flex-wrap:wrap;gap:10px;">
+                    <span style="padding:8px 14px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:8px;font-size:14px;color:#3b82f6;">BMI &lt; 18.5 偏瘦</span>
+                    <span style="padding:8px 14px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);border-radius:8px;font-size:14px;color:#22c55e;">18.5-24 正常</span>
+                    <span style="padding:8px 14px;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.3);border-radius:8px;font-size:14px;color:#f97316;">24-28 偏胖</span>
+                    <span style="padding:8px 14px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;font-size:14px;color:#a78bfa;">BMI &gt; 28 肥胖</span>
+                  </div>
+                </div>
+                <div class="code-block">
+                  <div class="code-header">
+                    <div style="display:flex;gap:8px;"><span class="code-dot" style="background:#ff5f56;"></span><span class="code-dot" style="background:#ffbd2e;"></span><span class="code-dot" style="background:#27c93f;"></span></div>
+                    <span style="font-size:14px;color:rgba(255,255,255,0.5);">BMI公式</span>
+                  </div>
+                  <div class="code-body" style="text-align:center;font-size:24px;">
+                    <div style="color:#22c55e;margin-bottom:12px;">BMI = 体重(kg) / 身高(m)²</div>
+                    <div style="color:rgba(255,255,255,0.5);font-size:16px;">例：68kg / 1.75m² = 22.2</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#22c55e;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(167,139,250,0.1));">
+            <span style="font-size:16px;font-weight:600;color:#22c55e;margin-right:24px;">第 2 周课程结束</span>
+            <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#22c55e;"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      const slides = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11'];
+      const durations = [6, 6, 8, 8, 8, 8, 8, 8, 6, 6, 10];
+      const totalDuration = durations.reduce((a,b)=>a+b,0);
+      let elapsed = 0, current = 0;
+
+      function getCurrentIdx() {
+        let acc = 0;
+        for(let i=0;i<durations.length;i++){
+          if(elapsed < acc + durations[i]) return i;
+          acc += durations[i];
+        }
+        return durations.length - 1;
+      }
+
+      function showSlide(idx) {
+        slides.forEach((id,i)=>{
+          const el = document.getElementById(id);
+          el.style.opacity = i===idx?'1':'0';
+          el.style.transition = 'opacity 0.5s ease';
+        });
+        current = idx;
+      }
+
+      function updateProgress() {
+        const pct = (elapsed / totalDuration) * 100;
+        document.querySelectorAll('.progress-fill').forEach(el=>el.style.width=pct+'%');
+      }
+
+      setInterval(()=>{
+        elapsed++;
+        const newIdx = getCurrentIdx();
+        if(newIdx !== current) showSlide(newIdx);
+        updateProgress();
+        if(elapsed >= totalDuration) elapsed = 0;
+      }, 1000);
+
+      function resizeFrame() {
+        const container = document.querySelector('.preview-container');
+        const frame = document.getElementById('slideFrame');
+        const scale = Math.min(container.clientWidth/1920, container.clientHeight/1080);
+        frame.style.transform = `scale(${scale})`;
+      }
+      window.addEventListener('resize', resizeFrame);
+      resizeFrame();
+      showSlide(0);
+    </script>
+  </body>
+</html>

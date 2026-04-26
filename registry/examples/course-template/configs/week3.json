@@ -1,0 +1,127 @@
+{
+  "week": 3,
+  "title": "运算符与表达式",
+  "subtitle": "Python 编程基础系列课程",
+  "stage": "基础筑基",
+  "hours": 4,
+  "aiStrategy": "本阶段可使用AI进行概念解释和问题解答，但不得用于代码生成",
+  "objectives": {
+    "knowledge": [
+      "掌握Python算术运算符、比较运算符和逻辑运算符的用法",
+      "理解运算符优先级规则，能正确书写复合表达式",
+      "学会字符串的拼接、重复和索引操作",
+      "能综合运用运算符完成BMI计算器项目"
+    ],
+    "ability": [
+      "能正确使用各种运算符进行计算和判断",
+      "能理解并应用运算符优先级",
+      "能使用字符串的相关操作",
+      "能完成BMI计算器项目"
+    ]
+  },
+  "content": {
+    "sections": [
+      {
+        "type": "concept",
+        "title": "算术运算符",
+        "content": "加(+)、减(-)、乘(*)、除(/)、整除(//)、取余(%)、幂(**)。注意单斜杠除法结果永远是浮点数。",
+        "table": {
+            "operator": ["+", "-", "*", "/", "//", "%", "**"],
+            "name": ["加", "减", "乘", "除", "整除", "取余", "幂"],
+            "example": ["10 + 5 = 15", "10 - 5 = 5", "10 * 5 = 50", "10 / 5 = 2.0", "10 // 3 = 3", "10 % 3 = 1", "2 ** 3 = 8"]
+        }
+      },
+      {
+        "type": "concept",
+        "title": "比较运算符与逻辑运算符",
+        "content": "比较运算符结果永远是布尔值(True/False)。逻辑运算符：and(两边都为真才真)、or(有一边为真就真)、not(取反)。"
+      }
+    ],
+    "highlights": ["运算符优先级：先乘除后加减，括号最优先", "字符串可以用 + 拼接、用 * 重复", "== 是比较，= 是赋值"],
+    "applications": ["数据计算", "条件判断", "字符串处理"]
+  },
+  "codeExamples": [
+    {
+      "filename": "operators.py",
+      "title": "算术运算符的基本用法",
+      "difficulty": "基础",
+      "code": "# 基本四则运算\na, b = 17, 5\n\nprint(a + b)    # 22，加法\nprint(a - b)    # 12，减法\nprint(a * b)    # 85，乘法\nprint(a / b)    # 3.4，普通除法\nprint(a // b)   # 3，整除\nprint(a % b)    # 2，取余\nprint(a ** b)   # 1419857，幂运算",
+      "output": "22\n12\n85\n3.4\n3\n2\n1419857",
+      "explanations": [
+        "// 是整除，只保留整数部分",
+        "% 是取余运算，算除法后的余数"
+      ]
+    },
+    {
+      "filename": "bmi_calc.py",
+      "title": "BMI计算器",
+      "difficulty": "进阶",
+      "code": "# BMI计算器\nheight = float(input(\"请输入身高(米): \"))\nweight = float(input(\"请输入体重(kg): \"))\n\nbmi = weight / (height ** 2)\n\n# 判断BMI区间\nif bmi < 18.5:\n    result = \"偏瘦\"\nelif bmi < 24:\n    result = \"正常\"\nelif bmi < 28:\n    result = \"偏胖\"\nelse:\n    result = \"肥胖\"\n\nprint(f\"您的BMI值: {bmi:.1f}\")\nprint(f\"评估结果: {result}\")",
+      "output": "请输入身高(米): 1.75\n请输入体重(kg): 68\n您的BMI值: 22.2\n评估结果: 正常",
+      "explanations": [
+        "height ** 2 表示身高的平方",
+        "f-string 的 :.1f 表示保留一位小数"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "title": "计算表达式值",
+      "difficulty": "基础",
+      "description": "计算以下表达式的值：15 // 4、15 % 4、2 ** 10，先思考再用Python验证。",
+      "hint": "// 是整除，% 是取余，** 是幂运算"
+    },
+    {
+      "title": "判断奇偶与闰年",
+      "difficulty": "进阶",
+      "description": "判断一个数是奇数还是偶数，判断一个年份是否为闰年（能被4整除但不能被100整除，或能被400整除）。",
+      "hint": "用 % 取余判断奇偶，% 2 等于0是偶数"
+    },
+    {
+      "title": "成绩等级判断",
+      "difficulty": "进阶",
+      "description": "输入一个百分制成绩，输出对应的等级。规则：90+是A，80-89是B，70-79是C，60-69是D，60以下是F。",
+      "hint": "使用 if-elif-else 结构和比较运算符"
+    }
+  ],
+  "homework": [
+    {
+      "title": "温度转换器",
+      "required": true,
+      "description": "编写一个程序，实现摄氏度和华氏度之间的互相转换。公式：F = C * 9 / 5 + 32，C = (F - 32) * 5 / 9。",
+      "requirements": [
+        "先询问用户要转换的方向",
+        "再让用户输入温度值",
+        "输出转换结果，保留两位小数"
+      ]
+    },
+    {
+      "title": "购物折扣计算器",
+      "required": false,
+      "description": "根据购买金额和会员等级计算最终应付金额。普通会员满100打9折，银卡8折，金卡7折，满500额外减50。",
+      "features": ["比较运算符", "逻辑运算符", "算术运算符"]
+    }
+  ],
+  "project": {
+    "title": "BMI计算器",
+    "description": "BMI（身体质量指数）是国际上常用的衡量人体胖瘦程度的标准。本项目要编写一个完整的BMI计算器。",
+    "requirements": [
+      "使用 input() 获取用户输入的身高和体重",
+      "计算BMI值（BMI = 体重 / 身高的平方）",
+      "使用比较运算符和逻辑运算符判断BMI区间",
+      "输出BMI值（保留一位小数）和健康评估结果",
+      "程序要有友好的提示信息"
+    ],
+    "extensions": [
+      "增加输入验证，确保身高和体重是正数",
+      "增加对极端值的提示",
+      "美化输出格式"
+    ],
+    "bmiStandards": {
+      "below18_5": "偏瘦",
+      "18_5to24": "正常",
+      "24to28": "偏胖",
+      "above28": "肥胖"
+    }
+  }
+}
