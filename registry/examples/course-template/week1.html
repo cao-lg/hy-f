@@ -54,16 +54,21 @@
   </head>
   <body>
     <div class="preview-container">
+      <div id="subtitleArea" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:1000;max-width:80%;background:rgba(0,0,0,0.85);padding:16px 32px;border-radius:16px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);display:none;">
+        <div id="subtitleText" style="color:#fff;font-size:20px;line-height:1.6;text-align:center;max-width:1200px;"></div>
+      </div>
+      <div id="navControls" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.8);padding:10px 20px;border-radius:50px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);">
+        <button id="prevBtn" onclick="prevSlide()" style="width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all 0.2s;">‹</button>
+        <button id="pauseBtn" onclick="togglePause()" style="width:40px;height:40px;border-radius:50%;border:none;background:#3b82f6;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;transition:all 0.2s;">❚❚</button>
+        <button id="nextBtn" onclick="nextSlide()" style="width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all 0.2s;">›</button>
+        <div style="width:1px;height:24px;background:rgba(255,255,255,0.2);margin:0 4px;"></div>
+        <button id="subtitleBtn" onclick="toggleSubtitle()" style="width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.2s;">CC</button>
+        <span id="slideCounter" style="color:rgba(255,255,255,0.7);font-size:13px;font-family:'IBM Plex Mono',monospace;min-width:50px;text-align:center;">1/11</span>
+      </div>
       <div class="slide-frame" id="slideFrame">
-        <div id="navControls" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:16px;background:rgba(0,0,0,0.8);padding:12px 24px;border-radius:50px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);">
-          <button id="prevBtn" onclick="prevSlide()" style="width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all 0.2s;">‹</button>
-          <button id="pauseBtn" onclick="togglePause()" style="width:44px;height:44px;border-radius:50%;border:none;background:#3b82f6;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;transition:all 0.2s;">❚❚</button>
-          <button id="nextBtn" onclick="nextSlide()" style="width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all 0.2s;">›</button>
-          <span id="slideCounter" style="color:rgba(255,255,255,0.7);font-size:14px;font-family:'IBM Plex Mono',monospace;min-width:60px;text-align:center;">1/11</span>
-        </div>
 
         <!-- SLIDE 1: 标题页 -->
-        <div class="slide" id="s1" style="opacity:1;">
+        <div class="slide" id="s1" data-subtitle="欢迎来到Python编程基础课程！今天是第一周，我们将学习编程的基本概念和环境搭建。" style="opacity:1;">
           <div class="bg-gradient" style="background:radial-gradient(ellipse at 30% 20%, rgba(59,130,246,0.3) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(167,139,250,0.2) 0%, transparent 50%);"></div>
           <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);background-size:80px 80px;"></div>
           <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:100%;max-width:1400px;padding:0 60px;">
@@ -78,7 +83,7 @@
         </div>
 
         <!-- SLIDE 2: 教学目标 -->
-        <div class="slide" id="s2">
+        <div class="slide" id="s2" data-subtitle="本节课有两个核心目标：知识目标是理解编程本质、掌握Python特点和环境搭建；能力目标是能独立安装Python环境并写出第一个程序。">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">02 / 12</span></div>
           <div class="slide-content">
             <h2>教学目标</h2>
@@ -109,7 +114,7 @@
         </div>
 
         <!-- SLIDE 3: 什么是编程 -->
-        <div class="slide" id="s3">
+        <div class="slide" id="s3" data-subtitle="编程是什么？简单说，就是用计算机能听懂的语言，一步步告诉它该做什么。就像指挥一个特别听话但特别笨的机器人，你说什么它就做什么，但需要非常具体的指令。">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">03 / 12</span></div>
           <div class="slide-content">
             <h2>什么是编程？</h2>
@@ -135,7 +140,7 @@
         </div>
 
         <!-- SLIDE 4: 为什么学Python -->
-        <div class="slide" id="s4">
+        <div class="slide" id="s4" data-subtitle="为什么选择Python？因为它语法简单、接近自然语言，应用广泛，特别是人工智能和数据分析领域。同样的工作，Python可能只需要一行代码，其他语言需要五到十行。">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">04 / 12</span></div>
           <div class="slide-content">
             <h2>为什么选择 Python？</h2>
@@ -178,7 +183,7 @@
         </div>
 
         <!-- SLIDE 5: Python能做什么 -->
-        <div class="slide" id="s5">
+        <div class="slide" id="s5" data-subtitle="Python几乎无所不能：网站开发、数据分析、人工智能、游戏、自动化脚本、网络爬虫。几乎可以说，学Python是学一把万能钥匙，能打开很多扇门。">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">05 / 12</span></div>
           <div class="slide-content">
             <h2>Python 能做什么？</h2>
@@ -223,7 +228,7 @@
         </div>
 
         <!-- SLIDE 6: 开发环境介绍 -->
-        <div class="slide" id="s6">
+        <div class="slide" id="s6" data-subtitle="要开始编程，需要安装两个东西：Python解释器和VS Code编辑器。Python解释器是语言的引擎，没有它代码就跑不起来；VS Code是写代码的工具，提供代码高亮和自动补全功能。">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">06 / 12</span></div>
           <div class="slide-content">
             <h2>搭建编程环境</h2>
@@ -263,7 +268,7 @@
         </div>
 
         <!-- SLIDE 7: 运行第一个程序 -->
-        <div class="slide" id="s7">
+        <div class="slide" id="s7" data-subtitle="现在来运行你的第一个程序！只需要三步：第一步打开VS Code新建hello.py文件；第二步写入print函数；第三步保存后在终端输入python hello.py运行。恭喜你，已经是程序员了！">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">07 / 12</span></div>
           <div class="slide-content">
             <h2>运行你的第一个程序</h2>
@@ -302,7 +307,7 @@
         </div>
 
         <!-- SLIDE 8: 代码示例 -->
-        <div class="slide" id="s8">
+        <div class="slide" id="s8" data-subtitle="来看核心代码示例。print是输出函数，括号里的内容会显示在屏幕上。文字要用引号包起来。以#开头的是注释，不会被执行。">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">08 / 12</span></div>
           <div class="slide-content">
             <h2>核心代码示例</h2>
@@ -341,7 +346,7 @@
         </div>
 
         <!-- SLIDE 9: 课堂练习 -->
-        <div class="slide" id="s9">
+        <div class="slide" id="s9" data-subtitle="课堂练习有三个任务：基础任务是修改输出内容，把代码里的名字换成你自己的；进阶任务是添加新的print语句输出食物、电影、季节；挑战任务是做一个自我介绍生成器。">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">09 / 12</span></div>
           <div class="slide-content">
             <h2>课堂练习</h2>
@@ -370,7 +375,7 @@
         </div>
 
         <!-- SLIDE 10: 课后作业 -->
-        <div class="slide" id="s10">
+        <div class="slide" id="s10" data-subtitle="课后作业包括必做的个人信息卡片和选做的对话机器人。个人信息卡片要求包含姓名、年龄、学校、专业、爱好和自我评价，格式要整齐美观。">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">10 / 12</span></div>
           <div class="slide-content">
             <h2>课后作业</h2>
@@ -408,7 +413,7 @@
         </div>
 
         <!-- SLIDE 11: 项目任务 -->
-        <div class="slide" id="s11">
+        <div class="slide" id="s11" data-subtitle="本周项目是数字名片生成器。程序启动后显示欢迎界面，然后依次询问姓名、年龄、专业、爱好，最后生成一张格式整齐的数字名片。拓展挑战包括居中显示、选择边框样式和保存到文件。">
           <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">11 / 12</span></div>
           <div class="slide-content">
             <h2>项目任务</h2>
@@ -482,6 +487,7 @@
       let elapsed = 0;
       let slideStartTime = 0;
       let isPaused = false;
+      let isSubtitleVisible = true;
       let interval = null;
 
       function getCurrentSlideIndex() {
@@ -501,6 +507,11 @@
         current = idx;
         slideStartTime = elapsed;
         document.getElementById('slideCounter').textContent = (idx+1) + '/' + total;
+        const subtitleEl = document.getElementById('subtitleText');
+        const slideEl = document.getElementById(slides[idx]);
+        if(subtitleEl && slideEl) {
+          subtitleEl.textContent = slideEl.getAttribute('data-subtitle') || '';
+        }
       }
 
       function updateProgress() {
@@ -550,27 +561,37 @@
         }
       }
 
+      function toggleSubtitle() {
+        isSubtitleVisible = !isSubtitleVisible;
+        const subtitleArea = document.getElementById('subtitleArea');
+        const btn = document.getElementById('subtitleBtn');
+        if(subtitleArea) {
+          subtitleArea.style.display = isSubtitleVisible ? 'block' : 'none';
+        }
+        if(btn) {
+          btn.style.background = isSubtitleVisible ? '#3b82f6' : 'rgba(255,255,255,0.1)';
+        }
+      }
+
       document.addEventListener('keydown', (e)=>{
         if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
         if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); togglePause(); }
+        if(e.key === 'c' || e.key === 'C') toggleSubtitle();
       });
 
       function resizeFrame() {
         const container = document.querySelector('.preview-container');
         const frame = document.getElementById('slideFrame');
-        const nav = document.getElementById('navControls');
         const scaleX = container.clientWidth / 1920;
         const scaleY = container.clientHeight / 1080;
         const scale = Math.min(scaleX, scaleY);
         frame.style.transform = `scale(${scale})`;
-        if(nav) {
-          nav.style.transform = `translateX(-50%) translateY(${1080*scale + 20}px) scale(${1/scale})`;
-        }
       }
 
       window.addEventListener('resize', resizeFrame);
       startInterval();
       resizeFrame();
+      if(isSubtitleVisible) document.getElementById('subtitleArea').style.display = 'block';
       showSlide(0);
     </script>
   </body>
