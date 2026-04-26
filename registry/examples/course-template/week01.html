@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=1920, height=1080" />
     <title>第1周：编程初识与环境搭建</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/python/python.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <style>
       * { box-sizing: border-box; margin: 0; padding: 0; }
       html, body { margin: 0; width: 100vw; height: 100vh; overflow: hidden; background: #000; font-family: "Inter", sans-serif; }
@@ -53,10 +50,8 @@
       .exercise-title { font-size: 22px; font-weight: 600; color: #fff; }
       .exercise-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.5; margin-bottom: 16px; }
       .exercise-hint { font-size: 13px; color: rgba(255,255,255,0.5); background: rgba(59,130,246,0.1); padding: 12px 16px; border-radius: 8px; margin-top: 12px; }
-      .code-editor { width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; min-height: 120px; }
-      .CodeMirror { height: auto; min-height: 120px; background: #0d1117; color: #c9d1d9; border-radius: 12px; }
-      .CodeMirror-gutters { background: #161b22; border-right: 1px solid rgba(255,255,255,0.1); }
-      .CodeMirror-linenumber { color: #6e7681; }
+      .code-editor { width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #c9d1d9; min-height: 120px; resize: vertical; line-height: 1.6; }
+      .code-editor:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.2); }
       .btn-run { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 10px; padding: 12px 28px; font-size: 15px; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; }
       .btn-run:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34,197,94,0.3); }
       .btn-run:disabled { background: #666; cursor: not-allowed; transform: none; }
@@ -92,8 +87,8 @@
             id: "ex1",
             title: "print() 函数练习",
             difficulty: "基础",
-            description: "在下方代码框输入代码，输出 Hello Python",
-            codeTemplate: "",
+            description: "在下方代码框输入 print('Hello Python') 并运行",
+            codeTemplate: "print('Hello Python')",
             hints: ["print() 函数的括号里放要输出的内容", "文字要用引号包裹"]
           },
           {
@@ -101,15 +96,15 @@
             title: "多行输出",
             difficulty: "基础",
             description: "输出3行内容：你的名字、年龄、爱好",
-            codeTemplate: "",
+            codeTemplate: "print('名字：张三')\nprint('年龄：18')\nprint('爱好：编程')",
             hints: ["每行内容用单独的 print()", "可以用变量存储后再输出"]
           },
           {
             id: "ex3",
             title: "变量使用",
             difficulty: "进阶",
-            description: "定义变量 name 和 age，然后输出自我介绍",
-            codeTemplate: "",
+            description: "定义变量 name 和 age，然后输出",
+            codeTemplate: "name = '张三'\nage = 18\nprint('我叫' + name)\nprint('我' + str(age) + '岁')",
             hints: ["变量用 = 赋值", "字符串和数字拼接要用 str() 转类型"]
           }
         ],
@@ -119,10 +114,10 @@
             title: "个人信息卡片",
             required: true,
             description: "在下方编写代码，输出格式整齐的个人信息卡片",
-            requirements: ["包含姓名、年龄、学校", "使用分隔线装饰", "格式整齐美观"],
-            codeTemplate: "",
+            requirements: ["包含姓名、年龄、学校，专业", "使用分隔线装饰", "格式整齐美观"],
+            codeTemplate: "print('=' * 30)\nprint(' 个人信息卡片')\nprint('=' * 30)\nname = input('姓名: ')\nage = input('年龄: ')\nschool = input('学校: ')\nmajor = input('专业: ')\nprint('=' * 30)\nprint(f'姓名: {name}')\nprint(f'年龄: {age}')\nprint(f'学校: {school}')\nprint(f'专业: {major}')\nprint('=' * 30)",
             testInputs: ["张三", "18", "清华大学", "计算机系"],
-            hints: ["用 print('=' * 20) 画分隔线", "用 input() 获取用户输入", "用 f-string 格式化输出"]
+            hints: ["用 print('=' * 30) 画分隔线", "用 f-string 格式化输出"]
           },
           {
             id: "hw2",
@@ -130,7 +125,7 @@
             required: false,
             description: "编写程序依次询问3个问题，根据回答输出一段有趣的总结",
             features: ["input()", "字符串拼接", "f-string"],
-            codeTemplate: "",
+            codeTemplate: "# 依次询问3个问题\nname = input('你叫什么名字？')\nfood = input('你最喜欢吃什么？')\ndream = input('你的梦想是什么？')\n\n# 输出总结\nprint('=' * 30)\nprint(f'大家好，我叫{name}！')\nprint(f'我最喜欢吃{food}，想想就流口水~')\nprint(f'我的梦想是{dream}，加油！')\nprint('=' * 30)",
             testInputs: ["小明", "冰淇淋", "成为程序员"],
             hints: ["用 input() 获取用户输入", "用 f-string 拼接字符串"]
           }
@@ -146,7 +141,6 @@
       let elapsed = 0;
       let pyodide = null;
       let pyodideReady = false;
-      let exerciseStates = {};
 
       // 初始化
       async function init() {
@@ -155,7 +149,6 @@
         setupKeyboardControls();
         setupResize();
         if(isSubtitleVisible) document.getElementById('subtitleArea').style.display = 'block';
-        initCodeEditors();
         showSlide(0);
       }
 
@@ -539,34 +532,6 @@
         `;
       }
 
-      // 切换练习展开/收起
-      function toggleExercise(id) {
-        const area = document.getElementById('exercise-area-' + id);
-        const isExpanded = exerciseStates[id];
-
-        if (isExpanded) {
-          // 收起 - 恢复按钮
-          const ex = courseData.exercises.find(e => e.id === id) || courseData.homework.find(h => h.id === id);
-          area.innerHTML = `<button class="btn-run" onclick="toggleExercise('${id}')" style="font-size:14px;padding:10px 24px;">${ex.difficulty ? '开始答题' : (ex.required === false ? '开始挑战' : '开始作答')}</button>`;
-          exerciseStates[id] = false;
-        } else {
-          // 展开 - 显示编辑器
-          const ex = courseData.exercises.find(e => e.id === id) || courseData.homework.find(h => h.id === id);
-          area.innerHTML = `
-            <textarea id="code-${id}" class="code-editor" style="min-height:140px;">${ex.codeTemplate || ''}</textarea>
-            <div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;">
-              <button class="btn-run" onclick="runCode('${id}')">运行代码</button>
-              <span id="pyodide-status-${id}" class="pyodide-status">${pyodideReady ? 'Python 就绪' : '加载中...'}</span>
-            </div>
-            <div id="output-${id}" class="output-area hidden">
-              <div id="output-${id}-text" class="output-text"></div>
-            </div>
-            ${ex.hints ? `<div class="exercise-hint"><strong>提示：</strong>${ex.hints.join('；')}</div>` : ''}
-          `;
-          exerciseStates[id] = true;
-        }
-      }
-
       // 运行代码
       async function runCode(id) {
         const codeEl = document.getElementById('code-' + id);
@@ -650,23 +615,11 @@ ${code}
         }
       }
 
-      // 初始化 CodeMirror 编辑器
-      function initCodeEditors() {
-        document.querySelectorAll('.code-editor').forEach(el => {
-          CodeMirror.fromTextArea(el, {
-            mode: 'python',
-            theme: 'default',
-            lineNumbers: true,
-            indentUnit: 4,
-            autofocus: false
-          });
-        });
-      }
-
       // 幻灯片导航
       function showSlide(idx) {
         document.querySelectorAll('.slide').forEach((el, i) => {
           el.style.opacity = i === idx ? '1' : '0';
+          el.style.pointerEvents = i === idx ? 'auto' : 'none';
         });
         current = idx;
         document.getElementById('slideCounter').textContent = (idx + 1) + '/' + slides.length;
@@ -676,9 +629,6 @@ ${code}
         if (slideEl && subtitleEl) {
           subtitleEl.textContent = slideEl.getAttribute('data-subtitle') || '';
         }
-
-        // 重置练习状态
-        exerciseStates = {};
       }
 
       function prevSlide() {
