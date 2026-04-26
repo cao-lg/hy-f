@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Python 编程基础 - 课程模板预览</title>
+  <title>Python 编程基础 - 课程导航</title>
   <style>
     :root {
       --bg: #0a0a0f;
@@ -15,6 +15,15 @@
       --accent-purple: #a78bfa;
       --accent-green: #22c55e;
       --accent-orange: #f97316;
+      --accent-pink: #ec4899;
+      --accent-cyan: #06b6d4;
+      --accent-yellow: #eab308;
+      --accent-indigo: #6366f1;
+      --accent-teal: #14b8a6;
+      --accent-rose: #f43f5e;
+      --accent-amber: #f59e0b;
+      --accent-lime: #84cc16;
+      --accent-sky: #0ea5e9;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,16 +68,16 @@
 
     .weeks-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      max-width: 1200px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1400px;
     }
 
     .week-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
+      border-radius: 12px;
+      padding: 24px;
       transition: border-color 0.2s, transform 0.2s;
       cursor: pointer;
       text-decoration: none;
@@ -77,221 +86,263 @@
     }
 
     .week-card:hover {
-      border-color: var(--accent-blue);
       transform: translateY(-4px);
     }
 
     .week-card.week1:hover { border-color: var(--accent-blue); }
     .week-card.week2:hover { border-color: var(--accent-purple); }
     .week-card.week3:hover { border-color: var(--accent-green); }
+    .week-card.week4:hover { border-color: var(--accent-orange); }
+    .week-card.week5:hover { border-color: var(--accent-blue); }
+    .week-card.week6:hover { border-color: var(--accent-purple); }
+    .week-card.week7:hover { border-color: var(--accent-green); }
+    .week-card.week8:hover { border-color: var(--accent-orange); }
+    .week-card.week9:hover { border-color: var(--accent-blue); }
+    .week-card.week10:hover { border-color: var(--accent-purple); }
+    .week-card.week11:hover { border-color: var(--accent-green); }
+    .week-card.week12:hover { border-color: var(--accent-orange); }
+    .week-card.week13:hover { border-color: var(--accent-pink); }
+    .week-card.week14:hover { border-color: var(--accent-cyan); }
+    .week-card.week15:hover { border-color: var(--accent-indigo); }
+    .week-card.week16:hover { border-color: var(--accent-teal); }
 
     .week-badge {
       display: inline-block;
-      padding: 6px 14px;
+      padding: 4px 10px;
       border-radius: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-
-    .week1 .week-badge {
-      background: rgba(59, 130, 246, 0.15);
-      color: var(--accent-blue);
-    }
-
-    .week2 .week-badge {
-      background: rgba(167, 139, 250, 0.15);
-      color: var(--accent-purple);
-    }
-
-    .week3 .week-badge {
-      background: rgba(34, 197, 94, 0.15);
-      color: var(--accent-green);
-    }
-
-    .week-card h3 {
-      font-size: 24px;
+      font-size: 12px;
       font-weight: 600;
       margin-bottom: 12px;
     }
 
+    .week1 .week-badge { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+    .week2 .week-badge { background: rgba(167, 139, 250, 0.15); color: var(--accent-purple); }
+    .week3 .week-badge { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+    .week4 .week-badge { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
+    .week5 .week-badge { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+    .week6 .week-badge { background: rgba(167, 139, 250, 0.15); color: var(--accent-purple); }
+    .week7 .week-badge { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+    .week8 .week-badge { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
+    .week9 .week-badge { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+    .week10 .week-badge { background: rgba(167, 139, 250, 0.15); color: var(--accent-purple); }
+    .week11 .week-badge { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+    .week12 .week-badge { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
+    .week13 .week-badge { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); }
+    .week14 .week-badge { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+    .week15 .week-badge { background: rgba(99, 102, 241, 0.15); color: var(--accent-indigo); }
+    .week16 .week-badge { background: rgba(20, 184, 166, 0.15); color: var(--accent-teal); }
+
+    .week-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
     .week-card p {
-      font-size: 14px;
+      font-size: 12px;
       color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 20px;
+      line-height: 1.5;
     }
 
     .week-meta {
+      margin-top: 12px;
       display: flex;
-      gap: 16px;
-      font-size: 13px;
-      color: var(--text-tertiary);
+      gap: 12px;
+      font-size: 11px;
+      color: var(--text-secondary);
     }
 
     .week-meta span {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
 
-    .preview-info {
-      margin-top: 48px;
-      padding: 24px;
+    .footer {
+      padding: 24px 60px;
+      border-top: 1px solid var(--border);
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      max-width: 1200px;
-    }
-
-    .preview-info h4 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .preview-info p {
+      text-align: center;
+      color: var(--text-secondary);
       font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .preview-info code {
-      background: rgba(59, 130, 246, 0.1);
-      color: var(--accent-blue);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-family: 'IBM Plex Mono', monospace;
-    }
-
-    .file-list {
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(0,0,0,0.3);
-      border-radius: 8px;
-    }
-
-    .file-list h5 {
-      font-size: 13px;
-      color: var(--text-tertiary);
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .file-list ul {
-      list-style: none;
-      font-size: 13px;
-      font-family: 'IBM Plex Mono', monospace;
-    }
-
-    .file-list li {
-      padding: 6px 0;
-      color: var(--text-secondary);
-    }
-
-    .file-list li::before {
-      content: "├── ";
-      color: var(--border);
-    }
-
-    .file-list li:last-child::before {
-      content: "└── ";
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>Python 编程基础 - 课程模板</h1>
-    <p>基于 Hyperframes 构建的课程学习视频模板</p>
+    <h1>Python 编程基础 - 课程导航</h1>
+    <p>共 16 周课程，点击即可进入学习</p>
   </div>
 
   <div class="content">
-    <h2 class="section-title">选择要预览的周次</h2>
+    <h2 class="section-title">选择要学习的周次</h2>
 
     <div class="weeks-grid">
-      <a href="week1.html" class="week-card week1">
+      <a href="week01.html" class="week-card week1">
         <span class="week-badge">第 1 周</span>
         <h3>编程初识与环境搭建</h3>
-        <p>理解编程的本质，建立「编程是翻译」的核心认知。掌握 Python 开发环境的搭建流程。</p>
+        <p>理解编程本质，搭建Python开发环境</p>
         <div class="week-meta">
-          <span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 6v6l4 2"></path>
-            </svg>
-            4 课时
-          </span>
-          <span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-            </svg>
-            基础筑基
-          </span>
+          <span>4 课时</span>
+          <span>基础筑基</span>
         </div>
       </a>
 
-      <a href="week2.html" class="week-card week2">
+      <a href="week02.html" class="week-card week2">
         <span class="week-badge">第 2 周</span>
         <h3>变量与数据类型</h3>
-        <p>理解变量的概念，掌握四种基本数据类型的特点和用法。学会使用 type() 查看变量类型。</p>
+        <p>理解变量概念，掌握四种基本数据类型</p>
         <div class="week-meta">
-          <span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 6v6l4 2"></path>
-            </svg>
-            4 课时
-          </span>
-          <span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-            </svg>
-            基础筑基
-          </span>
+          <span>4 课时</span>
+          <span>基础筑基</span>
         </div>
       </a>
 
-      <a href="week3.html" class="week-card week3">
+      <a href="week03.html" class="week-card week3">
         <span class="week-badge">第 3 周</span>
         <h3>运算符与表达式</h3>
-        <p>掌握 Python 算术运算符、比较运算符和逻辑运算符的用法。理解运算符优先级规则。</p>
+        <p>掌握算术、比较、逻辑运算符用法</p>
         <div class="week-meta">
-          <span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 6v6l4 2"></path>
-            </svg>
-            4 课时
-          </span>
-          <span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-            </svg>
-            基础筑基
-          </span>
+          <span>4 课时</span>
+          <span>基础筑基</span>
+        </div>
+      </a>
+
+      <a href="week04.html" class="week-card week4">
+        <span class="week-badge">第 4 周</span>
+        <h3>流程控制 - 条件判断</h3>
+        <p>学会 if 语句进行条件判断</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>基础筑基</span>
+        </div>
+      </a>
+
+      <a href="week05.html" class="week-card week5">
+        <span class="week-badge">第 5 周</span>
+        <h3>流程控制 - 循环</h3>
+        <p>掌握 for 和 while 循环的使用</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>基础进阶</span>
+        </div>
+      </a>
+
+      <a href="week06.html" class="week-card week6">
+        <span class="week-badge">第 6 周</span>
+        <h3>阶段复习与项目实战</h3>
+        <p>综合练习，动手完成第一个项目</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>阶段实战</span>
+        </div>
+      </a>
+
+      <a href="week07.html" class="week-card week7">
+        <span class="week-badge">第 7 周</span>
+        <h3>列表与元组</h3>
+        <p>学习 Python 中重要的数据结构</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>能力提升</span>
+        </div>
+      </a>
+
+      <a href="week08.html" class="week-card week8">
+        <span class="week-badge">第 8 周</span>
+        <h3>字典与集合</h3>
+        <p>掌握键值对和集合的使用</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>能力提升</span>
+        </div>
+      </a>
+
+      <a href="week09.html" class="week-card week9">
+        <span class="week-badge">第 9 周</span>
+        <h3>函数基础</h3>
+        <p>学会定义和调用函数</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>能力提升</span>
+        </div>
+      </a>
+
+      <a href="week10.html" class="week-card week10">
+        <span class="week-badge">第 10 周</span>
+        <h3>函数进阶与模块化</h3>
+        <p>学习参数、返回值和模块导入</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>能力提升</span>
+        </div>
+      </a>
+
+      <a href="week11.html" class="week-card week11">
+        <span class="week-badge">第 11 周</span>
+        <h3>文件操作与异常处理</h3>
+        <p>读写文件，处理程序错误</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>能力提升</span>
+        </div>
+      </a>
+
+      <a href="week12.html" class="week-card week12">
+        <span class="week-badge">第 12 周</span>
+        <h3>阶段复习与项目实战</h3>
+        <p>综合练习，数据结构与算法应用</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>阶段实战</span>
+        </div>
+      </a>
+
+      <a href="week13.html" class="week-card week13">
+        <span class="week-badge">第 13 周</span>
+        <h3>面向对象编程基础</h3>
+        <p>理解类和对象的概念</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>进阶拓展</span>
+        </div>
+      </a>
+
+      <a href="week14.html" class="week-card week14">
+        <span class="week-badge">第 14 周</span>
+        <h3>第三方库应用</h3>
+        <p>学习使用 pip 安装和使用第三方库</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>进阶拓展</span>
+        </div>
+      </a>
+
+      <a href="week15.html" class="week-card week15">
+        <span class="week-badge">第 15 周</span>
+        <h3>综合项目开发</h3>
+        <p>完成一个完整的综合项目</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>综合应用</span>
+        </div>
+      </a>
+
+      <a href="week16.html" class="week-card week16">
+        <span class="week-badge">第 16 周</span>
+        <h3>项目答辩与课程总结</h3>
+        <p>展示学习成果，总结课程内容</p>
+        <div class="week-meta">
+          <span>4 课时</span>
+          <span>综合应用</span>
         </div>
       </a>
     </div>
+  </div>
 
-    <div class="preview-info">
-      <h4>模板说明</h4>
-      <p>
-        本模板基于 Hyperframes 视频渲染框架构建，每个课程页面包含 7 个幻灯片：
-        <code>标题页</code> → <code>教学目标</code> → <code>知识点讲解</code> → <code>代码示例</code> → <code>课堂练习</code> → <code>课后作业</code> → <code>项目任务</code>
-      </p>
-      <div class="file-list">
-        <h5>模板文件结构</h5>
-        <ul>
-          <li>index.html (入口页)</li>
-          <li>week1.html (第1周完整模板)</li>
-          <li>week2.html (第2周完整模板)</li>
-          <li>week3.html (第3周完整模板)</li>
-          <li>compositions/ (幻灯片组件)</li>
-          <li>configs/ (课程配置文件)</li>
-        </ul>
-      </div>
-    </div>
+  <div class="footer">
+    <p>Python 编程基础系列课程 - 共 16 周</p>
   </div>
 </body>
 </html>
