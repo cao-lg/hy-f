@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=1920, height=1080" />
   <title>第4周：流程控制：条件判断</title>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/pyodide.js"></script>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/python/python.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,8 +49,10 @@
     .exercise-title { font-size: 22px; font-weight: 600; color: #fff; }
     .exercise-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.5; margin-bottom: 16px; }
     .exercise-hint { font-size: 13px; color: rgba(255,255,255,0.5); background: rgba(59,130,246,0.1); padding: 12px 16px; border-radius: 8px; margin-top: 12px; }
-    .code-editor { width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #c9d1d9; min-height: 120px; resize: vertical; line-height: 1.6; }
-    .code-editor:focus { outline: none; border-color: #f97316; box-shadow: 0 0 0 2px rgba(59,130,246,0.2); }
+    .code-editor { width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; min-height: 120px; }
+    .CodeMirror { height: auto; min-height: 120px; background: #0d1117; color: #c9d1d9; border-radius: 12px; }
+    .CodeMirror-gutters { background: #161b22; border-right: 1px solid rgba(255,255,255,0.1); }
+    .CodeMirror-linenumber { color: #6e7681; }
     .btn-run { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 10px; padding: 12px 28px; font-size: 15px; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; }
     .btn-run:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34,197,94,0.3); }
     .output-area { background: #0d1117; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-top: 16px; min-height: 50px; }
@@ -101,7 +106,20 @@
       setupKeyboardControls();
       setupResize();
       if(isSubtitleVisible) document.getElementById('subtitleArea').style.display = 'block';
+      initCodeEditors();
       showSlide(0);
+    }
+
+    function initCodeEditors() {
+      document.querySelectorAll('.code-editor').forEach(el => {
+        CodeMirror.fromTextArea(el, {
+          mode: 'python',
+          theme: 'default',
+          lineNumbers: true,
+          indentUnit: 4,
+          autofocus: false
+        });
+      });
     }
 
     function renderAllSlides() {
@@ -232,18 +250,29 @@ ${code}`;
     }
 
     async function initPyodide() {
-      try {
-        pyodide = await loadPyodide();
-        pyodideReady = true;
-        document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
-          el.textContent = 'Python 就绪';
-          el.classList.add('pyodide-ready');
-        });
-      } catch (e) {
-        document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
-          el.textContent = '加载失败';
-          el.style.color = '#f97316';
-        });
+      let retries = 3;
+      while (retries > 0) {
+        try {
+          pyodide = await loadPyodide({
+            indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
+          });
+          pyodideReady = true;
+          document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
+            el.textContent = 'Python 就绪';
+            el.classList.add('pyodide-ready');
+          });
+          return;
+        } catch (e) {
+          retries--;
+          if (retries === 0) {
+            document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
+              el.textContent = '加载失败';
+              el.style.color = '#f97316';
+            });
+          } else {
+            await new Promise(r => setTimeout(r, 2000));
+          }
+        }
       }
     }
 
