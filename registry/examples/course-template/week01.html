@@ -87,8 +87,8 @@
             id: "ex1",
             title: "print() 函数练习",
             difficulty: "基础",
-            description: "在下方代码框输入 print('Hello Python') 并运行",
-            codeTemplate: "print('Hello Python')",
+            description: "在下方代码框输入代码，输出 Hello Python",
+            codeTemplate: "",
             hints: ["print() 函数的括号里放要输出的内容", "文字要用引号包裹"]
           },
           {
@@ -96,15 +96,15 @@
             title: "多行输出",
             difficulty: "基础",
             description: "输出3行内容：你的名字、年龄、爱好",
-            codeTemplate: "print('名字：张三')\nprint('年龄：18')\nprint('爱好：编程')",
+            codeTemplate: "",
             hints: ["每行内容用单独的 print()", "可以用变量存储后再输出"]
           },
           {
             id: "ex3",
             title: "变量使用",
             difficulty: "进阶",
-            description: "定义变量 name 和 age，然后输出",
-            codeTemplate: "name = '张三'\nage = 18\nprint('我叫' + name)\nprint('我' + str(age) + '岁')",
+            description: "定义变量 name 和 age，然后输出自我介绍",
+            codeTemplate: "",
             hints: ["变量用 = 赋值", "字符串和数字拼接要用 str() 转类型"]
           }
         ],
@@ -114,10 +114,10 @@
             title: "个人信息卡片",
             required: true,
             description: "在下方编写代码，输出格式整齐的个人信息卡片",
-            requirements: ["包含姓名、年龄、学校，专业", "使用分隔线装饰", "格式整齐美观"],
-            codeTemplate: "print('=' * 30)\nprint(' 个人信息卡片')\nprint('=' * 30)\nname = input('姓名: ')\nage = input('年龄: ')\nschool = input('学校: ')\nmajor = input('专业: ')\nprint('=' * 30)\nprint(f'姓名: {name}')\nprint(f'年龄: {age}')\nprint(f'学校: {school}')\nprint(f'专业: {major}')\nprint('=' * 30)",
+            requirements: ["包含姓名、年龄、学校", "使用分隔线装饰", "格式整齐美观"],
+            codeTemplate: "",
             testInputs: ["张三", "18", "清华大学", "计算机系"],
-            hints: ["用 print('=' * 30) 画分隔线", "用 f-string 格式化输出"]
+            hints: ["用 print('=' * 30) 画分隔线", "用 input() 获取用户输入", "用 f-string 格式化输出"]
           },
           {
             id: "hw2",
@@ -125,7 +125,7 @@
             required: false,
             description: "编写程序依次询问3个问题，根据回答输出一段有趣的总结",
             features: ["input()", "字符串拼接", "f-string"],
-            codeTemplate: "# 依次询问3个问题\nname = input('你叫什么名字？')\nfood = input('你最喜欢吃什么？')\ndream = input('你的梦想是什么？')\n\n# 输出总结\nprint('=' * 30)\nprint(f'大家好，我叫{name}！')\nprint(f'我最喜欢吃{food}，想想就流口水~')\nprint(f'我的梦想是{dream}，加油！')\nprint('=' * 30)",
+            codeTemplate: "",
             testInputs: ["小明", "冰淇淋", "成为程序员"],
             hints: ["用 input() 获取用户输入", "用 f-string 拼接字符串"]
           }
