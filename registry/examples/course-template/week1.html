@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=1920, height=1080" />
     <title>第1周：编程初识与环境搭建</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/pyodide.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <style>
       * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,6 +51,27 @@
       .step-number { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #a78bfa); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: white; margin-bottom: 20px; }
       .step-title { font-size: 28px; font-weight: 600; color: #fff; margin-bottom: 12px; }
       .step-desc { font-size: 20px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+      .exercise-box { background: rgba(30,30,30,0.95); border: 2px solid rgba(59,130,246,0.4); border-radius: 20px; padding: 32px; margin-top: 24px; }
+      .exercise-title { font-size: 24px; font-weight: 600; color: #3b82f6; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+      .exercise-input { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 16px 20px; font-size: 18px; color: #fff; font-family: 'IBM Plex Mono', monospace; resize: vertical; min-height: 80px; }
+      .exercise-input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+      .code-editor { width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #c9d1d9; min-height: 150px; resize: vertical; }
+      .code-editor:focus { outline: none; border-color: #3b82f6; }
+      .btn-run { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 12px; padding: 14px 32px; font-size: 16px; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; }
+      .btn-run:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(34,197,94,0.3); }
+      .btn-run:disabled { background: #666; cursor: not-allowed; transform: none; }
+      .btn-check { background: linear-gradient(135deg, #3b82f6, #2563eb); border: none; border-radius: 12px; padding: 14px 32px; font-size: 16px; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; margin-left: 12px; }
+      .btn-check:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59,130,246,0.3); }
+      .output-area { background: #0d1117; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-top: 16px; min-height: 60px; }
+      .output-text { font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #22c55e; white-space: pre-wrap; }
+      .output-error { color: #f97316; }
+      .feedback-correct { background: rgba(34,197,94,0.2); border: 1px solid rgba(34,197,94,0.5); border-radius: 12px; padding: 16px 24px; margin-top: 16px; color: #22c55e; font-size: 18px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+      .feedback-wrong { background: rgba(249,115,22,0.2); border: 1px solid rgba(249,115,22,0.5); border-radius: 12px; padding: 16px 24px; margin-top: 16px; color: #f97316; font-size: 18px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+      .exercise-btn { background: linear-gradient(135deg, #3b82f6, #2563eb); border: none; border-radius: 16px; padding: 20px 48px; font-size: 22px; font-weight: 600; color: white; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 16px; }
+      .exercise-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(59,130,246,0.4); }
+      .pyodide-status { font-size: 12px; color: rgba(255,255,255,0.5); margin-left: 12px; }
+      .pyodide-ready { color: #22c55e; }
+      .hidden { display: none !important; }
     </style>
   </head>
   <body>
@@ -353,10 +375,146 @@
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
               <div class="card">
                 <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><span class="badge badge-blue">基础</span><span style="font-size:14px;color:rgba(255,255,255,0.4);font-family:'IBM Plex Mono',monospace;">练习 1</span></div>
-                <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:12px;">修改输出内容</h3>
-                <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:16px;">把代码里的名字、专业换成你自己的真实信息</p>
-                <div style="padding:12px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:8px;font-size:14px;color:rgba(255,255,255,0.7);">💡 提示：修改引号里的文字即可</div>
+                <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:12px;">print() 函数练习</h3>
+                <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:16px;">在下方代码框输入 print("Hello Python") 并运行</p>
+                <button class="exercise-btn" onclick="showExercise('ex1')" style="padding:12px 24px;font-size:16px;">开始答题</button>
+                <div id="ex1" class="hidden" style="margin-top:16px;">
+                  <textarea id="code1" class="code-editor" placeholder="# 输入你的代码，例如：print("Hello Python")">print("Hello Python")</textarea>
+                  <div style="margin-top:12px;display:flex;align-items:center;">
+                    <button class="btn-run" onclick="runCode('code1', 'output1')">运行代码</button>
+                    <span id="pyodide-status1" class="pyodide-status">加载中...</span>
+                  </div>
+                  <div id="output1" class="output-area hidden">
+                    <div id="output1-text" class="output-text"></div>
+                  </div>
+                </div>
               </div>
+              <div class="card">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><span class="badge badge-blue">基础</span><span style="font-size:14px;color:rgba(255,255,255,0.4);font-family:'IBM Plex Mono',monospace;">练习 2</span></div>
+                <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:12px;">多行输出</h3>
+                <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:16px;">输出3行内容：你的名字、年龄、爱好</p>
+                <button class="exercise-btn" onclick="showExercise('ex2')" style="padding:12px 24px;font-size:16px;">开始答题</button>
+                <div id="ex2" class="hidden" style="margin-top:16px;">
+                  <textarea id="code2" class="code-editor" placeholder="# 输出你的名字、年龄、爱好">print("名字：张三")
+print("年龄：18")
+print("爱好：编程")</textarea>
+                  <div style="margin-top:12px;display:flex;align-items:center;">
+                    <button class="btn-run" onclick="runCode('code2', 'output2')">运行代码</button>
+                    <span id="pyodide-status2" class="pyodide-status">加载中...</span>
+                  </div>
+                  <div id="output2" class="output-area hidden">
+                    <div id="output2-text" class="output-text"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><span class="badge badge-purple">进阶</span><span style="font-size:14px;color:rgba(255,255,255,0.4);font-family:'IBM Plex Mono',monospace;">练习 3</span></div>
+                <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:12px;">变量使用</h3>
+                <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:16px;">定义变量 name 和 age，然后输出</p>
+                <button class="exercise-btn" onclick="showExercise('ex3')" style="padding:12px 24px;font-size:16px;">开始答题</button>
+                <div id="ex3" class="hidden" style="margin-top:16px;">
+                  <textarea id="code3" class="code-editor" placeholder="# 定义变量并输出">name = "张三"
+age = 18
+print("我叫" + name)
+print("我" + str(age) + "岁")</textarea>
+                  <div style="margin-top:12px;display:flex;align-items:center;">
+                    <button class="btn-run" onclick="runCode('code3', 'output3')">运行代码</button>
+                    <span id="pyodide-status3" class="pyodide-status">加载中...</span>
+                  </div>
+                  <div id="output3" class="output-area hidden">
+                    <div id="output3-text" class="output-text"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#3b82f6;"><div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
+
+        <!-- SLIDE 10: 课后作业 -->
+        <div class="slide" id="s10" data-subtitle="课后作业包括必做的个人信息卡片和选做的对话机器人。个人信息卡片要求包含姓名、年龄、学校，专业、爱好和自我评价，格式要整齐美观。">
+          <div class="slide-header" style="--accent:#3b82f6;"><span class="week-badge">第 1 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">10 / 11</span></div>
+          <div class="slide-content">
+            <h2>课后作业</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+              <div class="card" style="border-color:rgba(34,197,94,0.4);">
+                <div style="margin-bottom:20px;"><span class="badge badge-green">必做</span></div>
+                <h3 style="font-size:28px;font-weight:600;color:#fff;margin-bottom:16px;">个人信息卡片</h3>
+                <p style="font-size:16px;color:rgba(255,255,255,0.7);margin-bottom:20px;line-height:1.5;">在下方编写代码，输出格式整齐的个人信息卡片</p>
+                <div style="margin-bottom:20px;">
+                  <h4 style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:12px;">要求</h4>
+                  <ul style="font-size:15px;">
+                    <li>包含姓名、年龄、学校、专业</li>
+                    <li>使用分隔线装饰</li>
+                    <li>格式整齐美观</li>
+                  </ul>
+                </div>
+                <button class="exercise-btn" onclick="showExercise('hw1')" style="padding:14px 32px;font-size:18px;">开始作答</button>
+                <div id="hw1" class="hidden" style="margin-top:20px;">
+                  <textarea id="code-hw1" class="code-editor" style="min-height:200px;" placeholder="# 在这里编写个人信息卡片代码
+print("=" * 30)
+print(" 个人信息卡片")
+print("=" * 30)
+name = input("姓名: ")
+
+# 继续编写..."># 在这里编写个人信息卡片代码
+print("=" * 30)
+print(" 个人信息卡片")
+print("=" * 30)
+name = input("姓名: ")
+age = input("年龄: ")
+school = input("学校: ")
+major = input("专业: ")
+print("=" * 30)
+print(f"姓名: {name}")
+print(f"年龄: {age}")
+print(f"学校: {school}")
+print(f"专业: {major}")
+print("=" * 30)</textarea>
+                  <div style="margin-top:12px;display:flex;align-items:center;">
+                    <button class="btn-run" onclick="runCode('code-hw1', 'output-hw1')">运行代码</button>
+                    <span id="pyodide-status-hw1" class="pyodide-status">加载中...</span>
+                  </div>
+                  <div id="output-hw1" class="output-area hidden">
+                    <div id="output-hw1-text" class="output-text"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="border-color:rgba(167,139,250,0.4);">
+                <div style="margin-bottom:20px;"><span class="badge badge-purple">选做挑战</span></div>
+                <h3 style="font-size:28px;font-weight:600;color:#fff;margin-bottom:16px;">对话机器人</h3>
+                <p style="font-size:16px;color:rgba(255,255,255,0.7);margin-bottom:20px;line-height:1.5;">编写程序依次询问3个问题，根据回答输出一段有趣的总结</p>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;">
+                  <span style="padding:8px 14px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;font-size:14px;color:#a78bfa;">input()</span>
+                  <span style="padding:8px 14px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;font-size:14px;color:#a78bfa;">字符串拼接</span>
+                  <span style="padding:8px 14px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:8px;font-size:14px;color:#a78bfa;">f-string</span>
+                </div>
+                <button class="exercise-btn" onclick="showExercise('hw2')" style="padding:14px 32px;font-size:18px;">开始挑战</button>
+                <div id="hw2" class="hidden" style="margin-top:20px;">
+                  <textarea id="code-hw2" class="code-editor" style="min-height:220px;" placeholder="# 对话机器人代码"># 依次询问3个问题
+name = input("你叫什么名字？")
+food = input("你最喜欢吃什么？")
+dream = input("你的梦想是什么？")
+
+# 输出总结
+print("=" * 30)
+print(f"大家好，我叫{name}！")
+print(f"我最喜欢吃{food}，想想就流口水~")
+print(f"我的梦想是{dream}，加油！")
+print("=" * 30)</textarea>
+                  <div style="margin-top:12px;display:flex;align-items:center;">
+                    <button class="btn-run" onclick="runCode('code-hw2', 'output-hw2')">运行代码</button>
+                    <span id="pyodide-status-hw2" class="pyodide-status">加载中...</span>
+                  </div>
+                  <div id="output-hw2" class="output-area hidden">
+                    <div id="output-hw2-text" class="output-text"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer" style="--accent:#3b82f6;"><div class="progress-bar"><div class="progress-fill" style="width:83%"></div></div><span class="footer-text">课程进度</span></div>
+        </div>
               <div class="card">
                 <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><span class="badge badge-blue">基础</span><span style="font-size:14px;color:rgba(255,255,255,0.4);font-family:'IBM Plex Mono',monospace;">练习 2</span></div>
                 <h3 style="font-size:24px;font-weight:600;color:#fff;margin-bottom:12px;">添加新的输出</h3>
@@ -593,6 +751,87 @@
       resizeFrame();
       if(isSubtitleVisible) document.getElementById('subtitleArea').style.display = 'block';
       showSlide(0);
+
+      // Pyodide instance
+      let pyodide = null;
+      let pyodideReady = false;
+
+      async function initPyodide(ids) {
+        try {
+          pyodide = await loadPyodide();
+          pyodideReady = true;
+          ids.forEach(id => {
+            const statusEl = document.getElementById('pyodide-status-' + id);
+            if (statusEl) {
+              statusEl.textContent = 'Python 就绪';
+              statusEl.classList.add('pyodide-ready');
+            }
+          });
+        } catch (e) {
+          ids.forEach(id => {
+            const statusEl = document.getElementById('pyodide-status-' + id);
+            if (statusEl) {
+              statusEl.textContent = '加载失败';
+              statusEl.style.color = '#f97316';
+            }
+          });
+        }
+      }
+
+      function showExercise(exId) {
+        const ex = document.getElementById(exId);
+        if (ex) {
+          ex.classList.toggle('hidden');
+        }
+      }
+
+      async function runCode(codeId, outputId) {
+        const code = document.getElementById(codeId).value;
+        const outputEl = document.getElementById(outputId);
+        const outputText = document.getElementById(outputId + '-text');
+
+        if (!outputEl || !outputText) return;
+
+        outputEl.classList.remove('hidden');
+        outputText.textContent = '正在运行...';
+        outputText.className = 'output-text';
+
+        if (!pyodideReady) {
+          outputText.textContent = 'Python 环境加载中，请稍候...';
+          return;
+        }
+
+        try {
+          let result = await pyodide.runPythonAsync(code);
+
+          // 模拟 input() 函数 - 自动提供测试输入
+          pyodide.globals.set('_input_counter', 0);
+          pyodide.globals.set('_test_inputs', ['张三\n', '18\n', 'Python大学\n', '计算机\n', '编程\n', '成为一名开发者\n', '冰淇淋\n', '改变世界\n'].slice(0, (code.match(/input\(/g) || []).length));
+
+          const originalInput = pyodide.globals.get('__builtins__').__dict__.get('input');
+          pyodide.globals.get('__builtins__').__dict__.set('input', function(prompt) {
+            let inputs = pyodide.globals.get('_test_inputs');
+            let counter = pyodide.globals.get('_input_counter');
+            if (counter < inputs.length) {
+              let val = inputs[counter];
+              pyodide.globals.set('_input_counter', counter + 1);
+              if (prompt) console.log(prompt);
+              return val.trim();
+            }
+            return originalInput(prompt);
+          });
+
+          result = await pyodide.runPythonAsync(code);
+          outputText.textContent = result || '(程序执行完成，无输出)';
+          outputText.className = 'output-text';
+        } catch (e) {
+          outputText.textContent = '错误: ' + e.message;
+          outputText.className = 'output-text output-error';
+        }
+      }
+
+      // 初始化所有 Pyodide 实例
+      initPyodide(['1', '2', '3', 'hw1', 'hw2']);
     </script>
   </body>
 </html>
