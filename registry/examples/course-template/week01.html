@@ -551,15 +551,13 @@
         }
 
         try {
-          // 获取练习的测试输入
           const ex = courseData.exercises.find(e => e.id === id) || courseData.homework.find(h => h.id === id);
           const testInputs = ex.testInputs || [];
 
-          // 设置模拟输入
-          let inputIndex = 0;
-          pyodide.globals.set('_mock_inputs', testInputs.join('\n') + '\n');
-
           const wrappedCode = `
+import sys
+from io import StringIO
+
 _mock_inputs = """${testInputs.join('\n')}"""
 _mock_lines = _mock_inputs.split('\\n')
 _mock_idx = 0
@@ -575,10 +573,18 @@ def _mock_input(prompt=''):
 import builtins
 builtins.input = _mock_input
 
+_stdout = StringIO()
+_sys_stdout = sys.stdout
+sys.stdout = _stdout
+
 ${code}
+
+sys.stdout = _sys_stdout
+_result = _stdout.getvalue()
 `;
 
-          let result = await pyodide.runPythonAsync(wrappedCode);
+          await pyodide.runPythonAsync(wrappedCode);
+          const result = pyodide.globals.get('_result');
           outputText.textContent = result || '(程序执行完成)';
           outputText.className = 'output-text';
         } catch (e) {
