@@ -621,7 +621,9 @@ ${code}
         let retries = 3;
         while (retries > 0) {
           try {
-            pyodide = await loadPyodide();
+            pyodide = await loadPyodide({
+              indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
+            });
             pyodideReady = true;
             document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
               el.textContent = 'Python 就绪';
