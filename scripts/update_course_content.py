@@ -26,6 +26,9 @@ def parse_exercise_title(line):
 
 def parse_homework_title(line):
     """从标题行提取作业标题和是否必做"""
+    # 清理 markdown 粗体标记 - 移除所有 **
+    line = line.replace('**', '')
+
     # 格式1：### 作业1：标题 或 ### 作业1：xxx（必做）
     match = re.search(r'作业\s*(\d+)[：:]\s*(.+)', line)
     if match:
