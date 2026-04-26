@@ -1,82 +1,87 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1920, height=1080" />
-  <title>第13周：：面向对象编程基础</title>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>第1周：编程初识与环境搭建</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { margin: 0; width: 100vw; height: 100vh; overflow: hidden; background: #000; font-family: "Inter", sans-serif; }
+      .preview-container { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: #111; }
+      .slide-frame { width: 1920px; height: 1080px; position: relative; transform-origin: center center; }
+      .slide { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; opacity: 0; pointer-events: none; overflow: hidden; }
+      .slide.active { opacity: 1; pointer-events: auto; }
+      .slide-content-wrapper { position: relative; width: 100%; height: calc(100% - 170px); margin-top: 100px; padding: 0 80px 80px; overflow-y: auto; }
+      .bg-gradient { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+      .slide-header { position: absolute; top: 0; left: 0; right: 0; height: 100px; display: flex; align-items: center; padding: 0 80px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(20px); z-index: 10; }
+      .week-badge { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: var(--accent, #ec4899); border-radius: 8px; font-size: 18px; font-weight: 600; color: white; }
+      .course-title { margin-left: 32px; font-size: 22px; font-weight: 500; color: rgba(255,255,255,0.7); }
+      .slide-number { margin-left: auto; font-size: 18px; color: rgba(255,255,255,0.4); font-family: "IBM Plex Mono", monospace; }
+      .slide-footer { position: absolute; bottom: 0; left: 0; right: 0; height: 70px; display: flex; align-items: center; padding: 0 80px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(20, 20, 20, 0.8); z-index: 10; }
+      .progress-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+      .progress-fill { height: 100%; background: var(--accent, #ec4899); transition: width 0.5s ease; }
+      .footer-text { margin-left: 32px; font-size: 16px; color: rgba(255,255,255,0.5); }
+      h1 { font-size: 120px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; background: linear-gradient(135deg,#fff 0%,#888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      h2 { font-size: 64px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 48px; color: #fff; }
+      .card { background: rgba(30, 30, 30, 0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px; backdrop-filter: blur(10px); }
+      .badge { display: inline-flex; padding: 8px 16px; border-radius: 8px; font-size: 16px; font-weight: 600; }
+      .badge-blue { background: rgba(59, 130, 246, 0.2); color: #ec4899; border: 1px solid rgba(59, 130, 246, 0.4); }
+      .badge-green { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.4); }
+      .badge-purple { background: rgba(167, 139, 250, 0.2); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.4); }
+      ul { list-style: none; }
+      ul li { position: relative; padding-left: 36px; margin-bottom: 20px; font-size: 26px; line-height: 1.5; color: rgba(255,255,255,0.8); }
+      ul li::before { content: ""; position: absolute; left: 0; top: 10px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent, #ec4899); }
+      .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+      .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+      .highlight-text { font-size: 32px; font-weight: 600; color: #fff; line-height: 1.5; }
+      .highlight-text span { color: #ec4899; }
+      .tag-list { display: flex; flex-wrap: wrap; gap: 16px; }
+      .tag { padding: 12px 24px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; font-size: 20px; color: rgba(255,255,255,0.8); }
+      .step-number { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #ec4899, #a78bfa); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: white; margin-bottom: 20px; }
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { margin: 0; width: 100vw; height: 100vh; overflow: hidden; background: #000; font-family: "Inter", sans-serif; }
-    .preview-container { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: #111; }
-    .slide-frame { width: 1920px; height: 1080px; position: relative; transform-origin: center center; }
-    .slide { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; opacity: 0; pointer-events: none; overflow: hidden; }
-    .slide.active { opacity: 1; pointer-events: auto; }
-    .slide-content-wrapper { position: relative; width: 100%; height: calc(100% - 170px); margin-top: 100px; padding: 0 80px 80px; overflow-y: auto; }
-    .bg-gradient { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    .slide-header { position: absolute; top: 0; left: 0; right: 0; height: 100px; display: flex; align-items: center; padding: 0 80px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(20px); z-index: 10; }
-    .week-badge { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: var(--accent, #3b82f6); border-radius: 8px; font-size: 18px; font-weight: 600; color: white; }
-    .course-title { margin-left: 32px; font-size: 22px; font-weight: 500; color: rgba(255,255,255,0.7); }
-    .slide-number { margin-left: auto; font-size: 18px; color: rgba(255,255,255,0.4); font-family: "IBM Plex Mono", monospace; }
-    .slide-footer { position: absolute; bottom: 0; left: 0; right: 0; height: 70px; display: flex; align-items: center; padding: 0 80px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(20, 20, 20, 0.8); z-index: 10; }
-    .progress-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--accent, #3b82f6); transition: width 0.5s ease; }
-    .footer-text { margin-left: 32px; font-size: 16px; color: rgba(255,255,255,0.5); }
-    h1 { font-size: 120px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; background: linear-gradient(135deg,#fff 0%,#888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    h2 { font-size: 64px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 48px; color: #fff; }
-    .card { background: rgba(30, 30, 30, 0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px; backdrop-filter: blur(10px); }
-    .badge { display: inline-flex; padding: 8px 16px; border-radius: 8px; font-size: 16px; font-weight: 600; }
-    .badge-blue { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.4); }
-    .badge-green { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.4); }
-    .badge-purple { background: rgba(167, 139, 250, 0.2); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.4); }
-    ul { list-style: none; }
-    ul li { position: relative; padding-left: 36px; margin-bottom: 20px; font-size: 26px; line-height: 1.5; color: rgba(255,255,255,0.8); }
-    ul li::before { content: ""; position: absolute; left: 0; top: 10px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent, #3b82f6); }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-    .highlight-text { font-size: 32px; font-weight: 600; color: #fff; line-height: 1.5; }
-    .highlight-text span { color: #3b82f6; }
-    .step-number { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #a78bfa); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: white; margin-bottom: 20px; }
-    .exercise-card { background: rgba(30,30,30,0.95); border: 2px solid rgba(59,130,246,0.4); border-radius: 20px; padding: 28px; transition: all 0.3s; }
-    .exercise-card:hover { border-color: rgba(59,130,246,0.6); transform: translateY(-2px); }
-    .exercise-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-    .exercise-title { font-size: 22px; font-weight: 600; color: #fff; }
-    .exercise-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.5; margin-bottom: 16px; }
-    .exercise-hint { font-size: 13px; color: rgba(255,255,255,0.5); background: rgba(59,130,246,0.1); padding: 12px 16px; border-radius: 8px; margin-top: 12px; }
-    .code-editor { width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #c9d1d9; min-height: 120px; resize: vertical; line-height: 1.5; }
-    .code-editor:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.2); }
-    .btn-run { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 10px; padding: 12px 28px; font-size: 15px; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; }
-    .btn-run:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34,197,94,0.3); }
-    .output-area { background: #0d1117; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-top: 16px; min-height: 50px; }
-    .output-text { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #22c55e; white-space: pre-wrap; line-height: 1.6; }
-    .output-error { color: #f97316; }
-    .pyodide-status { font-size: 12px; color: rgba(255,255,255,0.5); margin-left: 12px; }
-    .pyodide-ready { color: #22c55e; }
-    .hidden { display: none !important; }
-  </style>
-</head>
-<body>
-  <div class="preview-container">
-    <div id="subtitleArea" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:1000;max-width:80%;background:rgba(0,0,0,0.85);padding:16px 32px;border-radius:16px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);display:none;">
-      <div id="subtitleText" style="color:#fff;font-size:20px;line-height:1.6;text-align:center;max-width:1200px;"></div>
+      /* Exercise styles */
+      .exercise-card { background: rgba(30,30,30,0.95); border: 2px solid rgba(59,130,246,0.4); border-radius: 20px; padding: 28px; transition: all 0.3s; }
+      .exercise-card:hover { border-color: rgba(59,130,246,0.6); transform: translateY(-2px); }
+      .exercise-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+      .exercise-title { font-size: 22px; font-weight: 600; color: #fff; }
+      .exercise-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.5; margin-bottom: 16px; }
+      .exercise-hint { font-size: 13px; color: rgba(255,255,255,0.5); background: rgba(59,130,246,0.1); padding: 12px 16px; border-radius: 8px; margin-top: 12px; }
+      .code-editor { width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #c9d1d9; min-height: 120px; resize: vertical; line-height: 1.6; }
+      .code-editor:focus { outline: none; border-color: #ec4899; box-shadow: 0 0 0 2px rgba(59,130,246,0.2); }
+      .btn-run { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 10px; padding: 12px 28px; font-size: 15px; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; }
+      .btn-run:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34,197,94,0.3); }
+      .btn-run:disabled { background: #666; cursor: not-allowed; transform: none; }
+      .output-area { background: #0d1117; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-top: 16px; min-height: 50px; }
+      .output-text { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #22c55e; white-space: pre-wrap; line-height: 1.6; }
+      .output-error { color: #f97316; }
+      .pyodide-status { font-size: 12px; color: rgba(255,255,255,0.5); margin-left: 12px; }
+      .pyodide-ready { color: #22c55e; }
+      .hidden { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <div class="preview-container">
+      <div id="subtitleArea" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:1000;max-width:80%;background:rgba(0,0,0,0.85);padding:16px 32px;border-radius:16px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);display:none;">
+        <div id="subtitleText" style="color:#fff;font-size:20px;line-height:1.6;text-align:center;max-width:1200px;"></div>
+      </div>
+      <div id="navControls" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.8);padding:10px 20px;border-radius:50px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);">
+        <button id="prevBtn" onclick="prevSlide()" style="width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all 0.2s;">‹</button>
+        <button id="pauseBtn" onclick="togglePause()" style="width:40px;height:40px;border-radius:50%;border:none;background:#ec4899;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;transition:all 0.2s;">❚❚</button>
+        <button id="nextBtn" onclick="nextSlide()" style="width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all 0.2s;">›</button>
+        <div style="width:1px;height:24px;background:rgba(255,255,255,0.2);margin:0 4px;"></div>
+        <button id="subtitleBtn" onclick="toggleSubtitle()" style="width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.2s;">CC</button>
+        <span id="slideCounter" style="color:rgba(255,255,255,0.7);font-size:13px;font-family:'IBM Plex Mono',monospace;min-width:50px;text-align:center;">1/11</span>
+      </div>
+      <div class="slide-frame" id="slideFrame"></div>
     </div>
-    <div id="navControls" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.8);padding:10px 20px;border-radius:50px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);">
-      <button id="prevBtn" onclick="prevSlide()" style="width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all 0.2s;">‹</button>
-      <button id="pauseBtn" onclick="togglePause()" style="width:40px;height:40px;border-radius:50%;border:none;background:#3b82f6;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;transition:all 0.2s;">❚❚</button>
-      <button id="nextBtn" onclick="nextSlide()" style="width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all 0.2s;">›</button>
-      <div style="width:1px;height:24px;background:rgba(255,255,255,0.2);margin:0 4px;"></div>
-      <button id="subtitleBtn" onclick="toggleSubtitle()" style="width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.2s;">CC</button>
-      <span id="slideCounter" style="color:rgba(255,255,255,0.7);font-size:13px;font-family:'IBM Plex Mono',monospace;min-width:50px;text-align:center;">1/11</span>
-    </div>
-    <div class="slide-frame" id="slideFrame"></div>
-  </div>
 
-  <script>
-    const courseData = {
+    <script>
+      // 课程配置数据
+      const courseData = {
       exercises: [
           {
             id: "ex1",
@@ -125,7 +130,7 @@
             title: "图书管理系统完善",
             required: false,
             description: "基于课堂上的Book、User、Library三个类，完成以下扩展： - 给User类添加一个借阅历史记录功能，记录借出和归还的时间 - 给Library类添加搜索功能，能按书名或作者搜索图书 - 给Library类添加统计功能，统计最受欢迎的图书（被借次数最多） - 编写一个简单的命令行交互界面，让用户能通过菜单操作图书管理系统",
-            requirements: ['给User类添加一个借阅历史记录功能，记录借出和归还的时间', '给Library类添加搜索功能，能按书名或作者搜索图书', '给Library类添加统计功能，统计最受欢迎的图书（被借次数最多）', '编写一个简单的命令行交互界面，让用户能通过菜单操作图书管理系统'],
+            requirements: ["给User类添加一个借阅历史记录功能，记录借出和归还的时间", "给Library类添加搜索功能，能按书名或作者搜索图书", "给Library类添加统计功能，统计最受欢迎的图书（被借次数最多）", "编写一个简单的命令行交互界面，让用户能通过菜单操作图书管理系统"],
             codeTemplate: "",
             testInputs: [],
             hints: []
@@ -135,7 +140,119 @@
             title: "面向对象思维练习",
             required: false,
             description: "从你的日常生活中选择一个场景（比如超市购物、点外卖、坐地铁），用面向对象的方式设计类结构： - 识别出至少3个类 - 为每个类设计合理的属性和方法 - 体现类之间的关系（继承或组合） - 写出完整的Python代码并创建对象进行测试",
-            requirements: ['识别出至少3个类', '为每个类设计合理的属性和方法', '体现类之间的关系（继承或组合）', '写出完整的Python代码并创建对象进行测试'],
+            requirements: ["识别出至少3个类", "为每个类设计合理的属性和方法", "体现类之间的关系（继承或组合）", "写出完整的Python代码并创建对象进行测试"],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          }
+      ]
+    };,
+          {
+            id: "ex2",
+            title: "练习2",
+            difficulty: "基础",
+            description: "在示例1的基础上，再添加3行print，分别输出你最喜欢的食物、最喜欢的电影、最喜欢的季节。",
+            codeTemplate: "",
+            hints: ["每添加一行信息就写一个`print()`。"]
+          },
+          {
+            id: "ex3",
+            title: "练习3",
+            difficulty: "基础",
+            description: "在示例3的基础上，增加两个input，分别询问「你的家乡是哪里」和「你的座右铭是什么」，然后在自我介绍中输出这些信息。",
+            codeTemplate: "",
+            hints: ["新增两个变量，然后在print里用`+`号拼接进去。"]
+          },
+          {
+            id: "ex4",
+            title: "练习4",
+            difficulty: "基础",
+            description: "用print()输出一个你喜欢的餐厅的菜单，格式如下： ``` ================================ 欢迎来到美味食堂 ================================ 1. 红烧肉    18元 2. 宫保鸡丁  15元 3. 麻婆豆腐  12元 4. 蛋炒饭    10元 ================================ ```",
+            codeTemplate: "",
+            hints: ["用`print(\"=\" * 32)`画线，用空格对齐文字。"]
+          },
+          {
+            id: "ex5",
+            title: "练习5",
+            difficulty: "基础",
+            description: "用你学到的print和input，做一个「心情记录器」。让用户输入今天的心情（开心/一般/难过）和一件事，然后输出一段有针对性的回复。",
+            codeTemplate: "",
+            hints: ["可以用多个if判断来根据不同心情输出不同回复，if语句我们第4周会详细学，现在可以提前尝试一下。"]
+          }
+      ],
+      homework: [
+          {
+            id: "hw1",
+            title: "个人信息卡片（必做）",
+            required: true,
+            description: "编写一个Python程序，运行后输出一张格式整齐的「个人信息卡片」。卡片需要包含你的姓名、年龄、学校、专业、爱好、自我评价（一句话）。要求格式整齐美观，有分隔线装饰。 评分标准： - 信息完整（6项内容都有）：40分 - 格式整齐（有分隔线、对齐）：30分 - 代码规范（有注释、变量命名合理）：30分",
+            requirements: ["信息完整（6项内容都有）：40分", "格式整齐（有分隔线、对齐）：30分", "代码规范（有注释、变量命名合理）：30分"],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          },
+          {
+            id: "hw2",
+            title: "对话机器人（选做）",
+            required: false,
+            description: "编写一个简单的对话机器人程序，程序会依次问你3个问题，然后根据你的回答输出一段总结。问题可以自己设计，比如「今天天气怎么样」「你吃了什么」「你在做什么」。",
+            requirements: [],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          }
+      ]
+    };,
+          {
+            id: "ex2",
+            title: "练习2",
+            difficulty: "基础",
+            description: "在示例1的基础上，再添加3行print，分别输出你最喜欢的食物、最喜欢的电影、最喜欢的季节。",
+            codeTemplate: "",
+            hints: ['每添加一行信息就写一个`print()`。']
+          },
+          {
+            id: "ex3",
+            title: "练习3",
+            difficulty: "基础",
+            description: "在示例3的基础上，增加两个input，分别询问「你的家乡是哪里」和「你的座右铭是什么」，然后在自我介绍中输出这些信息。",
+            codeTemplate: "",
+            hints: ['新增两个变量，然后在print里用`+`号拼接进去。']
+          },
+          {
+            id: "ex4",
+            title: "练习4",
+            difficulty: "基础",
+            description: "用print()输出一个你喜欢的餐厅的菜单，格式如下： ``` ================================ 欢迎来到美味食堂 ================================ 1. 红烧肉    18元 2. 宫保鸡丁  15元 3. 麻婆豆腐  12元 4. 蛋炒饭    10元 ================================ ```",
+            codeTemplate: "",
+            hints: ['用`print("=" * 32)`画线，用空格对齐文字。']
+          },
+          {
+            id: "ex5",
+            title: "练习5",
+            difficulty: "基础",
+            description: "用你学到的print和input，做一个「心情记录器」。让用户输入今天的心情（开心/一般/难过）和一件事，然后输出一段有针对性的回复。",
+            codeTemplate: "",
+            hints: ['可以用多个if判断来根据不同心情输出不同回复，if语句我们第4周会详细学，现在可以提前尝试一下。']
+          }
+      ],
+      homework: [
+          {
+            id: "hw1",
+            title: "个人信息卡片（必做）",
+            required: true,
+            description: "编写一个Python程序，运行后输出一张格式整齐的「个人信息卡片」。卡片需要包含你的姓名、年龄、学校、专业、爱好、自我评价（一句话）。要求格式整齐美观，有分隔线装饰。 评分标准： - 信息完整（6项内容都有）：40分 - 格式整齐（有分隔线、对齐）：30分 - 代码规范（有注释、变量命名合理）：30分",
+            requirements: ['信息完整（6项内容都有）：40分', '格式整齐（有分隔线、对齐）：30分', '代码规范（有注释、变量命名合理）：30分'],
+            codeTemplate: "",
+            testInputs: [],
+            hints: []
+          },
+          {
+            id: "hw2",
+            title: "对话机器人（选做）",
+            required: false,
+            description: "编写一个简单的对话机器人程序，程序会依次问你3个问题，然后根据你的回答输出一段总结。问题可以自己设计，比如「今天天气怎么样」「你吃了什么」「你在做什么」。",
+            requirements: [],
             codeTemplate: "",
             testInputs: [],
             hints: []
@@ -143,121 +260,436 @@
       ]
     };;;;;;;;;;
 
-    const week_num = 13;
-    const title = "：面向对象编程基础";
-    const accent_color = "#3b82f6";
-    const knowledge_items = ``;
-    const ability_items = ``;
+      // 幻灯片定义
+      const slides = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11'];
+      const durations = [6, 6, 8, 8, 8, 8, 8, 8, 6, 6, 10];
+      let current = 0;
+      let isPaused = false;
+      let isSubtitleVisible = true;
+      let elapsed = 0;
+      let pyodide = null;
+      let pyodideReady = false;
 
-    const slides = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11'];
-    const durations = [6, 6, 8, 8, 8, 8, 8, 8, 6, 6, 10];
-    let current = 0;
-    let isPaused = false;
-    let isSubtitleVisible = true;
-    let pyodide = null;
-    let pyodideReady = false;
-
-    async function init() {
-      renderAllSlides();
-      initPyodide();
-      setupKeyboardControls();
-      setupResize();
-      if(isSubtitleVisible) document.getElementById('subtitleArea').style.display = 'block';
-      showSlide(0);
-    }
-
-    function renderAllSlides() {
-      const frame = document.getElementById('slideFrame');
-      frame.innerHTML = `
-        ${renderSlide1(week_num, title)}
-        ${renderSlide2(week_num, title, knowledge_items, ability_items, accent_color)}
-        ${renderSlide3(week_num, accent_color)}
-        ${renderSlide4(week_num, accent_color)}
-        ${renderSlide5(week_num, accent_color)}
-        ${renderSlide6(week_num, accent_color)}
-        ${renderSlide7(week_num, accent_color)}
-        ${renderSlide8(week_num, accent_color)}
-        ${renderSlide9(week_num, accent_color)}
-        ${renderSlide10(week_num, accent_color)}
-        ${renderSlide11(week_num, accent_color)}
-      `;
-    }
-
-    function renderSlide1(week, title) {
-      return `<div class="slide" id="s1" data-subtitle="欢迎来到Python编程基础课程！今天是第${week}周。" style="opacity:1;"><div class="bg-gradient" style="background:radial-gradient(ellipse at 30% 20%, rgba(59,130,246,0.3) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(167,139,250,0.2) 0%, transparent 50%);"></div><div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);background-size:80px 80px;"></div><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:100%;max-width:1400px;padding:0 60px;"><div style="margin-bottom:40px;"><span class="badge badge-blue" style="padding:16px 32px;font-size:22px;">第 ${week} 周</span></div><h1>${title}</h1><p style="font-size:32px;color:rgba(255,255,255,0.6);margin-top:32px;">Python 编程基础系列课程</p></div></div>`;
-    }
-
-    function renderSlide2(week, title, knowledge, ability, accent) {
-      return `<div class="slide" id="s2" data-subtitle="本节课有两个核心目标：知识目标和能力目标。"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="course-title">${title}</span><span class="slide-number">02 / 11</span></div><div class="slide-content-wrapper"><h2>教学目标</h2><div class="grid-2"><div class="card"><div style="width:72px;height:72px;border-radius:16px;background:rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:24px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div><h3 style="font-size:28px;font-weight:600;margin-bottom:24px;color:#fff;">知识目标</h3><ul style="--accent:${accent};">${knowledge}</ul></div><div class="card"><div style="width:72px;height:72px;border-radius:16px;background:rgba(167,139,250,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:24px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><h3 style="font-size:28px;font-weight:600;margin-bottom:24px;color:#fff;">能力目标</h3><ul style="--accent:#a78bfa;">${ability}</ul></div></div></div><div class="slide-footer" style="--accent:${accent};"><div class="progress-bar"><div class="progress-fill" style="width:17%"></div></div><span class="footer-text">课程进度</span></div></div>`;
-    }
-
-    function renderSlide3(week, accent) {
-      return `<div class="slide" id="s3" data-subtitle="知识点讲解"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="slide-number">03 / 11</span></div><div class="slide-content-wrapper"><h2>知识点讲解</h2><div class="two-col"><div><p class="highlight-text" style="margin-bottom:40px;">本节将介绍<span>核心概念</span></p><div class="card" style="margin-bottom:24px;"><h3 style="font-size:26px;font-weight:600;color:#fff;margin-bottom:24px;">重要概念</h3><ul><li style="margin-bottom:16px;">概念一说明</li><li style="margin-bottom:16px;">概念二说明</li><li style="margin-bottom:16px;">概念三说明</li></ul></div></div><div><div class="card" style="text-align:center;padding:48px;"><div style="font-size:120px;margin-bottom:24px;">📚</div><p style="font-size:20px;color:rgba(255,255,255,0.7);line-height:1.6;">认真学习本节内容，掌握核心知识点。</p></div></div></div></div><div class="slide-footer" style="--accent:${accent};"><div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div><span class="footer-text">课程进度</span></div></div>`;
-    }
-
-    function renderSlide4(week, accent) {
-      return `<div class="slide" id="s4" data-subtitle="继续深入学习"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="slide-number">04 / 11</span></div><div class="slide-content-wrapper"><h2>深入理解</h2><div class="two-col"><div><p class="highlight-text" style="margin-bottom:32px;"><span>实践应用</span></p><div class="card" style="margin-bottom:24px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:28px;color:#a5d6ff;margin-bottom:16px;">示例代码</div><p style="font-size:20px;color:rgba(255,255,255,0.7);">结合实例理解概念</p></div></div><div><h3 style="font-size:26px;font-weight:600;color:#fff;margin-bottom:24px;">关键要点</h3><div style="display:flex;flex-direction:column;gap:16px;"><div class="card" style="display:flex;align-items:center;gap:20px;padding:24px;"><span style="font-size:28px;">✓</span><span style="font-size:20px;color:rgba(255,255,255,0.9);">要点一</span></div><div class="card" style="display:flex;align-items:center;gap:20px;padding:24px;"><span style="font-size:28px;">✓</span><span style="font-size:20px;color:rgba(255,255,255,0.9);">要点二</span></div><div class="card" style="display:flex;align-items:center;gap:20px;padding:24px;"><span style="font-size:28px;">✓</span><span style="font-size:20px;color:rgba(255,255,255,0.9);">要点三</span></div></div></div></div></div><div class="slide-footer" style="--accent:${accent};"><div class="progress-bar"><div class="progress-fill" style="width:33%"></div></div><span class="footer-text">课程进度</span></div></div>`;
-    }
-
-    function renderSlide5(week, accent) {
-      return `<div class="slide" id="s5" data-subtitle="更多应用场景"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="slide-number">05 / 11</span></div><div class="slide-content-wrapper"><h2>应用场景</h2><p style="font-size:28px;color:rgba(255,255,255,0.7);margin-bottom:48px;">实际开发中的应用</p><div class="grid-3" style="margin-bottom:40px;"><div class="card" style="text-align:center;padding:32px;"><div style="font-size:48px;margin-bottom:16px;">🌐</div><h4 style="font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">场景一</h4><p style="font-size:16px;color:rgba(255,255,255,0.6);">说明文字</p></div><div class="card" style="text-align:center;padding:32px;"><div style="font-size:48px;margin-bottom:16px;">📊</div><h4 style="font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">场景二</h4><p style="font-size:16px;color:rgba(255,255,255,0.6);">说明文字</p></div><div class="card" style="text-align:center;padding:32px;"><div style="font-size:48px;margin-bottom:16px;">🤖</div><h4 style="font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">场景三</h4><p style="font-size:16px;color:rgba(255,255,255,0.6);">说明文字</p></div></div></div><div class="slide-footer" style="--accent:${accent};"><div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div><span class="footer-text">课程进度</span></div></div>`;
-    }
-
-    function renderSlide6(week, accent) {
-      return `<div class="slide" id="s6" data-subtitle="环境配置"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="slide-number">06 / 11</span></div><div class="slide-content-wrapper"><h2>环境配置</h2><p style="font-size:26px;color:rgba(255,255,255,0.7);margin-bottom:40px;">搭建开发环境</p><div class="grid-2"><div class="card"><div style="display:flex;align-items:center;gap:24px;margin-bottom:32px;"><div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,${accent},#2563eb);display:flex;align-items:center;justify-content:center;font-size:40px;">⚙️</div><div><h3 style="font-size:28px;font-weight:600;color:#fff;margin-bottom:8px;">环境要求</h3><p style="font-size:18px;color:rgba(255,255,255,0.6);">开发环境说明</p></div></div><ul style="--accent:${accent};"><li>Python 3.x</li><li>代码编辑器</li><li>网络连接</li></ul></div><div class="card"><div style="display:flex;align-items:center;gap:24px;margin-bottom:32px;"><div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,#22c55e,#16a34a);display:flex;align-items:center;justify-content:center;font-size:40px;">✓</div><div><h3 style="font-size:28px;font-weight:600;color:#fff;margin-bottom:8px;">验证安装</h3><p style="font-size:18px;color:rgba(255,255,255,0.6);">检查配置是否正确</p></div></div><ul style="--accent:#22c55e;"><li>验证步骤一</li><li>验证步骤二</li><li>验证步骤三</li></ul></div></div></div><div class="slide-footer" style="--accent:${accent};"><div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div><span class="footer-text">课程进度</span></div></div>`;
-    }
-
-    function renderSlide7(week, accent) {
-      return `<div class="slide" id="s7" data-subtitle="代码演示"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="slide-number">07 / 11</span></div><div class="slide-content-wrapper"><h2>代码演示</h2><div style="display:flex;flex-direction:column;gap:24px;max-width:900px;"><div style="display:flex;align-items:center;gap:24px;"><div class="step-number">1</div><div><div style="font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;">第一步</div><div style="font-size:18px;color:rgba(255,255,255,0.7);">说明内容</div></div></div><div style="display:flex;align-items:center;gap:24px;"><div class="step-number">2</div><div><div style="font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;">第二步</div><div style="font-size:18px;color:rgba(255,255,255,0.7);">说明内容</div></div></div><div style="display:flex;align-items:center;gap:24px;"><div class="step-number">3</div><div><div style="font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;">第三步</div><div style="font-size:18px;color:rgba(255,255,255,0.7);">说明内容</div></div></div></div></div><div class="slide-footer" style="--accent:${accent};"><div class="progress-bar"><div class="progress-fill" style="width:58%"></div></div><span class="footer-text">课程进度</span></div></div>`;
-    }
-
-    function renderSlide8(week, accent) {
-      return `<div class="slide" id="s8" data-subtitle="核心代码示例"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="slide-number">08 / 11</span></div><div class="slide-content-wrapper"><h2>核心代码示例</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;"><div style="background:#0d1117;border:1px solid rgba(255,255,255,0.1);border-radius:16px;overflow:hidden;"><div style="display:flex;align-items:center;gap:12px;padding:16px 24px;background:rgba(30,30,30,0.9);border-bottom:1px solid rgba(255,255,255,0.1);"><div style="display:flex;gap:8px;"><span style="width:14px;height:14px;border-radius:50%;background:#ff5f56;"></span><span style="width:14px;height:14px;border-radius:50%;background:#ffbd2e;"></span><span style="width:14px;height:14px;border-radius:50%;background:#27c93f;"></span></div><span style="font-size:16px;color:rgba(255,255,255,0.6);font-family:'IBM Plex Mono',monospace;">example.py</span><span class="badge badge-green" style="margin-left:auto;font-size:12px;">示例</span></div><div style="padding:32px;font-family:'IBM Plex Mono',monospace;font-size:22px;line-height:2;color:#c9d1d9;"><span style="color:#8b949e;"># 代码示例</span><br><br><span style="color:#d2a8ff;">print</span>(<span style="color:#a5d6ff;">"Hello Python"</span>)</div></div><div><div class="card" style="margin-bottom:24px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;color:rgba(255,255,255,0.6);font-size:18px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>运行结果</div><div style="font-family:'IBM Plex Mono',monospace;font-size:22px;line-height:2;color:#22c55e;">Hello Python</div></div><div class="card"><p style="font-size:18px;color:rgba(255,255,255,0.9);line-height:1.6;"><code style="background:rgba(59,130,246,0.2);padding:4px 8px;border-radius:4px;color:${accent};font-family:'IBM Plex Mono',monospace;">print()</code> 函数用于输出内容。</p></div></div></div></div><div class="slide-footer" style="--accent:${accent};"><div class="progress-bar"><div class="progress-fill" style="width:67%"></div></div><span class="footer-text">课程进度</span></div></div>`;
-    }
-
-    function renderExerciseCard(ex) {
-      return `<div class="exercise-card" id="card-${ex.id}"><div class="exercise-header"><span class="badge badge-${ex.difficulty === '基础' ? 'blue' : 'purple'}">${ex.difficulty}</span><span class="exercise-title">${ex.title}</span></div><p class="exercise-desc">${ex.description}</p><textarea id="code-${ex.id}" class="code-editor">${ex.codeTemplate || ''}</textarea><div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;"><button class="btn-run" onclick="runCode('${ex.id}')">运行代码</button><span id="pyodide-status-${ex.id}" class="pyodide-status">Python 加载中...</span></div><div id="output-${ex.id}" class="output-area hidden"><div id="output-${ex.id}-text" class="output-text"></div></div>${ex.hints && ex.hints.length ? `<div class="exercise-hint"><strong>提示：</strong>${ex.hints.join('；')}</div>` : ''}</div>`;
-    }
-
-    function renderHomeworkCard(hw) {
-      return `<div class="exercise-card" id="card-${hw.id}" style="border-color:${hw.required ? 'rgba(34,197,94,0.4)' : 'rgba(167,139,250,0.4)'};"><div class="exercise-header"><span class="badge ${hw.required ? 'badge-green' : 'badge-purple'}">${hw.required ? '必做' : '选做挑战'}</span><span class="exercise-title">${hw.title}</span></div><p class="exercise-desc">${hw.description}</p>${hw.requirements ? `<ul style="font-size:14px;color:rgba(255,255,255,0.6);margin:12px 0 12px 20px;">${hw.requirements.map(r => `<li style="margin:4px 0;">${r}</li>`).join('')}></ul>` : ''}${hw.features ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">${hw.features.map(f => `<span style="padding:6px 12px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:6px;font-size:12px;color:#a78bfa;">${f}</span>`).join('')}</div>` : ''}<textarea id="code-${hw.id}" class="code-editor">${hw.codeTemplate || ''}</textarea><div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;"><button class="btn-run" onclick="runCode('${hw.id}')">运行代码</button><span id="pyodide-status-${hw.id}" class="pyodide-status">Python 加载中...</span></div><div id="output-${hw.id}" class="output-area hidden"><div id="output-${hw.id}-text" class="output-text"></div></div>${hw.hints && hw.hints.length ? `<div class="exercise-hint"><strong>提示：</strong>${hw.hints.join('；')}</div>` : ''}</div>`;
-    }
-
-    function renderSlide9(week, accent) {
-      return `<div class="slide" id="s9" data-subtitle="课堂练习"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="slide-number">09 / 11</span></div><div class="slide-content-wrapper"><h2>课堂练习</h2><div class="grid-3">${courseData.exercises.map(ex => renderExerciseCard(ex)).join('')}</div></div><div class="slide-footer" style="--accent:${accent};"><div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div><span class="footer-text">课程进度</span></div></div>`;
-    }
-
-    function renderSlide10(week, accent) {
-      return `<div class="slide" id="s10" data-subtitle="课后作业"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="slide-number">10 / 11</span></div><div class="slide-content-wrapper"><h2>课后作业</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">${courseData.homework.map(hw => renderHomeworkCard(hw)).join('')}</div></div><div class="slide-footer" style="--accent:${accent};"><div class="progress-bar"><div class="progress-fill" style="width:83%"></div></div><span class="footer-text">课程进度</span></div></div>`;
-    }
-
-    function renderSlide11(week, accent) {
-      return `<div class="slide" id="s11" data-subtitle="项目任务"><div class="slide-header" style="--accent:${accent};"><span class="week-badge">第 ${week} 周</span><span class="slide-number">11 / 11</span></div><div class="slide-content-wrapper"><h2>项目任务</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;"><div><div style="display:flex;align-items:center;gap:24px;margin-bottom:32px;"><div style="width:88px;height:88px;border-radius:20px;background:linear-gradient(135deg,rgba(59,130,246,0.3),rgba(167,139,250,0.3));border:1px solid rgba(59,130,246,0.4);display:flex;align-items:center;justify-content:center;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="${accent}" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div><div><span style="font-size:14px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;">项目名称</span><h3 style="font-size:36px;font-weight:700;margin:0;color:#fff;">综合项目</h3></div></div><p style="font-size:20px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:32px;">运用本节所学知识，完成一个综合项目。</p><div style="margin-bottom:28px;"><h4 style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">功能需求</h4><ul><li style="display:flex;align-items:center;gap:16px;font-size:20px;margin-bottom:16px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>需求一</li><li style="display:flex;align-items:center;gap:16px;font-size:20px;margin-bottom:16px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>需求二</li><li style="display:flex;align-items:center;gap:16px;font-size:20px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>需求三</li></ul></div></div><div class="card"><h4 style="font-size:18px;font-weight:600;color:#fff;margin-bottom:20px;">拓展挑战</h4><div style="display:flex;flex-direction:column;gap:12px;"><div style="padding:16px;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.3);border-radius:10px;"><span style="font-size:16px;color:#f97316;">拓展一</span><p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;">拓展说明</p></div><div style="padding:16px;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.3);border-radius:10px;"><span style="font-size:16px;color:#f97316;">拓展二</span><p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;">拓展说明</p></div></div></div></div></div><div class="slide-footer" style="--accent:#22c55e;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(59,130,246,0.1));"><span style="font-size:16px;font-weight:600;color:#22c55e;margin-right:24px;">第 ${week} 周课程结束</span><div class="progress-bar"><div class="progress-fill" style="width:100%;background:#22c55e;"></div></div></div></div>`;
-    }
-
-    async function runCode(id) {
-      const codeEl = document.getElementById('code-' + id);
-      const outputEl = document.getElementById('output-' + id);
-      const outputText = document.getElementById('output-' + id + '-text');
-      if (!codeEl || !outputEl || !outputText) return;
-
-      const code = codeEl.value;
-      outputEl.classList.remove('hidden');
-      outputText.textContent = '正在运行...';
-      outputText.className = 'output-text';
-
-      if (!pyodideReady) {
-        outputText.textContent = 'Python 环境加载中，请稍候...';
-        return;
+      // 初始化
+      async function init() {
+        renderAllSlides();
+        initPyodide();
+        setupKeyboardControls();
+        setupResize();
+        if(isSubtitleVisible) document.getElementById('subtitleArea').style.display = 'block';
+        showSlide(0);
       }
 
-      try {
-        const ex = courseData.exercises.find(e => e.id === id) || courseData.homework.find(h => h.id === id);
-        const testInputs = ex.testInputs || [];
-        const wrappedCode = `_mock_inputs = """${testInputs.join('
-')}"""
-_mock_lines = _mock_inputs.split('\n')
+      // 渲染所有幻灯片
+      function renderAllSlides() {
+        const frame = document.getElementById('slideFrame');
+        frame.innerHTML = `
+          ${renderSlide1()}
+          ${renderSlide2()}
+          ${renderSlide3()}
+          ${renderSlide4()}
+          ${renderSlide5()}
+          ${renderSlide6()}
+          ${renderSlide7()}
+          ${renderSlide8()}
+          ${renderSlide9()}
+          ${renderSlide10()}
+          ${renderSlide11()}
+        `;
+      }
+
+      // 各幻灯片渲染函数
+      function renderSlide1() {
+        return `
+          <div class="slide" id="s1" data-subtitle="欢迎来到Python编程基础课程！今天是第一周，我们将学习编程的基本概念和环境搭建。" style="opacity:1;">
+            <div class="bg-gradient" style="background:radial-gradient(ellipse at 30% 20%, rgba(59,130,246,0.3) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(167,139,250,0.2) 0%, transparent 50%);"></div>
+            <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);background-size:80px 80px;"></div>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:100%;max-width:1400px;padding:0 60px;">
+              <div style="margin-bottom:40px;"><span class="badge badge-blue" style="padding:16px 32px;font-size:22px;">第 13 周</span></div>
+              <h1>编程初识<br><br>与环境搭建</h1>
+              <p style="font-size:32px;color:rgba(255,255,255,0.6);margin-top:32px;">Python 编程基础系列课程</p>
+              <div style="display:flex;align-items:center;justify-content:center;gap:48px;margin-top:56px;">
+                <span style="display:flex;align-items:center;gap:12px;font-size:20px;color:rgba(255,255,255,0.5);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>4 课时</span>
+                <span style="display:flex;align-items:center;gap:12px;font-size:20px;color:rgba(255,255,255,0.5);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path></svg>基础筑基</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderSlide2() {
+        return `
+          <div class="slide" id="s2" data-subtitle="本节课有两个核心目标：知识目标是理解编程本质、掌握Python特点和环境搭建；能力目标是能独立安装Python环境并写出第一个程序。">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">02 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>教学目标</h2>
+              <div class="grid-2">
+                <div class="card">
+                  <div style="width:72px;height:72px;border-radius:16px;background:rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:24px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
+                  <h3 style="font-size:28px;font-weight:600;margin-bottom:24px;color:#fff;">知识目标</h3>
+                  <ul style="--accent:#ec4899;">
+                    <li>理解编程的本质，建立「编程是翻译」的核心认知</li>
+                    <li>了解Python语言的特点、应用领域和发展历史</li>
+                    <li>掌握Python开发环境的搭建流程</li>
+                    <li>理解程序的基本运行过程</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <div style="width:72px;height:72px;border-radius:16px;background:rgba(167,139,250,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:24px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+                  <h3 style="font-size:28px;font-weight:600;margin-bottom:24px;color:#fff;">能力目标</h3>
+                  <ul style="--accent:#a78bfa;">
+                    <li>能独立完成Python开发环境的安装和配置</li>
+                    <li>能编写并运行第一个Python程序</li>
+                    <li>能使用print()函数在屏幕上输出信息</li>
+                    <li>能识别并解决常见的环境配置问题</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#ec4899;"><div class="progress-bar"><div class="progress-fill" style="width:17%"></div></div><span class="footer-text">课程进度</span></div>
+          </div>
+        `;
+      }
+
+      function renderSlide3() {
+        return `
+          <div class="slide" id="s3" data-subtitle="编程是什么？简单说，就是用计算机能听懂的语言，一步步告诉它该做什么。就像指挥一个特别听话但特别笨的机器人，你说什么它就做什么，但需要非常具体的指令。">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">03 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>什么是编程？</h2>
+              <div class="two-col">
+                <div>
+                  <p class="highlight-text" style="margin-bottom:40px;">编程是<span>用计算机能听懂的语言</span>，一步一步地告诉它该做什么。</p>
+                  <div class="card" style="margin-bottom:24px;">
+                    <h3 style="font-size:26px;font-weight:600;color:#fff;margin-bottom:24px;">🤖 机器人的特点</h3>
+                    <ul>
+                      <li style="margin-bottom:16px;">绝对听话，你说什么它就做什么</li>
+                      <li style="margin-bottom:16px;">非常笨，需要非常具体的指令</li>
+                      <li style="margin-bottom:16px;">不会「猜」你的意思</li>
+                      <li>每一句指令都必须清晰明确</li>
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <div class="card" style="text-align:center;padding:48px;">
+                    <div style="font-size:120px;margin-bottom:24px;">🤖</div>
+                    <p style="font-size:20px;color:rgba(255,255,255,0.7);line-height:1.6;">想象一下，你面前坐着一个特别听话的机器人。你说什么它就做什么，绝不还嘴。但你得把每一步都说清楚，少一步它就愣在那儿了。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#ec4899;"><div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div><span class="footer-text">课程进度</span></div>
+          </div>
+        `;
+      }
+
+      function renderSlide4() {
+        return `
+          <div class="slide" id="s4" data-subtitle="为什么选择Python？因为它语法简单、接近自然语言，应用广泛，特别是人工智能和数据分析领域。同样的工作，Python可能只需要一行代码，其他语言需要五到十行。">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">04 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>为什么选择 Python？</h2>
+              <div class="two-col">
+                <div>
+                  <p class="highlight-text" style="margin-bottom:32px;"><span>接近人话</span>，容易学习</p>
+                  <div class="card" style="margin-bottom:24px;">
+                    <div style="font-family:'IBM Plex Mono',monospace;font-size:28px;color:#a5d6ff;margin-bottom:16px;">print("你好，世界")</div>
+                    <p style="font-size:20px;color:rgba(255,255,255,0.7);">看！就这么简单，一行代码就能让计算机说话</p>
+                  </div>
+                </div>
+                <div>
+                  <h3 style="font-size:26px;font-weight:600;color:#fff;margin-bottom:24px;">Python 的优势</h3>
+                  <div style="display:flex;flex-direction:column;gap:16px;">
+                    <div class="card" style="display:flex;align-items:center;gap:20px;padding:24px;"><span style="font-size:28px;">✓</span><span style="font-size:20px;color:rgba(255,255,255,0.9);">语法简单，接近自然语言</span></div>
+                    <div class="card" style="display:flex;align-items:center;gap:20px;padding:24px;"><span style="font-size:28px;">✓</span><span style="font-size:20px;color:rgba(255,255,255,0.9);">应用广泛，各行各业都在用</span></div>
+                    <div class="card" style="display:flex;align-items:center;gap:20px;padding:24px;"><span style="font-size:28px;">✓</span><span style="font-size:20px;color:rgba(255,255,255,0.9);">社区活跃，学习资源丰富</span></div>
+                    <div class="card" style="display:flex;align-items:center;gap:20px;padding:24px;"><span style="font-size:28px;">✓</span><span style="font-size:20px;color:rgba(255,255,255,0.9);">人工智能、数据分析首选语言</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#ec4899;"><div class="progress-bar"><div class="progress-fill" style="width:33%"></div></div><span class="footer-text">课程进度</span></div>
+          </div>
+        `;
+      }
+
+      function renderSlide5() {
+        return `
+          <div class="slide" id="s5" data-subtitle="Python几乎无所不能：网站开发、数据分析、人工智能、游戏、自动化脚本、网络爬虫。几乎可以说，学Python是学一把万能钥匙，能打开很多扇门。">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">05 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>Python 能做什么？</h2>
+              <p style="font-size:28px;color:rgba(255,255,255,0.7);margin-bottom:48px;">这个问题应该反过来问 —— Python 不能干什么？</p>
+              <div class="grid-3" style="margin-bottom:40px;">
+                <div class="card" style="text-align:center;padding:32px;"><div style="font-size:48px;margin-bottom:16px;">🌐</div><h4 style="font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">网站开发</h4><p style="font-size:16px;color:rgba(255,255,255,0.6);">Instagram、豆瓣</p></div>
+                <div class="card" style="text-align:center;padding:32px;"><div style="font-size:48px;margin-bottom:16px;">📊</div><h4 style="font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">数据分析</h4><p style="font-size:16px;color:rgba(255,255,255,0.6);">处理海量数据</p></div>
+                <div class="card" style="text-align:center;padding:32px;"><div style="font-size:48px;margin-bottom:16px;">🤖</div><h4 style="font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">人工智能</h4><p style="font-size:16px;color:rgba(255,255,255,0.6);">机器学习、深度学习</p></div>
+                <div class="card" style="text-align:center;padding:32px;"><div style="font-size:48px;margin-bottom:16px;">🎮</div><h4 style="font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">游戏开发</h4><p style="font-size:16px;color:rgba(255,255,255,0.6);">简单2D游戏</p></div>
+                <div class="card" style="text-align:center;padding:32px;"><div style="font-size:48px;margin-bottom:16px;">⚡</div><h4 style="font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">自动化脚本</h4><p style="font-size:16px;color:rgba(255,255,255,0.6);">批量处理文件</p></div>
+                <div class="card" style="text-align:center;padding:32px;"><div style="font-size:48px;margin-bottom:16px;">🕷️</div><h4 style="font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">网络爬虫</h4><p style="font-size:16px;color:rgba(255,255,255,0.6);">抓取网页数据</p></div>
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#ec4899;"><div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div><span class="footer-text">课程进度</span></div>
+          </div>
+        `;
+      }
+
+      function renderSlide6() {
+        return `
+          <div class="slide" id="s6" data-subtitle="要开始编程，需要安装两个东西：Python解释器和VS Code编辑器。Python解释器是语言的引擎，没有它代码就跑不起来；VS Code是写代码的工具，提供代码高亮和自动补全功能。">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">06 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>搭建编程环境</h2>
+              <p style="font-size:26px;color:rgba(255,255,255,0.7);margin-bottom:40px;">想炒菜要有锅和灶，想编程要有环境和编辑器</p>
+              <div class="grid-2">
+                <div class="card">
+                  <div style="display:flex;align-items:center;gap:24px;margin-bottom:32px;">
+                    <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,#f97316,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:40px;">🐍</div>
+                    <div><h3 style="font-size:28px;font-weight:600;color:#fff;margin-bottom:8px;">Python 解释器</h3><p style="font-size:18px;color:rgba(255,255,255,0.6);">编程语言的「引擎」</p></div>
+                  </div>
+                  <ul style="--accent:#f97316;">
+                    <li>去 python.org 下载安装</li>
+                    <li>Windows 用户记得勾选<strong style="color:#f97316;"> "Add Python to PATH"</strong></li>
+                    <li>没有它，代码就跑不起来</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <div style="display:flex;align-items:center;gap:24px;margin-bottom:32px;">
+                    <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,#ec4899,#2563eb);display:flex;align-items:center;justify-content:center;font-size:40px;">📝</div>
+                    <div><h3 style="font-size:28px;font-weight:600;color:#fff;margin-bottom:8px;">VS Code 编辑器</h3><p style="font-size:18px;color:rgba(255,255,255,0.6);">写代码的工具</p></div>
+                  </div>
+                  <ul style="--accent:#ec4899;">
+                    <li>微软出品的免费编辑器</li>
+                    <li>代码高亮、自动补全、查错</li>
+                    <li>全世界程序员都在用</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#ec4899;"><div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div><span class="footer-text">课程进度</span></div>
+          </div>
+        `;
+      }
+
+      function renderSlide7() {
+        return `
+          <div class="slide" id="s7" data-subtitle="现在来运行你的第一个程序！只需要三步：第一步打开VS Code新建hello.py文件；第二步写入print函数；第三步保存后在终端输入python hello.py运行。恭喜你，已经是程序员了！">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">07 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>运行你的第一个程序</h2>
+              <div style="display:flex;flex-direction:column;gap:24px;max-width:900px;">
+                <div style="display:flex;align-items:center;gap:24px;">
+                  <div class="step-number">1</div>
+                  <div><div style="font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;">打开 VS Code</div><div style="font-size:18px;color:rgba(255,255,255,0.7);">新建一个文件，保存为 <code style="background:rgba(59,130,246,0.2);padding:4px 12px;border-radius:6px;color:#ec4899;">hello.py</code></div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:24px;">
+                  <div class="step-number">2</div>
+                  <div><div style="font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;">写代码</div><div style="font-size:18px;color:rgba(255,255,255,0.7);">在里面写上：<code style="background:rgba(59,130,246,0.2);padding:4px 12px;border-radius:6px;color:#ec4899;">print("你好，世界")</code></div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:24px;">
+                  <div class="step-number">3</div>
+                  <div><div style="font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;">保存并运行</div><div style="font-size:18px;color:rgba(255,255,255,0.7);">在终端输入 <code style="background:rgba(59,130,246,0.2);padding:4px 12px;border-radius:6px;color:#ec4899;">python hello.py</code> 回车</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:24px;">
+                  <div class="step-number" style="background:linear-gradient(135deg,#22c55e,#16a34a);">✓</div>
+                  <div><div style="font-size:24px;font-weight:600;color:#fff;margin-bottom:8px;">看到输出</div><div style="font-size:18px;color:rgba(255,255,255,0.7);">屏幕上出现「你好，世界」—— 恭喜你，已经是程序员了！</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#ec4899;"><div class="progress-bar"><div class="progress-fill" style="width:58%"></div></div><span class="footer-text">课程进度</span></div>
+          </div>
+        `;
+      }
+
+      function renderSlide8() {
+        return `
+          <div class="slide" id="s8" data-subtitle="来看核心代码示例。print是输出函数，括号里的内容会显示在屏幕上。文字要用引号包起来。以#开头的是注释，不会被执行。">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">08 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>核心代码示例</h2>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+                <div style="background:#0d1117;border:1px solid rgba(255,255,255,0.1);border-radius:16px;overflow:hidden;">
+                  <div style="display:flex;align-items:center;gap:12px;padding:16px 24px;background:rgba(30,30,30,0.9);border-bottom:1px solid rgba(255,255,255,0.1);">
+                    <div style="display:flex;gap:8px;"><span style="width:14px;height:14px;border-radius:50%;background:#ff5f56;"></span><span style="width:14px;height:14px;border-radius:50%;background:#ffbd2e;"></span><span style="width:14px;height:14px;border-radius:50%;background:#27c93f;"></span></div>
+                    <span style="font-size:16px;color:rgba(255,255,255,0.6);font-family:'IBM Plex Mono',monospace;">hello.py</span>
+                    <span class="badge badge-green" style="margin-left:auto;font-size:12px;">基础</span>
+                  </div>
+                  <div style="padding:32px;font-family:'IBM Plex Mono',monospace;font-size:22px;line-height:2;color:#c9d1d9;">
+                    <span style="color:#8b949e;"># 这是你的第一个Python程序</span><br>
+                    <span style="color:#8b949e;"># 以#开头的是注释，不会被执行</span><br><br>
+                    <span style="color:#d2a8ff;">print</span>(<span style="color:#a5d6ff;">"你好，世界"</span>)<br>
+                    <span style="color:#d2a8ff;">print</span>(<span style="color:#a5d6ff;">"我叫张三"</span>)
+                  </div>
+                </div>
+                <div>
+                  <div class="card" style="margin-bottom:24px;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;color:rgba(255,255,255,0.6);font-size:18px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>运行结果</div>
+                    <div style="font-family:'IBM Plex Mono',monospace;font-size:22px;line-height:2;color:#22c55e;">你好，世界<br>我叫张三</div>
+                  </div>
+                  <div class="card">
+                    <p style="font-size:18px;color:rgba(255,255,255,0.9);line-height:1.6;"><code style="background:rgba(59,130,246,0.2);padding:4px 8px;border-radius:4px;color:#ec4899;font-family:'IBM Plex Mono',monospace;">print()</code> 的括号里放什么，就显示什么。文字要用引号包起来。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#ec4899;"><div class="progress-bar"><div class="progress-fill" style="width:67%"></div></div><span class="footer-text">课程进度</span></div>
+          </div>
+        `;
+      }
+
+      function renderExerciseCard(ex) {
+        return `
+          <div class="exercise-card" id="card-${ex.id}">
+            <div class="exercise-header">
+              <span class="badge badge-${ex.difficulty === '基础' ? 'blue' : 'purple'}">${ex.difficulty}</span>
+              <span class="exercise-title">${ex.title}</span>
+            </div>
+            <p class="exercise-desc">${ex.description}</p>
+            <textarea id="code-${ex.id}" class="code-editor">${ex.codeTemplate || ''}</textarea>
+            <div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;">
+              <button class="btn-run" onclick="runCode('${ex.id}')">运行代码</button>
+              <span id="pyodide-status-${ex.id}" class="pyodide-status">Python 加载中...</span>
+            </div>
+            <div id="output-${ex.id}" class="output-area hidden">
+              <div id="output-${ex.id}-text" class="output-text"></div>
+            </div>
+            ${ex.hints && ex.hints.length ? `<div class="exercise-hint"><strong>提示：</strong>${ex.hints.join('；')}</div>` : ''}
+          </div>
+        `;
+      }
+
+      function renderHomeworkCard(hw) {
+        return `
+          <div class="exercise-card" id="card-${hw.id}" style="border-color:${hw.required ? 'rgba(34,197,94,0.4)' : 'rgba(167,139,250,0.4)'};">
+            <div class="exercise-header">
+              <span class="badge ${hw.required ? 'badge-green' : 'badge-purple'}">${hw.required ? '必做' : '选做挑战'}</span>
+              <span class="exercise-title">${hw.title}</span>
+            </div>
+            <p class="exercise-desc">${hw.description}</p>
+            ${hw.requirements ? `<ul style="font-size:14px;color:rgba(255,255,255,0.6);margin:12px 0 12px 20px;">${hw.requirements.map(r => `<li style="margin:4px 0;">${r}</li>`).join('')}</ul>` : ''}
+            ${hw.features ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">${hw.features.map(f => `<span style="padding:6px 12px;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:6px;font-size:12px;color:#a78bfa;">${f}</span>`).join('')}</div>` : ''}
+            <textarea id="code-${hw.id}" class="code-editor">${hw.codeTemplate || ''}</textarea>
+            <div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:12px;">
+              <button class="btn-run" onclick="runCode('${hw.id}')">运行代码</button>
+              <span id="pyodide-status-${hw.id}" class="pyodide-status">Python 加载中...</span>
+            </div>
+            <div id="output-${hw.id}" class="output-area hidden">
+              <div id="output-${hw.id}-text" class="output-text"></div>
+            </div>
+            ${hw.hints && hw.hints.length ? `<div class="exercise-hint"><strong>提示：</strong>${hw.hints.join('；')}</div>` : ''}
+          </div>
+        `;
+      }
+
+      function renderSlide9() {
+        return `
+          <div class="slide" id="s9" data-subtitle="课堂练习有三个任务：基础任务是修改输出内容，把代码里的名字换成你自己的；进阶任务是添加新的print语句输出食物、电影、季节；挑战任务是做一个自我介绍生成器。">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">09 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>课堂练习</h2>
+              <div class="grid-3">
+                ${courseData.exercises.map(ex => renderExerciseCard(ex)).join('')}
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#ec4899;"><div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div><span class="footer-text">课程进度</span></div>
+          </div>
+        `;
+      }
+
+      function renderSlide10() {
+        return `
+          <div class="slide" id="s10" data-subtitle="课后作业包括必做的个人信息卡片和选做的对话机器人。个人信息卡片要求包含姓名、年龄、学校，专业、爱好和自我评价，格式要整齐美观。">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">10 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>课后作业</h2>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+                ${courseData.homework.map(hw => renderHomeworkCard(hw)).join('')}
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#ec4899;"><div class="progress-bar"><div class="progress-fill" style="width:83%"></div></div><span class="footer-text">课程进度</span></div>
+          </div>
+        `;
+      }
+
+      function renderSlide11() {
+        return `
+          <div class="slide" id="s11" data-subtitle="本周项目是数字名片生成器。程序启动后显示欢迎界面，然后依次询问姓名、年龄，专业、爱好，最后生成一张格式整齐的数字名片。拓展挑战包括居中显示、选择边框样式和保存到文件。">
+            <div class="slide-header" style="--accent:#ec4899;"><span class="week-badge">第 13 周</span><span class="course-title">编程初识与环境搭建</span><span class="slide-number">11 / 11</span></div>
+            <div class="slide-content-wrapper">
+              <h2>项目任务</h2>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+                <div>
+                  <div style="display:flex;align-items:center;gap:24px;margin-bottom:32px;">
+                    <div style="width:88px;height:88px;border-radius:20px;background:linear-gradient(135deg,rgba(59,130,246,0.3),rgba(167,139,250,0.3));border:1px solid rgba(59,130,246,0.4);display:flex;align-items:center;justify-content:center;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
+                    <div><span style="font-size:14px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;">项目名称</span><h3 style="font-size:36px;font-weight:700;margin:0;color:#fff;">数字名片生成器</h3></div>
+                  </div>
+                  <p style="font-size:20px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:32px;">开学第一天，老师让每个人做一张名片互相认识。用Python生成一张「数字名片」，输入不同信息就自动生成不同格式的名片。</p>
+                  <div style="margin-bottom:28px;">
+                    <h4 style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">功能需求</h4>
+                    <ul>
+                      <li style="display:flex;align-items:center;gap:16px;font-size:20px;margin-bottom:16px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>程序启动后显示欢迎界面</li>
+                      <li style="display:flex;align-items:center;gap:16px;font-size:20px;margin-bottom:16px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>依次询问姓名、年龄、专业、爱好</li>
+                      <li style="display:flex;align-items:center;gap:16px;font-size:20px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.2);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</span>生成格式整齐的数字名片</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card">
+                  <h4 style="font-size:18px;font-weight:600;color:#fff;margin-bottom:20px;">拓展挑战</h4>
+                  <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div style="padding:16px;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.3);border-radius:10px;">
+                      <span style="font-size:16px;color:#f97316;">🌟 居中显示</span>
+                      <p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;">研究字符串的center()方法</p>
+                    </div>
+                    <div style="padding:16px;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.3);border-radius:10px;">
+                      <span style="font-size:16px;color:#f97316;">🎨 边框样式</span>
+                      <p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;">让用户可以选择不同的边框</p>
+                    </div>
+                    <div style="padding:16px;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.3);border-radius:10px;">
+                      <span style="font-size:16px;color:#f97316;">💾 保存文件</span>
+                      <p style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px;">把名片信息保存到文本文件</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer" style="--accent:#22c55e;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(59,130,246,0.1));">
+              <span style="font-size:16px;font-weight:600;color:#22c55e;margin-right:24px;">第 13 周课程结束</span>
+              <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#22c55e;"></div></div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 运行代码
+      async function runCode(id) {
+        const codeEl = document.getElementById('code-' + id);
+        const outputEl = document.getElementById('output-' + id);
+        const outputText = document.getElementById('output-' + id + '-text');
+
+        if (!codeEl || !outputEl || !outputText) return;
+
+        const code = codeEl.value;
+        outputEl.classList.remove('hidden');
+        outputText.textContent = '正在运行...';
+        outputText.className = 'output-text';
+
+        if (!pyodideReady) {
+          outputText.textContent = 'Python 环境加载中，请稍候...';
+          return;
+        }
+
+        try {
+          const ex = courseData.exercises.find(e => e.id === id) || courseData.homework.find(h => h.id === id);
+          const testInputs = ex.testInputs || [];
+
+          const wrappedCode = `
+import sys
+from io import StringIO
+
+_mock_inputs = """${testInputs.join('\n')}"""
+_mock_lines = _mock_inputs.split('\\n')
 _mock_idx = 0
+
 def _mock_input(prompt=''):
     global _mock_idx
     if _mock_idx < len(_mock_lines):
@@ -265,96 +697,133 @@ def _mock_input(prompt=''):
         _mock_idx += 1
         return result
     return ''
+
 import builtins
 builtins.input = _mock_input
-${code}`;
-        let result = await pyodide.runPythonAsync(wrappedCode);
-        outputText.textContent = result || '(程序执行完成)';
-        outputText.className = 'output-text';
-      } catch (e) {
-        outputText.textContent = '错误: ' + e.message;
-        outputText.className = 'output-text output-error';
-      }
-    }
 
-    async function initPyodide() {
-      let retries = 3;
-      while (retries > 0) {
-        try {
-          pyodide = await loadPyodide({
-            indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
-          });
-          pyodideReady = true;
-          document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
-            el.textContent = 'Python 就绪';
-            el.classList.add('pyodide-ready');
-          });
-          return;
+_stdout = StringIO()
+_sys_stdout = sys.stdout
+sys.stdout = _stdout
+
+${code}
+
+sys.stdout = _sys_stdout
+_result = _stdout.getvalue()
+`;
+
+          await pyodide.runPythonAsync(wrappedCode);
+          const result = pyodide.globals.get('_result');
+          outputText.textContent = result || '(程序执行完成)';
+          outputText.className = 'output-text';
         } catch (e) {
-          retries--;
-          if (retries === 0) {
-            document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
-              el.textContent = '加载失败';
-              el.style.color = '#f97316';
+          outputText.textContent = '错误: ' + e.message;
+          outputText.className = 'output-text output-error';
+        }
+      }
+
+      // 初始化 Pyodide
+      async function initPyodide() {
+        let retries = 3;
+        while (retries > 0) {
+          try {
+            pyodide = await loadPyodide({
+              indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
             });
-          } else {
-            await new Promise(r => setTimeout(r, 2000));
+            pyodideReady = true;
+            document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
+              el.textContent = 'Python 就绪';
+              el.classList.add('pyodide-ready');
+            });
+            return;
+          } catch (e) {
+            retries--;
+            if (retries === 0) {
+              document.querySelectorAll('[id^="pyodide-status-"]').forEach(el => {
+                el.textContent = '加载失败';
+                el.style.color = '#f97316';
+              });
+            } else {
+              await new Promise(r => setTimeout(r, 2000));
+            }
           }
         }
       }
-    }
 
-    function showSlide(idx) {
-      document.querySelectorAll('.slide').forEach((el, i) => {
-        el.style.opacity = i === idx ? '1' : '0';
-        el.style.pointerEvents = i === idx ? 'auto' : 'none';
-      });
-      current = idx;
-      document.getElementById('slideCounter').textContent = (idx + 1) + '/' + slides.length;
-      const slideEl = document.getElementById(slides[idx]);
-      const subtitleEl = document.getElementById('subtitleText');
-      if (slideEl && subtitleEl) {
-        subtitleEl.textContent = slideEl.getAttribute('data-subtitle') || '';
+      // 幻灯片导航
+      function showSlide(idx) {
+        document.querySelectorAll('.slide').forEach((el, i) => {
+          el.style.opacity = i === idx ? '1' : '0';
+          el.style.pointerEvents = i === idx ? 'auto' : 'none';
+        });
+        current = idx;
+        document.getElementById('slideCounter').textContent = (idx + 1) + '/' + slides.length;
+
+        const slideEl = document.getElementById(slides[idx]);
+        const subtitleEl = document.getElementById('subtitleText');
+        if (slideEl && subtitleEl) {
+          subtitleEl.textContent = slideEl.getAttribute('data-subtitle') || '';
+        }
       }
-    }
 
-    function prevSlide() { if (current > 0) showSlide(current - 1); }
-    function nextSlide() { if (current < slides.length - 1) showSlide(current + 1); }
-
-    function togglePause() {
-      isPaused = !isPaused;
-      const btn = document.getElementById('pauseBtn');
-      btn.textContent = isPaused ? '▶' : '❚❚';
-      btn.style.background = isPaused ? '#f97316' : '#3b82f6';
-    }
-
-    function toggleSubtitle() {
-      isSubtitleVisible = !isSubtitleVisible;
-      const area = document.getElementById('subtitleArea');
-      const btn = document.getElementById('subtitleBtn');
-      if (area) area.style.display = isSubtitleVisible ? 'block' : 'none';
-      if (btn) btn.style.background = isSubtitleVisible ? '#3b82f6' : 'rgba(255,255,255,0.1)';
-    }
-
-    function setupKeyboardControls() {
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') prevSlide();
-        if (e.key === 'ArrowRight') nextSlide();
-        if (e.key === ' ') { e.preventDefault(); togglePause(); }
-        if (e.key === 'c' || e.key === 'C') toggleSubtitle();
-      });
-    }
-
-    function setupResize() {
-      function resize() {
-        const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-        document.getElementById('slideFrame').style.transform = `scale(${scale})`;
+      function prevSlide() {
+        if (current > 0) showSlide(current - 1);
       }
-      window.addEventListener('resize', resize);
-      resize();
-    }
 
-    init();
-  </script>
-</body>
+      function nextSlide() {
+        if (current < slides.length - 1) showSlide(current + 1);
+      }
+
+      function togglePause() {
+        isPaused = !isPaused;
+        const btn = document.getElementById('pauseBtn');
+        if (isPaused) {
+          btn.textContent = '▶';
+          btn.style.background = '#f97316';
+        } else {
+          btn.textContent = '❚❚';
+          btn.style.background = '#ec4899';
+        }
+      }
+
+      function toggleSubtitle() {
+        isSubtitleVisible = !isSubtitleVisible;
+        const area = document.getElementById('subtitleArea');
+        const btn = document.getElementById('subtitleBtn');
+        if (area) area.style.display = isSubtitleVisible ? 'block' : 'none';
+        if (btn) btn.style.background = isSubtitleVisible ? '#ec4899' : 'rgba(255,255,255,0.1)';
+      }
+
+      function setupKeyboardControls() {
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); togglePause(); }
+          if (e.key === 'c' || e.key === 'C') toggleSubtitle();
+        });
+      }
+
+      function setupResize() {
+        function resize() {
+          const container = document.querySelector('.preview-container');
+          const frame = document.getElementById('slideFrame');
+          const scale = Math.min(container.clientWidth / 1920, container.clientHeight / 1080);
+          frame.style.transform = `scale(${scale})`;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+      }
+
+      // 自动播放
+      const totalDuration = durations.reduce((a, b) => a + b, 0);
+      let elapsedTime = 0;
+
+      setInterval(() => {
+        if (isPaused) return;
+        elapsedTime++;
+        if (elapsedTime >= totalDuration) elapsedTime = 0;
+      }, 1000);
+
+      // 启动
+      init();
+    </script>
+  </body>
 </html>
